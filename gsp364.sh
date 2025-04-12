@@ -52,7 +52,8 @@ echo
 echo "${MAGENTA_TEXT}${BOLD_TEXT}┌────────────────────────────────────────────┐"
 echo "│ Step 2: Creating GKE Cluster (gmp-cluster) │"
 echo "└────────────────────────────────────────────┘${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT}This may take a few minutes...${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}This may take a few minutes (Based on your Network Speed)${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}So just wait...${RESET_FORMAT}"
 gcloud container clusters create gmp-cluster --num-nodes=3 --zone=$ZONE
 
 # Task 3

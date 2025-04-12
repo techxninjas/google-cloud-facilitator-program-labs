@@ -65,7 +65,19 @@ echo "${YELLOW_TEXT}${BOLD_TEXT}Allowing kubectl to access your cluster...${RESE
 gcloud container clusters get-credentials gmp-cluster --zone=$ZONE
 
 echo
-echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your task 3 progress in the cluster dashboard.${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 3 progress in the cluster dashboard.${RESET_FORMAT}"
+
+# Ask for user confirmation before moving to Task 4
+while true; do
+    echo
+    read -p $'\033[1;93mHave you checked your Task 3 progress? (Y to continue): \033[0m' user_input
+    if [[ "$user_input" == "Y" || "$user_input" == "y" ]]; then
+        echo -e "${GREEN_TEXT}${BOLD_TEXT}Proceeding to Task 4...${RESET_FORMAT}"
+        break
+    else
+        echo -e "${RED_TEXT}${BOLD_TEXT}Please check your Task 3 progress before continuing.${RESET_FORMAT}"
+    fi
+done
 
 # Task 4
 echo
@@ -106,14 +118,13 @@ gsutil cp op-config.yaml gs://$PROJECT
 gsutil -m acl set -R -a public-read gs://$PROJECT
 
 echo
-echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 4 progress — Filter Exported Metrics."
-echo "✔ LAB COMPLETED SUCCESSFULLY!${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 4 progress."
 
 # Final Banner
 echo
 echo "${GREEN_TEXT}${BOLD_TEXT}=============================================="
 echo "               🎉 ALL DONE! 🎉                "
-echo "     Prometheus setup completed on GKE.      "
+echo "         ✔ LAB COMPLETED SUCCESSFULLY!        "
 echo "==============================================${RESET_FORMAT}"
 
 # Subscription

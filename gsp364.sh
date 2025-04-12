@@ -39,51 +39,11 @@ echo "           INITIATING EXECUTION...           "
 echo "==============================================${RESET_FORMAT}"
 echo
 
-# Task 1
 echo "${MAGENTA_TEXT}${BOLD_TEXT}┌────────────────────────────────────────────┐"
-echo "│ Step 1: Fetching Default Compute Zone      │"
+echo "│ Setting up Prometheus + Metrics    │"
 echo "└────────────────────────────────────────────┘${RESET_FORMAT}"
-sleep 0.5 &
+sleep 1 &
 spinner
-export ZONE=$(gcloud compute project-info describe --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
-
-# Task 2
-echo
-echo "${MAGENTA_TEXT}${BOLD_TEXT}┌────────────────────────────────────────────┐"
-echo "│ Step 2: Creating GKE Cluster (gmp-cluster) │"
-echo "└────────────────────────────────────────────┘${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT}This may take a few minutes (Based on your Network Speed)${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT}So just wait...${RESET_FORMAT}"
-gcloud container clusters create gmp-cluster --num-nodes=3 --zone=$ZONE
-
-# Task 3
-echo
-echo "${MAGENTA_TEXT}${BOLD_TEXT}┌────────────────────────────────────────────┐"
-echo "│ Step 3: Fetching Cluster Credentials       │"
-echo "└────────────────────────────────────────────┘${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT}Allowing kubectl to access your cluster...${RESET_FORMAT}"
-gcloud container clusters get-credentials gmp-cluster --zone=$ZONE
-
-echo
-echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 3 progress in the cluster dashboard.${RESET_FORMAT}"
-
-# Ask for user confirmation before moving to Task 4
-while true; do
-    echo
-    read -p $'\033[1;93mHave you checked your Task 3 progress? (Y to continue): \033[0m' user_input
-    if [[ "$user_input" == "Y" || "$user_input" == "y" ]]; then
-        echo -e "${GREEN_TEXT}${BOLD_TEXT}Proceeding to Task 4...${RESET_FORMAT}"
-        break
-    else
-        echo -e "${RED_TEXT}${BOLD_TEXT}Please check your Task 3 progress before continuing.${RESET_FORMAT}"
-    fi
-done
-
-# Task 4
-echo
-echo "${MAGENTA_TEXT}${BOLD_TEXT}┌────────────────────────────────────────────┐"
-echo "│ Step 4: Setting up Prometheus + Metrics    │"
-echo "└────────────────────────────────────────────┘${RESET_FORMAT}"
 kubectl create ns gmp-test
 kubectl -n gmp-test apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/prometheus-engine/v0.2.3/manifests/setup.yaml
 kubectl -n gmp-test apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/prometheus-engine/v0.2.3/manifests/operator.yaml

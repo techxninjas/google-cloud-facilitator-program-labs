@@ -21,7 +21,19 @@ clear
 
 # 💡 Start-Up Banner
 echo "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
-echo "${BRIGHT_CYAN}${BOLD}      🚀 INITIATING TECHXNINJAS CLOUD TASKS...         ${RESET_FORMAT}"
+echo "${BRIGHT_CYAN}${BOLD}    4th Game: Level 2: Cloud Infrastructure & API Essentials    ${RESET_FORMAT}"
+echo "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
+echo ""
+
+# 💡 Start-Up Banner
+echo "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
+echo "${BRIGHT_CYAN}${BOLD}         1st Lab: APIs Explorer: Compute Engine          ${RESET_FORMAT}"
+echo "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
+echo ""
+
+# 💡 Start-Up Banner
+echo "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
+echo "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...          ${RESET_FORMAT}"
 echo "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
@@ -60,6 +72,7 @@ gcloud compute instances create instance-1 \
   --image-project=debian-cloud \
   --boot-disk-type=pd-standard \
   --boot-disk-device-name=instance-1
+echo ""
 
 # ✅ Progress Check Prompt for Task 2
 echo ""
@@ -67,16 +80,18 @@ while true; do
   echo "${BRIGHT_CYAN}${BOLD}📌 Have you checked the progress for ${UNDERLINE}Task 2: Create your request${RESET_FORMAT}${BRIGHT_CYAN}${BOLD}? (Y/N)${RESET_FORMAT}"
   read -p "👉 Enter Y after checking the Task 2 progress: " TASK2_CONFIRM
   if [[ "$TASK2_CONFIRM" == "Y" || "$TASK2_CONFIRM" == "y" ]]; then
+    echo ""
     break
   else
+    echo ""
     echo "${BRIGHT_RED}${BOLD}⚠️  Please check your progress first and then enter 'Y' to continue.${RESET_FORMAT}"
   fi
 done
 echo ""
 
 # 🧹 Delete the VM
-echo "${BRIGHT_RED}${BOLD}🧨 Deleting VM: 'instance-1'...${RESET_FORMAT}"
-echo "${BRIGHT_YELLOW}${BOLD}🧼 Cleaning up your environment to avoid extra charges.${RESET_FORMAT}"
+echo "${BRIGHT_RED}${BOLD}Deleting VM: 'instance-1'...${RESET_FORMAT}"
+echo "${BRIGHT_YELLOW}${BOLD}Cleaning up your environment to avoid extra charges.${RESET_FORMAT}"
 echo ""
 
 gcloud compute instances delete instance-1 \
@@ -89,8 +104,10 @@ while true; do
   echo "${BRIGHT_CYAN}${BOLD}📌 Have you checked the progress for ${UNDERLINE}Task 5: Delete your VM${RESET_FORMAT}${BRIGHT_CYAN}${BOLD}? (Y/N)${RESET_FORMAT}"
   read -p "👉 Enter Y after checking the Task 5 progress: " TASK5_CONFIRM
   if [[ "$TASK5_CONFIRM" == "Y" || "$TASK5_CONFIRM" == "y" ]]; then
+    echo ""
     break
   else
+    echo ""
     echo "${BRIGHT_RED}${BOLD}⚠️  Please check your progress first and then enter 'Y' to continue.${RESET_FORMAT}"
   fi
 done
@@ -107,3 +124,4 @@ echo -e "${BRIGHT_YELLOW}${BOLD}🔔 Follow for more labs & tutorials:${RESET_FO
 echo -e "${BRIGHT_RED}${BOLD}YouTube Channel:${RESET_FORMAT} ${BRIGHT_BLUE}${UNDERLINE}https://www.youtube.com/@TechXNinjas${RESET_FORMAT}"
 echo -e "${BRIGHT_WHITE}${BOLD}LinkedIn Page:${RESET_FORMAT} ${BRIGHT_BLUE}${UNDERLINE}https://www.linkedin.com/company/techxninjas${RESET_FORMAT}"
 echo -e "${BRIGHT_WHITE}${BOLD}Join WhatsApp Group:${RESET_FORMAT} ${BRIGHT_GREEN}${UNDERLINE}https://chat.whatsapp.com/BZczJZSamtX144BCTagYxk${RESET_FORMAT}"
+echo ""

@@ -105,6 +105,16 @@ if [[ "$task2_check" != "Y" && "$task2_check" != "y" ]]; then
   exit 1
 fi
 
+remove_temp_files() {
+    echo "${YELLOW}${BOLD}Cleaning up temporary files...${RESET}"
+    for file in *; do
+        if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
+            [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"
+        fi
+    done
+}
+remove_temp_files
+
 # ✅ Completion Message
 echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"
 echo "${BRIGHT_GREEN}${BOLD}             ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!         ${RESET_FORMAT}"

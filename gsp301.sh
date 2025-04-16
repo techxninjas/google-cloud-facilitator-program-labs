@@ -1,0 +1,101 @@
+clear
+
+#!/bin/bash
+# Define color variables
+
+BLACK=`tput setaf 0`
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+MAGENTA=`tput setaf 5`
+CYAN=`tput setaf 6`
+WHITE=`tput setaf 7`
+
+BG_BLACK=`tput setab 0`
+BG_RED=`tput setab 1`
+BG_GREEN=`tput setab 2`
+BG_YELLOW=`tput setab 3`
+BG_BLUE=`tput setab 4`
+BG_MAGENTA=`tput setab 5`
+BG_CYAN=`tput setab 6`
+BG_WHITE=`tput setab 7`
+
+BOLD=`tput bold`
+RESET=`tput sgr0`
+
+# Additional Styling
+BRIGHT_PURPLE=`tput setaf 5; tput bold`
+BRIGHT_CYAN=`tput setaf 6; tput bold`
+BRIGHT_YELLOW=`tput setaf 3; tput bold`
+BRIGHT_RED=`tput setaf 1; tput bold`
+BRIGHT_GREEN=`tput setaf 2; tput bold`
+BRIGHT_BLUE=`tput setaf 4; tput bold`
+BRIGHT_WHITE=`tput setaf 7; tput bold`
+UNDERLINE=`tput smul`
+
+# 💡 Start-Up Banner
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}       4th Game: Level 1: Deploy & Configure VMs       ${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo ""
+
+# 💡 Lab Info
+echo -e "${BRIGHT_PURPLE}${BOLD}---------------------------------------------------------------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}                 4th Lab: Deploy a Compute Instance with a Remote Startup Script: Challenge Lab                 ${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}---------------------------------------------------------------------------------------------------------------${RESET}"
+echo ""
+
+# 🚀 Task Execution Init
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...           ${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo ""
+
+# Zone Input
+read -p "$(echo -e ${BRIGHT_MAGENTA}${BOLD}Enter the compute zone: ${RESET})" ZONE
+export ZONE
+
+# Step 1: Create a bucket
+echo -e "\n${BOLD}${GREEN}Creating a storage bucket in your project...${RESET}"
+echo -e "${BOLD}${CYAN}This bucket will store the startup script.${RESET}"
+gsutil mb gs://$DEVSHELL_PROJECT_ID
+
+# Step 2: Copy startup script
+echo -e "\n${BOLD}${GREEN}Copying the startup script to the bucket...${RESET}"
+echo -e "${BOLD}${CYAN}The script will be used to configure the VM instance.${RESET}"
+gsutil cp gs://sureskills-ql/challenge-labs/ch01-startup-script/install-web.sh gs://$DEVSHELL_PROJECT_ID
+
+# Step 3: Create Compute Engine instance
+echo -e "\n${BOLD}${GREEN}Creating a Compute Engine instance...${RESET}"
+echo -e "${BOLD}${CYAN}This instance will run the startup script to set up a web server.${RESET}"
+gcloud compute instances create quickgcplab \
+    --project=$DEVSHELL_PROJECT_ID \
+    --zone=$ZONE \
+    --machine-type=n1-standard-1 \
+    --tags=http-server \
+    --metadata startup-script-url=gs://$DEVSHELL_PROJECT_ID/install-web.sh
+
+# Step 4: Create firewall rule
+echo -e "\n${BOLD}${GREEN}Setting up firewall rule to allow HTTP traffic...${RESET}"
+echo -e "${BOLD}${CYAN}This will enable access to the web server on port 80.${RESET}"
+gcloud compute firewall-rules create allow-http \
+    --allow=tcp:80 \
+    --description="awesome lab" \
+    --direction=INGRESS \
+    --target-tags=http-server
+
+# ✅ Completion Message
+echo ""
+echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET}"
+echo "${BRIGHT_GREEN}${BOLD}            ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!         ${RESET}"
+echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET}"
+echo ""
+
+# 📢 CTA
+echo -e "${BRIGHT_YELLOW}${BOLD}🔔 Follow for more labs & tutorials:${RESET}"
+echo -e "${BRIGHT_RED}${BOLD}YouTube Channel:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.youtube.com/@TechXNinjas${RESET}"
+echo -e "${BRIGHT_WHITE}${BOLD}Follow me on LinkedIn:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.linkedin.com/in/iaadillatif${RESET}"
+echo -e "${BRIGHT_WHITE}${BOLD}LinkedIn Page:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.linkedin.com/company/techxninjas${RESET}"
+echo -e "${BRIGHT_WHITE}${BOLD}Join WhatsApp Group:${RESET} ${BRIGHT_GREEN}${UNDERLINE}https://chat.whatsapp.com/HosxDxImviICAwizHaXXbu${RESET}"
+echo ""

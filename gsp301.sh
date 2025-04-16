@@ -35,9 +35,9 @@ BRIGHT_WHITE=`tput setaf 7; tput bold`
 UNDERLINE=`tput smul`
 
 # 💡 Start-Up Banner
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
-echo -e "${BRIGHT_CYAN}${BOLD}       4th Game: Level 1: Deploy & Configure VMs       ${RESET}"
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}-----------------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}       4th Game: Level 1: Cloud Infrastructure & API Essentials       ${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}-----------------------------------------------------------------${RESET}"
 echo ""
 
 # 💡 Lab Info

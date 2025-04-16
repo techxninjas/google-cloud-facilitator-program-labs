@@ -181,6 +181,16 @@ EOF
 
 gcloud alpha monitoring policies create --policy-from-file=stopped-vm-alert-policy.json
 
+remove_temp_files() {
+    echo "${YELLOW}${BOLD}Cleaning up temporary files...${RESET}"
+    for file in *; do
+        if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
+            [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"
+        fi
+    done
+}
+remove_temp_files
+
 # ✅ Completion Message
 echo
 echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"

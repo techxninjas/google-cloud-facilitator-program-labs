@@ -24,7 +24,7 @@ echo -e "\e[${RANDOM_BG_CODE}m${RANDOM_TEXT_COLOR}${BOLD}Starting Execution...${
 
 # 💡 Start-Up Banner
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
-echo -e "${BRIGHT_CYAN}${BOLD}    4th Game: Level 2: Cloud Infrastructure & API Essentials    ${RESET_FORMAT}"
+echo -e "${BRIGHT_CYAN}${BOLD}    4th Game: Level 2: Cloud Infrastructure & API Essentials ${RESET_FORMAT}"
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

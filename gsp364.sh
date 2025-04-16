@@ -80,6 +80,16 @@ gsutil -m acl set -R -a public-read gs://$PROJECT
 echo
 echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 4 progress."
 
+remove_temp_files() {
+    echo "${YELLOW}${BOLD}Cleaning up temporary files...${RESET}"
+    for file in *; do
+        if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
+            [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"
+        fi
+    done
+}
+remove_temp_files
+
 # Final Banner
 echo
 echo "${GREEN_TEXT}${BOLD_TEXT}=============================================="

@@ -49,22 +49,6 @@ echo -e "${BRIGHT_WHITE}${BOLD}4.${RESET_FORMAT} Configure firewall rules"
 echo -e "${BRIGHT_WHITE}${BOLD}5.${RESET_FORMAT} Connect and verify the server setup"
 echo ""
 
-# 🔎 Task 2 Input Check
-read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 2 (RDP into the Windows Server)? Enter Y to continue: ${RESET_FORMAT})" task2_input
-while [[ "$task2_input" != "Y" && "$task2_input" != "y" ]]; do
-    echo -e "${BRIGHT_RED}${BOLD}⚠️  Please check your progress and enter Y to go ahead.${RESET_FORMAT}"
-    read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 2? Enter Y to continue: ${RESET_FORMAT})" task2_input
-done
-echo ""
-
-# 🔎 Task 5 Input Check
-read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 5 (Connect and verify the server setup)? Enter Y to continue: ${RESET_FORMAT})" task5_input
-while [[ "$task5_input" != "Y" && "$task5_input" != "y" ]]; do
-    echo -e "${BRIGHT_RED}${BOLD}⚠️  Please check your progress and enter Y to go ahead.${RESET_FORMAT}"
-    read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 5? Enter Y to continue: ${RESET_FORMAT})" task5_input
-done
-echo ""
-
 # ⚙️ GCP Setup and VM Creation
 echo -e "${BRIGHT_PURPLE}${BOLD}Setting Compute Zone...${RESET_FORMAT}"
 export ZONE=$(gcloud compute project-info describe --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
@@ -112,6 +96,22 @@ wait_and_reset_windows_password() {
   done
 }
 wait_and_reset_windows_password quickgcplab $ZONE admin
+
+# 🔎 Task 2 Input Check: AFTER VM is ready and password is reset
+read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 2 (RDP into the Windows Server)? Enter Y to continue: ${RESET_FORMAT})" task2_input
+while [[ "$task2_input" != "Y" && "$task2_input" != "y" ]]; do
+    echo -e "${BRIGHT_RED}${BOLD}⚠️  Please check your progress and enter Y to go ahead.${RESET_FORMAT}"
+    read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 2? Enter Y to continue: ${RESET_FORMAT})" task2_input
+done
+echo ""
+
+# 🔎 Task 5 Input Check: AFTER all configuration and verification steps
+read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 5 (Connect and verify the server setup)? Enter Y to continue: ${RESET_FORMAT})" task5_input
+while [[ "$task5_input" != "Y" && "$task5_input" != "y" ]]; do
+    echo -e "${BRIGHT_RED}${BOLD}⚠️  Please check your progress and enter Y to go ahead.${RESET_FORMAT}"
+    read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 5? Enter Y to continue: ${RESET_FORMAT})" task5_input
+done
+echo ""
 
 # 🎉 Random Congratulatory Message
 function random_congrats() {

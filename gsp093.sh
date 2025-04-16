@@ -97,11 +97,11 @@ wait_and_reset_windows_password() {
 wait_and_reset_windows_password instance-1 $ZONE admin 
 
 # Task 2: RDP Progress Check
-echo -e "\n${BOLD}${CYAN}Have you checked your progress for Task 2: Remote Desktop (RDP) into the Windows Server? (Y/N)${RESET}"
+echo -e "\n${BOLD}${CYAN}Have you checked your progress for all the tasks? (Y/N)${RESET}"
 read task2_check
 
 if [[ "$task2_check" != "Y" && "$task2_check" != "y" ]]; then
-  echo -e "${BOLD}${RED}Please check your progress for Task 2 and enter 'Y' to proceed.${RESET}"
+  echo -e "${BOLD}${RED}Please check your progress for all the tasks and enter 'Y' to proceed.${RESET}"
   exit 1
 fi
 

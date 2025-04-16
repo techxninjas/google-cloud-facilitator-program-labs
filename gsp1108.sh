@@ -1,87 +1,80 @@
 #!/bin/bash
-# Define color variables
 
-BLACK=`tput setaf 0`
-RED=`tput setaf 1`
-GREEN=`tput setaf 2`
-YELLOW=`tput setaf 3`
-BLUE=`tput setaf 4`
-MAGENTA=`tput setaf 5`
-CYAN=`tput setaf 6`
-WHITE=`tput setaf 7`
+# 🌈 Define Color Variables
+BLACK_TEXT=$'\033[0;90m'
+RED_TEXT=$'\033[0;91m'
+GREEN_TEXT=$'\033[0;92m'
+YELLOW_TEXT=$'\033[0;93m'
+BLUE_TEXT=$'\033[0;94m'
+MAGENTA_TEXT=$'\033[0;95m'
+CYAN_TEXT=$'\033[0;96m'
+WHITE_TEXT=$'\033[0;97m'
 
-BG_BLACK=`tput setab 0`
-BG_RED=`tput setab 1`
-BG_GREEN=`tput setab 2`
-BG_YELLOW=`tput setab 3`
-BG_BLUE=`tput setab 4`
-BG_MAGENTA=`tput setab 5`
-BG_CYAN=`tput setab 6`
-BG_WHITE=`tput setab 7`
+RESET_FORMAT=$'\033[0m'
+BOLD=$'\033[1m'
+UNDERLINE=$'\033[4m'
 
-BOLD=`tput bold`
-RESET=`tput sgr0`
-BRIGHT_PURPLE='\033[1;35m'
-BRIGHT_CYAN='\033[1;36m'
+# 🚀 Clear Screen
+clear
 
-# 💡 Start-Up Banner 
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
-echo -e "${BRIGHT_CYAN}${BOLD}       4th Game: Level 1: Deploy & Configure VMs       ${RESET}"
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+# 🚨 Welcome Message
+echo "${CYAN_TEXT}${BOLD}🚀===========================================================${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}        🧠 5th Lab: Monitor Apache Web Server (Level 2)       ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}     🎯 Game: Cloud Infrastructure & API Essentials           ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}===========================================================🚀${RESET_FORMAT}"
 echo ""
 
-# 💡 Lab Info
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------------------------------------${RESET}"
-echo -e "${BRIGHT_CYAN}${BOLD}            5th Lab: Monitor an Apache Web Server using Ops Agent                  ${RESET}" 
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------------------------------------${RESET}"
+# 🌍 Input Zone
+read -p "${YELLOW_TEXT}${BOLD}🔧 Enter your Compute Zone:${RESET_FORMAT} " ZONE
+
+# 🔑 Authenticate & Setup Project
+echo "${BLUE_TEXT}${BOLD}🔐 Authenticating with Google Cloud...${RESET_FORMAT}"
+gcloud auth list
+
+echo "${MAGENTA_TEXT}${BOLD}📁 Fetching Project ID...${RESET_FORMAT}"
+export PROJECT_ID=$(gcloud config get-value project)
+export PROJECT_ID=$DEVSHELL_PROJECT_ID
+
+echo "${GREEN_TEXT}${BOLD}📍 Setting Compute Zone: $ZONE ${RESET_FORMAT}"
+gcloud config set compute/zone $ZONE
+
+# 🛠️ Create VM & Configure Firewall
+echo "${CYAN_TEXT}${BOLD}Starting Task 1. Creating a Compute Engine VM instance...${RESET_FORMAT}"
+gcloud compute instances create quickstart-vm --project=$PROJECT_ID --zone=$ZONE --machine-type=e2-small --image-family=debian-11 --image-project=debian-cloud --tags=http-server,https-server && \
+gcloud compute firewall-rules create default-allow-http --target-tags=http-server --allow tcp:80 --description="Allow HTTP traffic" && \
+gcloud compute firewall-rules create default-allow-https --target-tags=https-server --allow tcp:443 --description="Allow HTTPS traffic"
+
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ TASK 1 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
 echo ""
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 1 progress."
+sleep 10
 
-# 🚀 Task Execution Init
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
-echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...           ${RESET}"
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo "${CYAN_TEXT}${BOLD}Starting Task 2. Install an Apache Web Server...${RESET_FORMAT}"
+# 📦 Create Apache + Ops Agent Configuration Script
+echo "${YELLOW_TEXT}${BOLD}📜 Preparing configuration script...${RESET_FORMAT}"
+cat > cp_disk.sh <<'EOF'
+sudo apt-get update && sudo apt-get install apache2 php -y
+
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ TASK 2 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
 echo ""
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 2 progress."
+sleep 10
 
-#----------------------------------------------------start--------------------------------------------------#
-
-# ✅ Task 1: Create a Compute Engine VM instance
-export ZONE=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-zone])")
-
-gcloud compute instances create quickstart-vm \
---zone=$ZONE \
---machine-type=e2-small \
---tags=http-server,https-server \
---create-disk=auto-delete=yes,boot=yes,device-name=quickstart-vm,image=projects/debian-cloud/global/images/debian-11-bullseye-v20241009,mode=rw,size=10,type=pd-balanced
-
-# ✅ Checkpoint: Task 1 Complete!
-
-# ✅ Task 2: Install an Apache Web Server
-gcloud compute firewall-rules create allow-http-from-internet \
---target-tags=http-server \
---allow tcp:80 \
---source-ranges 0.0.0.0/0 \
---description="Allow HTTP from the internet"
-
-gcloud compute firewall-rules create allow-https-from-internet \
---target-tags=https-server \
---allow tcp:443 \
---source-ranges 0.0.0.0/0 \
---description="Allow HTTPS from the internet"
-
-# ✅ Checkpoint: Task 2 Complete!
-
-# ✅ Task 3: Install and configure the Ops Agent
-cat > prepare_disk.sh <<'EOF_END'
-sudo apt-get update && sudo apt-get install apache2 php7.0 -y
-
+echo "${CYAN_TEXT}${BOLD}Starting Task 3. Install and configure the Ops Agent...${RESET_FORMAT}"
 curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
 sudo bash add-google-cloud-ops-agent-repo.sh --also-install
 
-set -e
 sudo cp /etc/google-cloud-ops-agent/config.yaml /etc/google-cloud-ops-agent/config.yaml.bak
 
-sudo tee /etc/google-cloud-ops-agent/config.yaml > /dev/null << EOF
+sudo tee /etc/google-cloud-ops-agent/config.yaml > /dev/null << EOL
 metrics:
   receivers:
     apache:
@@ -103,41 +96,56 @@ logging:
         receivers:
           - apache_access
           - apache_error
-EOF
+EOL
 
 sudo service google-cloud-ops-agent restart
 sleep 60
-EOF_END
+EOF
 
-gcloud compute scp prepare_disk.sh quickstart-vm:/tmp --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet
-gcloud compute ssh quickstart-vm --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet --command="bash /tmp/prepare_disk.sh"
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ TASK 3 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo ""
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 3 progress."
+sleep 10
 
-# ✅ Checkpoint: Task 3 Complete!
+# 📤 Transfer Script to VM
+echo "${CYAN_TEXT}${BOLD}Starting Task 4. Generate traffic and view metrics...${RESET_FORMAT}"
+echo "${MAGENTA_TEXT}${BOLD}🚚 Copying script to VM...${RESET_FORMAT}"
+gcloud compute scp cp_disk.sh quickstart-vm:/tmp --zone=$ZONE --quiet
 
-# ⚡ Task 4: Generate traffic and view metrics
-# This task has no checkpoint
+# 🚀 Execute Script on VM
+echo "${CYAN_TEXT}${BOLD}💻 Running setup script on VM...${RESET_FORMAT}"
+gcloud compute ssh quickstart-vm --zone=$ZONE --quiet --command="bash /tmp/cp_disk.sh"
 
-# ✅ Task 5: Create an alerting policy
-cat > email-channel.json <<EOF_END
+# 📡 Setup Notification Channel
+echo "${CYAN_TEXT}${BOLD}Starting Task 5. Create an alerting policys...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD}🔔 Setting up monitoring notification channel...${RESET_FORMAT}"
+cat > cp-channel.json <<EOF
 {
-  "type": "email",
-  "displayName": "quickgcplab",
-  "description": "Awesome",
+  "type": "pubsub",
+  "displayName": "arcadecrew",
+  "description": "subscribe to arcadecrew",
   "labels": {
-    "email_address": "$USER_EMAIL"
+    "topic": "projects/$PROJECT_ID/topics/notificationTopic"
   }
 }
-EOF_END
+EOF
 
-gcloud beta monitoring channels create --channel-content-from-file="email-channel.json"
+gcloud beta monitoring channels create --channel-content-from-file=cp-channel.json
 
-email_channel_info=$(gcloud beta monitoring channels list)
-email_channel_id=$(echo "$email_channel_info" | grep -oP 'name: \K[^ ]+' | head -n 1)
+# 🧾 Fetch Channel ID
+echo "${GREEN_TEXT}${BOLD}🔍 Fetching notification channel ID...${RESET_FORMAT}"
+email_channel=$(gcloud beta monitoring channels list)
+channel_id=$(echo "$email_channel" | grep -oP 'name: \K[^ ]+' | head -n 1)
 
-cat > vm-alert-policy.json <<EOF_END
+# 🛎️ Create Alert Policy
+echo "${YELLOW_TEXT}${BOLD}📈 Creating alert policy for Apache traffic...${RESET_FORMAT}"
+cat > stopped-vm-alert-policy.json <<EOF
 {
   "displayName": "Apache traffic above threshold",
-  "userLabels": {},
   "conditions": [
     {
       "displayName": "VM Instance - workload/apache.traffic",
@@ -160,38 +168,39 @@ cat > vm-alert-policy.json <<EOF_END
     }
   ],
   "alertStrategy": {
-    "autoClose": "1800s",
-    "notificationPrompts": [
-      "OPENED"
-    ]
+    "autoClose": "1800s"
   },
   "combiner": "OR",
   "enabled": true,
   "notificationChannels": [
-    "$email_channel_id"
+    "$channel_id"
   ],
   "severity": "SEVERITY_UNSPECIFIED"
 }
-EOF_END
+EOF
 
-gcloud alpha monitoring policies create --policy-from-file=vm-alert-policy.json
+gcloud alpha monitoring policies create --policy-from-file=stopped-vm-alert-policy.json
 
-# ✅ Checkpoint: Task 5 Complete!
-
-# ⚡ Task 6: Test the alerting policy
-# This task has no checkpoint
-
-# 🎉 Completion Message
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ TASK 5 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
 echo ""
-echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET}"
-echo "${BRIGHT_GREEN}${BOLD}            ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!         ${RESET}"
-echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET}"
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 5 progress."
+sleep 10
+
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}          ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!          ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
 echo ""
 
-# 📢 CTA
-echo -e "${BRIGHT_YELLOW}${BOLD}🔔 Follow for more labs & tutorials:${RESET}"
-echo -e "${BRIGHT_RED}${BOLD}YouTube Channel:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.youtube.com/@TechXNinjas${RESET}"
-echo -e "${BRIGHT_WHITE}${BOLD}Follow me on LinkedIn:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.linkedin.com/in/iaadillatif${RESET}"
-echo -e "${BRIGHT_WHITE}${BOLD}LinkedIn Page:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.linkedin.com/company/techxninjas${RESET}"
-echo -e "${BRIGHT_WHITE}${BOLD}Join WhatsApp Group:${RESET} ${BRIGHT_GREEN}${UNDERLINE}https://chat.whatsapp.com/HosxDxImviICAwizHaXXbu${RESET}"
+# 📢 CTA Section
+echo -e "${YELLOW_TEXT}${BOLD}🔔 Follow for more labs & tutorials:${RESET_FORMAT}"
+echo -e "${RED_TEXT}${BOLD}YouTube Channel:${RESET_FORMAT} ${BLUE_TEXT}${UNDERLINE}https://www.youtube.com/@TechXNinjas${RESET_FORMAT}"
+echo -e "${WHITE_TEXT}${BOLD}Follow me on LinkedIn:${RESET_FORMAT} ${BLUE_TEXT}${UNDERLINE}https://www.linkedin.com/in/iaadillatif${RESET_FORMAT}"
+echo -e "${WHITE_TEXT}${BOLD}LinkedIn Page:${RESET_FORMAT} ${BLUE_TEXT}${UNDERLINE}https://www.linkedin.com/company/techxninjas${RESET_FORMAT}"
+echo -e "${WHITE_TEXT}${BOLD}Join WhatsApp Group:${RESET_FORMAT} ${GREEN_TEXT}${UNDERLINE}https://chat.whatsapp.com/HosxDxImviICAwizHaXXbu${RESET_FORMAT}"
 echo ""

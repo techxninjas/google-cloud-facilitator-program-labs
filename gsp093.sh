@@ -44,17 +44,14 @@ echo ""
 echo -e "${BRIGHT_YELLOW}${BOLD}📌 Tasks to Complete:${RESET_FORMAT}"
 echo -e "${BRIGHT_WHITE}${BOLD}1.${RESET_FORMAT} Create a virtual machine instance"
 echo -e "${BRIGHT_WHITE}${BOLD}2.${RESET_FORMAT} Remote Desktop (RDP) into the Windows Server"
-echo -e "${BRIGHT_WHITE}${BOLD}3.${RESET_FORMAT} Set up and explore the VM environment"
-echo -e "${BRIGHT_WHITE}${BOLD}4.${RESET_FORMAT} Configure firewall rules"
-echo -e "${BRIGHT_WHITE}${BOLD}5.${RESET_FORMAT} Connect and verify the server setup"
 echo ""
 
 # ⚙️ GCP Setup and VM Creation
 echo -e "${BRIGHT_PURPLE}${BOLD}Setting Compute Zone...${RESET_FORMAT}"
 export ZONE=$(gcloud compute project-info describe --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
 
-echo -e "${BRIGHT_GREEN}${BOLD}Creating GCP Windows instance 'quickgcplab'${RESET_FORMAT}"
-gcloud compute instances create quickgcplab \
+echo -e "${BRIGHT_GREEN}${BOLD}Creating GCP Windows instance 'facilitator-program-2025'${RESET_FORMAT}"
+gcloud compute instances create facilitator-program-2025 \
   --project=$DEVSHELL_PROJECT_ID \
   --zone=$ZONE \
   --machine-type=e2-medium \
@@ -63,7 +60,7 @@ gcloud compute instances create quickgcplab \
   --maintenance-policy=MIGRATE \
   --provisioning-model=STANDARD \
   --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append \
-  --create-disk=auto-delete=yes,boot=yes,device-name=quicklab,image=projects/windows-cloud/global/images/windows-server-2022-dc-v20230913,mode=rw,size=50,type=projects/$DEVSHELL_PROJECT_ID/zones/$ZONE/diskTypes/pd-balanced \
+  --create-disk=auto-delete=yes,boot=yes,device-name=techxninjas,image=projects/windows-cloud/global/images/windows-server-2022-dc-v20230913,mode=rw,size=50,type=projects/$DEVSHELL_PROJECT_ID/zones/$ZONE/diskTypes/pd-balanced \
   --no-shielded-secure-boot \
   --shielded-vtpm \
   --shielded-integrity-monitoring \
@@ -95,7 +92,7 @@ wait_and_reset_windows_password() {
     ((RETRY++))
   done
 }
-wait_and_reset_windows_password quickgcplab $ZONE admin
+wait_and_reset_windows_password facilitator-program-2025 $ZONE admin
 
 # 🔎 Task 2 Input Check: AFTER VM is ready and password is reset
 read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 2 (RDP into the Windows Server)? Enter Y to continue: ${RESET_FORMAT})" task2_input

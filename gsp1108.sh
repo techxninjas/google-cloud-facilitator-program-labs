@@ -1,54 +1,80 @@
-clear
 #!/bin/bash
-
 # Define color variables
-BLACK=`tput setaf 0`; RED=`tput setaf 1`; GREEN=`tput setaf 2`; YELLOW=`tput setaf 3`
-BLUE=`tput setaf 4`; MAGENTA=`tput setaf 5`; CYAN=`tput setaf 6`; WHITE=`tput setaf 7`
-BG_BLACK=`tput setab 0`; BG_RED=`tput setab 1`; BG_GREEN=`tput setab 2`; BG_YELLOW=`tput setab 3`
-BG_BLUE=`tput setab 4`; BG_MAGENTA=`tput setab 5`; BG_CYAN=`tput setab 6`; BG_WHITE=`tput setab 7`
-BOLD=`tput bold`; RESET=`tput sgr0`
 
-echo "${BG_MAGENTA}${BOLD}Starting Execution${RESET}"
+BLACK=`tput setaf 0`
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+MAGENTA=`tput setaf 5`
+CYAN=`tput setaf 6`
+WHITE=`tput setaf 7`
 
-# Task 1: Create VM Instance
+BG_BLACK=`tput setab 0`
+BG_RED=`tput setab 1`
+BG_GREEN=`tput setab 2`
+BG_YELLOW=`tput setab 3`
+BG_BLUE=`tput setab 4`
+BG_MAGENTA=`tput setab 5`
+BG_CYAN=`tput setab 6`
+BG_WHITE=`tput setab 7`
+
+BOLD=`tput bold`
+RESET=`tput sgr0`
+BRIGHT_PURPLE='\033[1;35m'
+BRIGHT_CYAN='\033[1;36m'
+
+# 💡 Start-Up Banner 
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}       4th Game: Level 1: Deploy & Configure VMs       ${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo ""
+
+# 💡 Lab Info
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}            5th Lab: Monitor an Apache Web Server using Ops Agent                  ${RESET}" 
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------------------------------------${RESET}"
+echo ""
+
+# 🚀 Task Execution Init
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...           ${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo ""
+
+#----------------------------------------------------start--------------------------------------------------#
+
+# ✅ Task 1: Create a Compute Engine VM instance
 export ZONE=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
 
-gcloud compute instances create quickstart-vm --zone=$ZONE --machine-type=e2-small --tags=http-server,https-server --create-disk=auto-delete=yes,boot=yes,device-name=quickstart-vm,image=projects/debian-cloud/global/images/debian-11-bullseye-v20241009,mode=rw,size=10,type=pd-balanced
+gcloud compute instances create quickstart-vm \
+--zone=$ZONE \
+--machine-type=e2-small \
+--tags=http-server,https-server \
+--create-disk=auto-delete=yes,boot=yes,device-name=quickstart-vm,image=projects/debian-cloud/global/images/debian-11-bullseye-v20241009,mode=rw,size=10,type=pd-balanced
 
-# Progress checkpoint after Task 1
-while true; do
-    read -p "Have you checked your progress for Task 1 (Create VM Instance)? Y/N: " input1
-    if [[ "$input1" =~ ^[Yy]$ ]]; then
-        break
-    else
-        echo "❗ Please check your progress and type Y to proceed."
-    fi
-done
+# ✅ Checkpoint: Task 1 Complete!
 
-# Task 2: Install Apache Web Server
-gcloud compute firewall-rules create allow-http-from-internet --target-tags=http-server --allow tcp:80 --source-ranges 0.0.0.0/0 --description="Allow HTTP from the internet"
-gcloud compute firewall-rules create allow-https-from-internet --target-tags=https-server --allow tcp:443 --source-ranges 0.0.0.0/0 --description="Allow HTTPS from the internet"
+# ✅ Task 2: Install an Apache Web Server
+gcloud compute firewall-rules create allow-http-from-internet \
+--target-tags=http-server \
+--allow tcp:80 \
+--source-ranges 0.0.0.0/0 \
+--description="Allow HTTP from the internet"
 
+gcloud compute firewall-rules create allow-https-from-internet \
+--target-tags=https-server \
+--allow tcp:443 \
+--source-ranges 0.0.0.0/0 \
+--description="Allow HTTPS from the internet"
+
+# ✅ Checkpoint: Task 2 Complete!
+
+# ✅ Task 3: Install and configure the Ops Agent
 cat > prepare_disk.sh <<'EOF_END'
 sudo apt-get update && sudo apt-get install apache2 php7.0 -y
-EOF_END
 
-gcloud compute scp prepare_disk.sh quickstart-vm:/tmp --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet
-gcloud compute ssh quickstart-vm --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet --command="bash /tmp/prepare_disk.sh"
-
-# Progress checkpoint after Task 2
-while true; do
-    read -p "Have you checked your progress for Task 2 (Install Apache Web Server)? Y/N: " input2
-    if [[ "$input2" =~ ^[Yy]$ ]]; then
-        break
-    else
-        echo "❗ Please check your progress and type Y to proceed."
-    fi
-done
-
-# Task 3: Install and configure Ops Agent
-cat > prepare_disk.sh <<'EOF_END'
 curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
 sudo bash add-google-cloud-ops-agent-repo.sh --also-install
 
@@ -86,20 +112,12 @@ EOF_END
 gcloud compute scp prepare_disk.sh quickstart-vm:/tmp --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet
 gcloud compute ssh quickstart-vm --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet --command="bash /tmp/prepare_disk.sh"
 
-# Progress checkpoint after Task 3
-while true; do
-    read -p "Have you checked your progress for Task 3 (Install and configure the Ops Agent)? Y/N: " input3
-    if [[ "$input3" =~ ^[Yy]$ ]]; then
-        break
-    else
-        echo "❗ Please check your progress and type Y to proceed."
-    fi
-done
+# ✅ Checkpoint: Task 3 Complete!
 
-# Task 4: Generate traffic and view metrics
-# (No progress check as per your instruction)
+# ⚡ Task 4: Generate traffic and view metrics
+# This task has no checkpoint
 
-# Task 5: Create an alerting policy
+# ✅ Task 5: Create an alerting policy
 cat > email-channel.json <<EOF_END
 {
   "type": "email",
@@ -158,17 +176,10 @@ EOF_END
 
 gcloud alpha monitoring policies create --policy-from-file=vm-alert-policy.json
 
-# Progress checkpoint after Task 5
-while true; do
-    read -p "Have you checked your progress for Task 5 (Create an alerting policy)? Y/N: " input5
-    if [[ "$input5" =~ ^[Yy]$ ]]; then
-        break
-    else
-        echo "❗ Please check your progress and type Y to proceed."
-    fi
-done
+# ✅ Checkpoint: Task 5 Complete!
 
-# Task 6: Test the alerting policy (No checkpoint)
+# ⚡ Task 6: Test the alerting policy
+# This task has no checkpoint
 
 # 🎉 Completion Message
 echo ""

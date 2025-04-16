@@ -78,7 +78,7 @@ gsutil cp gs://sureskills-ql/challenge-labs/ch01-startup-script/install-web.sh g
 # Step 3: Create Compute Engine instance
 echo -e "\n${BOLD}${GREEN}Creating a Compute Engine instance...${RESET}"
 echo -e "${BOLD}${CYAN}This instance will run the startup script to set up a web server.${RESET}"
-gcloud compute instances create quickgcplab \
+gcloud compute instances create instance-15f6f \
     --project=$DEVSHELL_PROJECT_ID \
     --zone=$ZONE \
     --machine-type=n1-standard-1 \

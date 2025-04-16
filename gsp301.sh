@@ -62,21 +62,15 @@ echo -e "${BOLD}${CYAN}This bucket will store the startup script.${RESET}"
 gsutil mb gs://$DEVSHELL_PROJECT_ID
 
 # ✅ Task 1 Checkpoint
-while true; do
-    read -p "$(echo -e ${YELLOW}${BOLD}Have you checked your progress for Task 1? (Y/N): ${RESET})" confirm
-    case $confirm in
-        [Yy]* ) break;;
-        * ) echo -e "${RED}⚠️ Please check your progress and type Y to continue.${RESET}";;
-    esac
-done
+echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 1 progress."
 
 # Step 2: Copy startup script
-echo -e "\n${BOLD}${GREEN}Task 2: Copying the startup script to the bucket...${RESET}"
+echo -e "\n${BOLD}${GREEN}Copying the startup script to the bucket...${RESET}"
 echo -e "${BOLD}${CYAN}The script will be used to configure the VM instance.${RESET}"
 gsutil cp gs://sureskills-ql/challenge-labs/ch01-startup-script/install-web.sh gs://$DEVSHELL_PROJECT_ID
 
 # Step 3: Create Compute Engine instance
-echo -e "\n${BOLD}${GREEN}Creating a Compute Engine instance...${RESET}"
+echo -e "\n${BOLD}${GREEN}Task 2: Creating a Compute Engine instance...${RESET}"
 echo -e "${BOLD}${CYAN}This instance will run the startup script to set up a web server.${RESET}"
 gcloud compute instances create instance-15f6f \
     --project=$DEVSHELL_PROJECT_ID \
@@ -86,13 +80,7 @@ gcloud compute instances create instance-15f6f \
     --metadata startup-script-url=gs://$DEVSHELL_PROJECT_ID/install-web.sh
 
 # ✅ Task 2 Checkpoint
-while true; do
-    read -p "$(echo -e ${YELLOW}${BOLD}Have you checked your progress for Task 2? (Y/N): ${RESET})" confirm
-    case $confirm in
-        [Yy]* ) break;;
-        * ) echo -e "${RED}⚠️ Please check your progress and type Y to continue.${RESET}";;
-    esac
-done
+echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 2 progress."
 
 # Step 4: Create firewall rule
 echo -e "\n${BOLD}${GREEN}Task 3: Setting up firewall rule to allow HTTP traffic...${RESET}"
@@ -103,27 +91,14 @@ gcloud compute firewall-rules create allow-http \
     --direction=INGRESS \
     --target-tags=http-server
 
-# ✅ Task 3 Checkpoint
-while true; do
-    read -p "$(echo -e ${YELLOW}${BOLD}Have you checked your progress for Task 3? (Y/N): ${RESET})" confirm
-    case $confirm in
-        [Yy]* ) break;;
-        * ) echo -e "${RED}⚠️ Please check your progress and type Y to continue.${RESET}";;
-    esac
-done
+echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 3 progress."
 
 # Step 5: Testing the server
 echo -e "\n${BOLD}${GREEN}Task 4: Test that the VM is serving web content...${RESET}"
 echo -e "${BOLD}${CYAN}Visit your external IP address in the browser.${RESET}"
 
 # ✅ Task 4 Checkpoint
-while true; do
-    read -p "$(echo -e ${YELLOW}${BOLD}Have you checked your progress for Task 4? (Y/N): ${RESET})" confirm
-    case $confirm in
-        [Yy]* ) break;;
-        * ) echo -e "${RED}⚠️ Please check your progress and type Y to continue.${RESET}";;
-    esac
-done
+echo "${CYAN_TEXT}${BOLD_TEXT}✔ Please check your Task 4 progress."
 
 # 🎉 Completion Message
 echo ""

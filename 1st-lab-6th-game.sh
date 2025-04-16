@@ -44,6 +44,8 @@ echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...    
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
 echo ""
 
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the location (Check your Lab and type the Location here): ${RESET_FORMAT}" LOCATION
+export LOCATION=$LOCATION
 export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 export PROJECT_NUMBER=$(gcloud projects list --filter=projectId:$PROJECT_ID \
   --format="value(projectNumber)")

@@ -94,22 +94,6 @@ wait_and_reset_windows_password() {
 }
 wait_and_reset_windows_password facilitator-program-2025 $ZONE admin
 
-# 🔎 Task 2 Input Check: AFTER VM is ready and password is reset
-read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 2 (RDP into the Windows Server)? Enter Y to continue: ${RESET_FORMAT})" task2_input
-while [[ "$task2_input" != "Y" && "$task2_input" != "y" ]]; do
-    echo -e "${BRIGHT_RED}${BOLD}⚠️  Please check your progress and enter Y to go ahead.${RESET_FORMAT}"
-    read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 2? Enter Y to continue: ${RESET_FORMAT})" task2_input
-done
-echo ""
-
-# 🔎 Task 5 Input Check: AFTER all configuration and verification steps
-read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 5 (Connect and verify the server setup)? Enter Y to continue: ${RESET_FORMAT})" task5_input
-while [[ "$task5_input" != "Y" && "$task5_input" != "y" ]]; do
-    echo -e "${BRIGHT_RED}${BOLD}⚠️  Please check your progress and enter Y to go ahead.${RESET_FORMAT}"
-    read -p "$(echo -e ${BRIGHT_CYAN}${BOLD}Have you checked your progress for Task 5? Enter Y to continue: ${RESET_FORMAT})" task5_input
-done
-echo ""
-
 # 🎉 Random Congratulatory Message
 function random_congrats() {
     MESSAGES=(
@@ -142,6 +126,12 @@ remove_files
 
 # ✅ Finished
 echo -e "${BRIGHT_GREEN}${BOLD}✅ Script execution completed!${RESET_FORMAT}\n"
+
+# ✅ Completion Message
+echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${BRIGHT_GREEN}${BOLD}             ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!         ${RESET_FORMAT}"
+echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo ""
 
 # 📢 CTA
 echo -e "${BRIGHT_YELLOW}${BOLD}🔔 Follow for more labs & tutorials:${RESET_FORMAT}"

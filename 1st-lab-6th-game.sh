@@ -114,7 +114,9 @@ sleep 10
 
 # ✅ Completion Message
 echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"
-echo "${BRIGHT_GREEN}${BOLD}             ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!         ${RESET_FORMAT}"
+echo "${BRIGHT_GREEN}${BOLD}              ✅ YOU'VE ONLY COMPLETED HALF LAB!         ${RESET_FORMAT}"
+echo "${BRIGHT_GREEN}${BOLD}   ✅ NOW PLEASE WATCH THIS VIDEO TO COMPLETE THE FULL LAB:   ${RESET_FORMAT}"
+echo -e "${BRIGHT_RED}${BOLD}Video:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://youtu.be/r0YaZR51dUs${RESET}"
 echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"
 echo ""
 

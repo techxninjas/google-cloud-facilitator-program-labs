@@ -34,8 +34,9 @@ echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...    
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
 echo ""
 
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the location (Check your Lab and type the Location here): ${RESET_FORMAT}" LOCATION
-export LOCATION=$LOCATION
+echo -n "${YELLOW_TEXT}${BOLD_TEXT}Enter the location (Check your Lab and type the Location here): ${RESET_FORMAT}"
+read REGION
+export REGION
 export PROJECT_ID=`gcloud config get-value project`
 export DATASET_ID=dataset1
 export FHIR_STORE_ID=fhirstore1

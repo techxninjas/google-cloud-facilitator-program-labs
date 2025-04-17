@@ -34,7 +34,7 @@ RESET_FORMAT="${RESET}"
 
 # 💡 Start-Up Banner 
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
-echo -e "${BRIGHT_CYAN}${BOLD}       6th Game: Level 1: Healthcare API Lab           ${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}                    6th Game: Lab 1             ${RESET}"
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
 echo ""
 
@@ -102,12 +102,6 @@ gcloud healthcare fhir-stores export bq $FHIR_STORE_ID \
 --schema-type=analytics
 
 sleep 10
-
-gcloud healthcare fhir-stores export bq de_id \
---dataset=$DATASET_ID \
---location=$LOCATION \
---bq-dataset=bq://$PROJECT_ID.de_id \
---schema-type=analytics
 
 # ✅ Completion Message
 echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"

@@ -89,6 +89,15 @@ gcloud healthcare fhir-stores create de_id \
   --location=$LOCATION \
   --version=R4
 
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ TASK 5 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo ""
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 5 progress."
+sleep 20
+
 gcloud healthcare fhir-stores import gcs $FHIR_STORE_ID \
 --dataset=$DATASET_ID \
 --location=$LOCATION \

@@ -112,18 +112,19 @@ gcloud healthcare fhir-stores export bq $FHIR_STORE_ID \
 
 sleep 10
 
+remove_temp_files() {
+    echo "${YELLOW}${BOLD}Cleaning up temporary files...${RESET}"
+    for file in *; do
+        if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
+            [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"
+        fi
+    done
+}
+remove_temp_files
+
 # ✅ Completion Message
 echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"
 echo "${BRIGHT_GREEN}${BOLD}              ✅ YOU'VE ONLY COMPLETED HALF LAB!         ${RESET_FORMAT}"
-echo "${BRIGHT_GREEN}${BOLD}   ✅ NOW PLEASE WATCH THIS VIDEO TO COMPLETE THE FULL LAB:   ${RESET_FORMAT}"
-echo -e "${BRIGHT_RED}${BOLD}Video:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://youtu.be/r0YaZR51dUs${RESET}"
+echo "${BRIGHT_GREEN}${BOLD}               ✅ NOW PLEASE RUN NEXT COMMAND:       ${RESET_FORMAT}"
 echo "${BRIGHT_GREEN}${BOLD}🎉===========================================================${RESET_FORMAT}"
-echo ""
-
-# 📢 CTA
-echo -e "${BRIGHT_YELLOW}${BOLD}🔔 Follow for more labs & tutorials:${RESET}"
-echo -e "${BRIGHT_RED}${BOLD}YouTube Channel:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.youtube.com/@TechXNinjas${RESET}"
-echo -e "${BRIGHT_WHITE}${BOLD}Follow me on LinkedIn:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.linkedin.com/in/iaadillatif${RESET}"
-echo -e "${BRIGHT_WHITE}${BOLD}LinkedIn Page:${RESET} ${BRIGHT_BLUE}${UNDERLINE}https://www.linkedin.com/company/techxninjas${RESET}"
-echo -e "${BRIGHT_WHITE}${BOLD}Join WhatsApp Group:${RESET} ${BRIGHT_GREEN}${UNDERLINE}https://chat.whatsapp.com/HosxDxImviICAwizHaXXbu${RESET}"
 echo ""

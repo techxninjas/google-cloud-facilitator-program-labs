@@ -51,15 +51,6 @@ gcloud compute firewall-rules create allow-https-from-internet \
   --source-ranges 0.0.0.0/0 \
   --description="Allow HTTPS from the internet"
 
-  # ✅ Completion Message
-echo
-echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
-echo "${GREEN_TEXT}${BOLD}               ✅ TASK 1 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
-echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
-echo ""
-echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 1 progress."
-echo ""
-
 # Create a script to prepare the disk (install Apache, PHP, and Ops Agent)
 cat > prepare_disk.sh <<'EOF_END'
 
@@ -182,3 +173,39 @@ EOF_END
 
 # Create the alert policy using the defined JSON file
 gcloud alpha monitoring policies create --policy-from-file=vm-alert-policy.json
+
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ ALL TASKS COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo ""
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your progress."
+echo "${GREEN_TEXT}${BOLD_TEXT} If it will be not completed, try again for successfully completion of the Assessment."
+sleep 10
+echo ""
+
+remove_temp_files() {
+    echo "${YELLOW}${BOLD}Cleaning up temporary files...${RESET}"
+    for file in *; do
+        if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
+            [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"
+        fi
+    done
+}
+remove_temp_files
+
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}          ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!          ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo ""
+
+# 📢 CTA Section
+echo -e "${YELLOW_TEXT}${BOLD}🔔 Follow for more labs & tutorials:${RESET_FORMAT}"
+echo -e "${RED_TEXT}${BOLD}YouTube Channel:${RESET_FORMAT} ${BLUE_TEXT}${UNDERLINE}https://www.youtube.com/@TechXNinjas${RESET_FORMAT}"
+echo -e "${WHITE_TEXT}${BOLD}Follow me on LinkedIn:${RESET_FORMAT} ${BLUE_TEXT}${UNDERLINE}https://www.linkedin.com/in/iaadillatif${RESET_FORMAT}"
+echo -e "${WHITE_TEXT}${BOLD}LinkedIn Page:${RESET_FORMAT} ${BLUE_TEXT}${UNDERLINE}https://www.linkedin.com/company/techxninjas${RESET_FORMAT}"
+echo -e "${WHITE_TEXT}${BOLD}Join WhatsApp Group:${RESET_FORMAT} ${GREEN_TEXT}${UNDERLINE}https://chat.whatsapp.com/HosxDxImviICAwizHaXXbu${RESET_FORMAT}"
+echo ""

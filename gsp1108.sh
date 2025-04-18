@@ -119,6 +119,7 @@ echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 3 progress."
 echo "${GREEN_TEXT}${BOLD_TEXT} Wait for 10-15 seconds for successfully completion of the Assessment."
 sleep 20
+echo ""
 
 # 📤 Transfer Script to VM
 echo "${CYAN_TEXT}${BOLD}Starting Task 4. Generate traffic and view metrics...${RESET_FORMAT}"
@@ -128,6 +129,7 @@ gcloud compute scp cp_disk.sh quickstart-vm:/tmp --zone=$ZONE --quiet
 # 🚀 Execute Script on VM
 echo "${CYAN_TEXT}${BOLD}💻 Running setup script on VM...${RESET_FORMAT}"
 gcloud compute ssh quickstart-vm --zone=$ZONE --quiet --command="bash /tmp/cp_disk.sh"
+echo ""
 
 # 📡 Setup Notification Channel
 echo "${CYAN_TEXT}${BOLD}Starting Task 5. Create an alerting policys...${RESET_FORMAT}"
@@ -209,6 +211,7 @@ echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 5 progress."
 echo "${GREEN_TEXT}${BOLD_TEXT} Wait for 10-15 seconds for successfully completion of the Assessment."
 sleep 10
+echo ""
 
 # ✅ Completion Message
 echo

@@ -30,19 +30,23 @@ read -p "${YELLOW_TEXT}${BOLD}🔧 Enter your Compute Zone:${RESET_FORMAT} " ZON
 # 🔑 Authenticate & Setup Project
 echo "${BLUE_TEXT}${BOLD}🔐 Authenticating with Google Cloud...${RESET_FORMAT}"
 gcloud auth list
+echo ""
 
 echo "${MAGENTA_TEXT}${BOLD}📁 Fetching Project ID...${RESET_FORMAT}"
 export PROJECT_ID=$(gcloud config get-value project)
 export PROJECT_ID=$DEVSHELL_PROJECT_ID
+echo ""
 
 echo "${GREEN_TEXT}${BOLD}📍 Setting Compute Zone: $ZONE ${RESET_FORMAT}"
 gcloud config set compute/zone $ZONE
+echo ""
 
 # 🛠️ Create VM & Configure Firewall
 echo "${CYAN_TEXT}${BOLD}Starting Task 1. Creating a Compute Engine VM instance...${RESET_FORMAT}"
 gcloud compute instances create quickstart-vm --project=$PROJECT_ID --zone=$ZONE --machine-type=e2-small --image-family=debian-11 --image-project=debian-cloud --tags=http-server,https-server && \
 gcloud compute firewall-rules create default-allow-http --target-tags=http-server --allow tcp:80 --description="Allow HTTP traffic" && \
 gcloud compute firewall-rules create default-allow-https --target-tags=https-server --allow tcp:443 --description="Allow HTTPS traffic"
+echo ""
 
 # ✅ Completion Message
 echo
@@ -52,6 +56,7 @@ echo "${GREEN_TEXT}${BOLD}🎉==================================================
 echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 1 progress."
 sleep 10
+echo ""
 
 echo "${CYAN_TEXT}${BOLD}Starting Task 2. Install an Apache Web Server...${RESET_FORMAT}"
 # 📦 Create Apache + Ops Agent Configuration Script
@@ -69,6 +74,7 @@ echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 2 progress."
 echo "${GREEN_TEXT}${BOLD_TEXT} Wait for 10-15 seconds for successfully completion of the Assessment."
 sleep 20
+echo ""
 
 echo "${CYAN_TEXT}${BOLD}Starting Task 3. Install and configure the Ops Agent...${RESET_FORMAT}"
 curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh

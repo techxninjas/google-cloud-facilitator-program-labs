@@ -1,7 +1,35 @@
+#!/bin/bash
+
+# 🌈 Define Color Variables
+BLACK_TEXT=$'\033[0;90m'
+RED_TEXT=$'\033[0;91m'
+GREEN_TEXT=$'\033[0;92m'
+YELLOW_TEXT=$'\033[0;93m'
+BLUE_TEXT=$'\033[0;94m'
+MAGENTA_TEXT=$'\033[0;95m'
+CYAN_TEXT=$'\033[0;96m'
+WHITE_TEXT=$'\033[0;97m'
+
+RESET_FORMAT=$'\033[0m'
+BOLD=$'\033[1m'
+UNDERLINE=$'\033[4m'
+
+# 🚀 Clear Screen
+clear
+
+# 🚨 Welcome Message
+echo "${CYAN_TEXT}${BOLD}🚀===========================================================${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}     5th Lab: Monitor an Apache Web Server using Ops Agent     ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}        Level 2: Cloud Infrastructure & API Essentials           ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}===========================================================🚀${RESET_FORMAT}"
+echo ""
+
+# 🌍 Input Zone
 # Get the default compute zone for the current project
 export ZONE=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
 
+echo "${CYAN_TEXT}${BOLD}Starting Task 1. Creating a Compute Engine VM instance...${RESET_FORMAT}"
 # Create a new Compute Engine VM with the given specs and tags
 gcloud compute instances create quickstart-vm \
   --zone=$ZONE \
@@ -22,6 +50,15 @@ gcloud compute firewall-rules create allow-https-from-internet \
   --allow tcp:443 \
   --source-ranges 0.0.0.0/0 \
   --description="Allow HTTPS from the internet"
+
+  # ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ TASK 1 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo ""
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 1 progress."
+echo ""
 
 # Create a script to prepare the disk (install Apache, PHP, and Ops Agent)
 cat > prepare_disk.sh <<'EOF_END'

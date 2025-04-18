@@ -18,14 +18,17 @@ UNDERLINE=$'\033[4m'
 clear
 
 # 🚨 Welcome Message
-echo "${CYAN_TEXT}${BOLD}🚀===========================================================${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD}        🧠 5th Lab: Monitor Apache Web Server (Level 2)       ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD}     🎯 Game: Cloud Infrastructure & API Essentials           ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD}===========================================================🚀${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}🚀==================================================================${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}       5th Lab: Monitor an Apache Web Server using Ops Agent         ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}     4th Game: Level 2: Cloud Infrastructure & API Essentials        ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}====================================================================🚀${RESET_FORMAT}"
 echo ""
 
 # 🌍 Input Zone
-read -p "${YELLOW_TEXT}${BOLD}🔧 Enter your Compute Zone:${RESET_FORMAT} " ZONE
+echo "${CYAN}${BOLD}Setting Zone and Region:${RESET}"
+export ZONE=$(gcloud compute project-info describe --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
+export REGION=$(gcloud compute project-info describe --format="value(commonInstanceMetadata.items[google-compute-default-region])")
+gcloud config set compute/zone "$ZONE"
 
 # 🔑 Authenticate & Setup Project
 echo "${BLUE_TEXT}${BOLD}🔐 Authenticating with Google Cloud...${RESET_FORMAT}"
@@ -34,9 +37,6 @@ gcloud auth list
 echo "${MAGENTA_TEXT}${BOLD}📁 Fetching Project ID...${RESET_FORMAT}"
 export PROJECT_ID=$(gcloud config get-value project)
 export PROJECT_ID=$DEVSHELL_PROJECT_ID
-
-echo "${GREEN_TEXT}${BOLD}📍 Setting Compute Zone: $ZONE ${RESET_FORMAT}"
-gcloud config set compute/zone $ZONE
 
 # 🛠️ Create VM & Configure Firewall
 echo "${CYAN_TEXT}${BOLD}Starting Task 1. Creating a Compute Engine VM instance...${RESET_FORMAT}"

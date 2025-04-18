@@ -24,6 +24,12 @@ echo "${CYAN_TEXT}${BOLD}        Level 2: Cloud Infrastructure & API Essentials 
 echo "${CYAN_TEXT}${BOLD}===========================================================🚀${RESET_FORMAT}"
 echo ""
 
+# 🚀 Task Execution Init
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...          ${RESET}"
+echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
+echo ""
+
 # 🌍 Input Zone
 # Get the default compute zone for the current project
 export ZONE=$(gcloud compute project-info describe \

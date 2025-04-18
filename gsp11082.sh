@@ -51,6 +51,7 @@ gcloud compute firewall-rules create allow-https-from-internet \
   --source-ranges 0.0.0.0/0 \
   --description="Allow HTTPS from the internet"
 
+echo "${CYAN_TEXT}${BOLD}Starting Task 2 & 3. Install an Apache Web Server & configure the Ops Agent......${RESET_FORMAT}"
 # Create a script to prepare the disk (install Apache, PHP, and Ops Agent)
 cat > prepare_disk.sh <<'EOF_END'
 
@@ -111,6 +112,7 @@ gcloud compute ssh quickstart-vm \
   --quiet \
   --command="bash /tmp/prepare_disk.sh"
 
+echo "${CYAN_TEXT}${BOLD}Starting Task 5. Create an alerting policys...${RESET_FORMAT}"
 # Create a JSON file to define an email notification channel for alerts
 cat > email-channel.json <<EOF_END
 {

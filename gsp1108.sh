@@ -25,7 +25,9 @@ echo "${CYAN_TEXT}${BOLD}=======================================================
 echo ""
 
 # 🌍 Input Zone
-read -p "${YELLOW_TEXT}${BOLD}🔧 Enter your Compute Zone:${RESET_FORMAT} " ZONE
+# Get the default compute zone for the current project
+export ZONE=$(gcloud compute project-info describe \
+--format="value(commonInstanceMetadata.items[google-compute-default-zone])")
 
 # 🔑 Authenticate & Setup Project
 echo "${BLUE_TEXT}${BOLD}🔐 Authenticating with Google Cloud...${RESET_FORMAT}"
@@ -58,31 +60,22 @@ echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 1 progress."
 sleep 10
 echo ""
 
-echo "${CYAN_TEXT}${BOLD}Starting Task 2. Install an Apache Web Server...${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}Starting Task 2 & 3. Install an Apache Web Server & configure the Ops Agent......${RESET_FORMAT}"
 # 📦 Create Apache + Ops Agent Configuration Script
 echo "${YELLOW_TEXT}${BOLD}📜 Preparing configuration script...${RESET_FORMAT}"
-cat > cp_disk.sh <<'EOF'
-sudo apt-get update && sudo apt-get install apache2 php -y
-EOF
+cat > prepare_disk.sh <<'EOF_END'
+sudo apt-get update && sudo apt-get install apache2 php7.0 -y
 
-# ✅ Completion Message
-echo
-echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
-echo "${GREEN_TEXT}${BOLD}               ✅ TASK 2 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
-echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
-echo ""
-echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 2 progress."
-echo "${GREEN_TEXT}${BOLD_TEXT} Wait for 10-15 seconds for successfully completion of the Assessment."
-sleep 20
-echo ""
-
-echo "${CYAN_TEXT}${BOLD}Starting Task 3. Install and configure the Ops Agent...${RESET_FORMAT}"
+# Download and install the Google Cloud Ops Agent
 curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
 sudo bash add-google-cloud-ops-agent-repo.sh --also-install
 
+# Stop execution if any command fails
+set -e
+
 sudo cp /etc/google-cloud-ops-agent/config.yaml /etc/google-cloud-ops-agent/config.yaml.bak
 
-sudo tee /etc/google-cloud-ops-agent/config.yaml > /dev/null << EOL
+sudo tee /etc/google-cloud-ops-agent/config.yaml > /dev/null << EOF
 metrics:
   receivers:
     apache:
@@ -104,11 +97,22 @@ logging:
         receivers:
           - apache_access
           - apache_error
-EOL
+EOF
 
 sudo service google-cloud-ops-agent restart
 sleep 60
-EOF
+EOF_END
+
+# ✅ Completion Message
+echo
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}               ✅ TASK 2 COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD}🎉===========================================================${RESET_FORMAT}"
+echo ""
+echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your Task 2 progress."
+echo "${GREEN_TEXT}${BOLD_TEXT} Wait for 10-15 seconds for successfully completion of the Assessment."
+sleep 20
+echo ""
 
 # ✅ Completion Message
 echo

@@ -26,19 +26,11 @@ echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...    
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
 echo ""
 
-# Get the default compute zone for the current project
-export ZONE=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-zone])")
-
 echo -e "${YELLOW_COLOR}${BOLD_TEXT}Enter the Static IP of your Lab:${RESET_FORMAT} \c"
 read STATIC_IP
 
 # Export and configure values
 export STATIC_IP
-export REGION="${ZONE%-*}"
-
-gcloud config set compute/region "$REGION"
-gcloud config set compute/zone "$ZONE"
 
 # Display configuration
 echo -e "\n${YELLOW_COLOR}${BOLD_TEXT}Configuration set:${RESET_FORMAT}"

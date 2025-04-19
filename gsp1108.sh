@@ -123,7 +123,7 @@ echo "${CYAN_TEXT}${BOLD}Starting Task 5. Create an alerting policys...${RESET_F
 cat > email-channel.json <<EOF_END
 {
   "type": "email",
-  "displayName": "quickgcplab",
+  "displayName": "TechXNinjas",
   "description": "Awesome",
   "labels": {
     "email_address": "$USER_EMAIL"

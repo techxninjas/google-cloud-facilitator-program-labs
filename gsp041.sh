@@ -15,7 +15,7 @@ clear
 
 # 🚨 Welcome Message
 echo "${CYAN_TEXT}${BOLD}🚀====================================================${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD}             8th Lab: Internal Load Balancer           ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}             9th Lab: Internal Load Balancer           ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD}     Level 2: Cloud Infrastructure & API Essentials    ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD}====================================================🚀${RESET_FORMAT}"
 echo ""

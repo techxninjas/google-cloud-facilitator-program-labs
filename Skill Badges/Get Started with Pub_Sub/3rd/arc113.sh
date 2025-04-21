@@ -105,7 +105,7 @@ while true; do
         
           console.log(`Hello, ${name}!`);
         });
-        EOF
+EOF
         
         echo
         echo "${YELLOW_TEXT}${BOLD_TEXT}Step 5:${RESET_FORMAT} ${YELLOW_TEXT}Creating package.json with required dependencies.${RESET_FORMAT}"
@@ -123,7 +123,7 @@ while true; do
             "@google-cloud/functions-framework": "^3.0.0"
           }
         }
-        EOF
+EOF
         
         echo
         echo "${RED_TEXT}${BOLD_TEXT}Step 6:${RESET_FORMAT} ${RED_TEXT}Deploying the Cloud Function with Pub/Sub trigger.${RESET_FORMAT}"

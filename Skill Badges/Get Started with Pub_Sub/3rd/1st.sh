@@ -29,8 +29,10 @@ echo -e "${BRIGHT_CYAN}${BOLD}         🚀 INITIATING THE TASK EXECUTION...    
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
 echo ""
 
-read -p "${CYAN_TEXT}${BOLD_TEXT}Enter your GCP region: ${RESET_FORMAT}" LOCATION
-export LOCATION
+# 🌍 Fetching Region
+echo "${BRIGHT_GREEN}${BOLD}🔄 Fetching Region...${RESET_FORMAT}"
+export LOCATION=$(gcloud compute project-info describe \
+--format="value(commonInstanceMetadata.items[google-compute-default-region])")
 
 echo "${CYAN_TEXT}${BOLD_TEXT}Step 1:${RESET_FORMAT} ${CYAN_TEXT}Creating a Pub/Sub schema using Avro format.${RESET_FORMAT}"
 echo

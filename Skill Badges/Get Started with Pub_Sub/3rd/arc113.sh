@@ -31,10 +31,10 @@ echo ""
 
 # 📌 Prompt for Task Selection
 while true; do
-  echo "${YELLOW_TEXT}${BOLD_TEXT}Please select the task from the options below:${RESET_FORMAT}"
-  echo "A: Task 1 - Create Pub/Sub Schema"
-  echo "B: Task 2 - Create Pub/Sub Topic"
-  echo "C: Task 3 - Create Trigger Cloud Function"
+  echo "${YELLOW_TEXT}${BOLD_TEXT}Please go to your lab and check the Task 1, and select the task from the options below:${RESET_FORMAT}"
+  echo "Enter A: If your Task 1 is Create Pub/Sub schema"
+  echo "Enter B: If your Task 1 is Set up Cloud Pub/Sub"
+  echo "Enter C: If your Task 1 is Publish a message to the topic"
   echo ""
 
   read -p "Enter your choice (A/B/C): " user_choice

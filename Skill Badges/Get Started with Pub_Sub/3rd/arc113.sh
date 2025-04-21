@@ -90,7 +90,7 @@ while true; do
         echo
         echo "${BLUE_TEXT}${BOLD_TEXT}Step 4:${RESET_FORMAT} ${BLUE_TEXT}Creating Node.js function code that processes Pub/Sub messages.${RESET_FORMAT}"
         echo
-        cat > index.js <<'EOF_END'
+        cat > index.js <<'EOF'
         const functions = require('@google-cloud/functions-framework');
         
         // Register a CloudEvent callback with the Functions Framework that will
@@ -105,12 +105,12 @@ while true; do
         
           console.log(`Hello, ${name}!`);
         });
-        EOF_END
+        EOF
         
         echo
         echo "${YELLOW_TEXT}${BOLD_TEXT}Step 5:${RESET_FORMAT} ${YELLOW_TEXT}Creating package.json with required dependencies.${RESET_FORMAT}"
         echo
-        cat > package.json <<'EOF_END'
+        cat > package.json <<'EOF'
         {
           "name": "gcf_hello_world",
           "version": "1.0.0",
@@ -123,7 +123,7 @@ while true; do
             "@google-cloud/functions-framework": "^3.0.0"
           }
         }
-        EOF_END
+        EOF
         
         echo
         echo "${RED_TEXT}${BOLD_TEXT}Step 6:${RESET_FORMAT} ${RED_TEXT}Deploying the Cloud Function with Pub/Sub trigger.${RESET_FORMAT}"

@@ -90,7 +90,7 @@ while true; do
         echo
         echo "${BLUE_TEXT}${BOLD_TEXT}Step 4:${RESET_FORMAT} ${BLUE_TEXT}Creating Node.js function code that processes Pub/Sub messages.${RESET_FORMAT}"
         echo
-        cat > index.js <<'EOF'
+        cat > index.js <<EOF
         const functions = require('@google-cloud/functions-framework');
         
         // Register a CloudEvent callback with the Functions Framework that will
@@ -110,7 +110,7 @@ while true; do
         echo
         echo "${YELLOW_TEXT}${BOLD_TEXT}Step 5:${RESET_FORMAT} ${YELLOW_TEXT}Creating package.json with required dependencies.${RESET_FORMAT}"
         echo
-        cat > package.json <<'EOF'
+        cat > package.json <<EOF
         {
           "name": "gcf_hello_world",
           "version": "1.0.0",

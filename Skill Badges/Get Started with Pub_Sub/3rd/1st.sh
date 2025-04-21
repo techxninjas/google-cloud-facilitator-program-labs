@@ -34,7 +34,7 @@ echo "${BRIGHT_GREEN}${BOLD}🔄 Fetching Region...${RESET_FORMAT}"
 export LOCATION=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-region])")
 
-echo "${CYAN_TEXT}${BOLD_TEXT}Step 1:${RESET_FORMAT} ${CYAN_TEXT}Creating a Pub/Sub schema using Avro format.${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}Creating a Pub/Sub schema using Avro format...${RESET_FORMAT}"
 echo
 gcloud pubsub schemas create city-temp-schema \
         --type=avro \

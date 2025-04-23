@@ -52,32 +52,47 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-# Enable required services on Google Cloud
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling required services on Google Cloud...${RESET_FORMAT}"
 gcloud services enable run.googleapis.com
+echo ""
+
+echo "${CYAN_TEXT}${BOLD_TEXT}---> Enabling Cloud Run and Eventarc services...${RESET_FORMAT}"
 gcloud services enable eventarc.googleapis.com
+echo ""
 
 # Set up Pub/Sub topic and subscription
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Pub/Sub topic...${RESET_FORMAT}"
 gcloud pubsub topics create "$DEVSHELL_PROJECT_ID-topic"
+echo ""
+
+echo "${CYAN_TEXT}${BOLD_TEXT}---> Creating Pub/Sub subscription for the topic...${RESET_FORMAT}"
 gcloud pubsub subscriptions create --topic "$DEVSHELL_PROJECT_ID-topic" "$DEVSHELL_PROJECT_ID-topic-sub"
+echo ""
 
 # Deploy the Cloud Run service
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Deploying Cloud Run service 'pubsub-events'...${RESET_FORMAT}"
 gcloud run deploy pubsub-events \
   --image=gcr.io/cloudrun/hello \
   --platform=managed \
   --region="$LOCATION" \
   --allow-unauthenticated
+echo ""
 
 # Create Eventarc trigger to listen to Pub/Sub messages
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Eventarc trigger for Pub/Sub topic...${RESET_FORMAT}"
 gcloud eventarc triggers create pubsub-events-trigger \
   --location="$LOCATION" \
   --destination-run-service=pubsub-events \
   --destination-run-region="$LOCATION" \
   --transport-topic="$DEVSHELL_PROJECT_ID-topic" \
   --event-filters="type=google.cloud.pubsub.topic.v1.messagePublished"
+echo ""
 
 # Send a test message to the Pub/Sub topic
+echo "${CYAN_TEXT}${BOLD_TEXT}---> Publishing a test message to the Pub/Sub topic...${RESET_FORMAT}"
 gcloud pubsub topics publish "$DEVSHELL_PROJECT_ID-topic" \
   --message="Test message"
+echo ""
 
 # ✅ Completion Message
 echo

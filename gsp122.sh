@@ -54,14 +54,14 @@ echo ""
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a VM instance named 'techxninjas' in the specified zone...${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}This may take a few seconds. Please wait.${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}This may take a few seconds. Please wait...${RESET_FORMAT}"
 echo
 
 gcloud compute instances create techxninjas --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --machine-type=e2-medium --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet=default --metadata=enable-oslogin=true --maintenance-policy=MIGRATE --provisioning-model=STANDARD --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --tags=http-server --create-disk=auto-delete=yes,boot=yes,device-name=techxninjas,image=projects/centos-cloud/global/images/centos-7-v20231010,mode=rw,size=20,type=projects/$DEVSHELL_PROJECT_ID/zones/$ZONE/diskTypes/pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=goog-ec-src=vm_add-gcloud --reservation-affinity=any
 
 echo
 echo "${YELLOW_TEXT}${BOLD_TEXT}---> Waiting for the VM instance to be ready...${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT}This will take approximately 30 seconds.${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}This will take approximately 30 seconds...${RESET_FORMAT}"
 echo
 
 for i in {1..20}; do

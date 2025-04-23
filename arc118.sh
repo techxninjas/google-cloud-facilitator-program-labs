@@ -56,7 +56,7 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling required services on Google Cloud...
 gcloud services enable run.googleapis.com
 echo ""
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> Enabling Cloud Run and Eventarc services...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling Cloud Run and Eventarc services...${RESET_FORMAT}"
 gcloud services enable eventarc.googleapis.com
 echo ""
 
@@ -65,7 +65,7 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Pub/Sub topic...${RESET_FORMAT}"
 gcloud pubsub topics create "$DEVSHELL_PROJECT_ID-topic"
 echo ""
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> Creating Pub/Sub subscription for the topic...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Pub/Sub subscription for the topic...${RESET_FORMAT}"
 gcloud pubsub subscriptions create --topic "$DEVSHELL_PROJECT_ID-topic" "$DEVSHELL_PROJECT_ID-topic-sub"
 echo ""
 
@@ -89,7 +89,7 @@ gcloud eventarc triggers create pubsub-events-trigger \
 echo ""
 
 # Send a test message to the Pub/Sub topic
-echo "${CYAN_TEXT}${BOLD_TEXT}---> Publishing a test message to the Pub/Sub topic...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Publishing a test message to the Pub/Sub topic...${RESET_FORMAT}"
 gcloud pubsub topics publish "$DEVSHELL_PROJECT_ID-topic" \
   --message="Test message"
 echo ""

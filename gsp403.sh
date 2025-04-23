@@ -41,18 +41,14 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
 
 # Instructions for creating the 'Reports' dataset
-echo "${BLUE_TEXT}---------------------------------------------------------------------${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the 'Reports' Dataset in BigQuery${RESET_FORMAT}"
-echo "${BLUE_TEXT}---------------------------------------------------------------------${RESET_FORMAT}"
 echo
 echo "${YELLOW_TEXT}---> ---> Executing: ${BOLD_TEXT}bq mk Reports${RESET_FORMAT}"
 bq mk Reports
 echo
 
 # Instructions for running the query
-echo "${BLUE_TEXT}-----------------------------------------------------------------------------------------------------${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Running the BigQuery Query to Populate the 'Trees' Table in 'Reports' Dataset${RESET_FORMAT}"
-echo "${BLUE_TEXT}-----------------------------------------------------------------------------------------------------${RESET_FORMAT}"
 echo
 echo "${YELLOW_TEXT}---> ---> Executing the query...${RESET_FORMAT}"
 

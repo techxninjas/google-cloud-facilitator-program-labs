@@ -87,7 +87,7 @@ echo "${GREEN_TEXT}${BOLD_TEXT} If it will be not completed, try again for succe
 echo ""
 
 for i in {1..20}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/30 seconds to check your progress\r${RESET_FORMAT}"
+    echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds to check your progress\r${RESET_FORMAT}"
     sleep 1
 done
 echo

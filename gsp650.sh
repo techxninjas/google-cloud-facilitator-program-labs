@@ -25,7 +25,7 @@ echo ""
 
 # 🌍 Fetching Region
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
-export LOCATION=$(gcloud compute project-info describe \
+export REGION=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-region])")
 echo ""
 

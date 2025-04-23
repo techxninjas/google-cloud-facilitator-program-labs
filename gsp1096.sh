@@ -53,27 +53,27 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
 
 # Create GCS bucket
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Google Cloud Storage bucket${RESET}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Google Cloud Storage bucket${RESET_FORMAT}"
 gcloud storage buckets create gs://$GOOGLE_CLOUD_PROJECT --location=$REGION
 echo ""
 
 # Copy 'drivers' folder from public GCS to your GCS bucket
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying 'drivers' folder to your GCS bucket${RESET}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying 'drivers' folder to your GCS bucket${RESET_FORMAT}"
 gcloud storage cp -r gs://configuring-singlestore-on-gcp/drivers gs://$GOOGLE_CLOUD_PROJECT
 echo ""
 
 # Copy 'trips' folder from public GCS to your GCS bucket
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying 'trips' folder to your GCS bucket${RESET}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying 'trips' folder to your GCS bucket${RESET_FORMAT}"
 gcloud storage cp -r gs://configuring-singlestore-on-gcp/trips gs://$GOOGLE_CLOUD_PROJECT
 echo ""
 
 # Copy 'neighborhoods.csv' to your GCS bucket
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying 'neighborhoods.csv' file to your GCS bucket${RESET}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying 'neighborhoods.csv' file to your GCS bucket${RESET_FORMAT}"
 gcloud storage cp gs://configuring-singlestore-on-gcp/neighborhoods.csv gs://$GOOGLE_CLOUD_PROJECT
 echo ""
 
 # Run Dataflow job to stream GCS JSON to Pub/Sub
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Running Dataflow job to stream JSON files from GCS to Pub/Sub${RESET}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Running Dataflow job to stream JSON files from GCS to Pub/Sub${RESET_FORMAT}"
 gcloud dataflow jobs run "GCStoPS-clone" \
   --gcs-location=gs://dataflow-templates-$REGION/latest/Stream_GCS_Text_to_Cloud_PubSub \
   --region=$REGION \
@@ -83,13 +83,13 @@ outputTopic=projects/$(gcloud config get-value project)/topics/Taxi
 echo ""
 
 # Pull messages from Pub/Sub subscription
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Pulling messages from 'Taxi-sub' Pub/Sub subscription${RESET}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Pulling messages from 'Taxi-sub' Pub/Sub subscription${RESET_FORMAT}"
 gcloud pubsub subscriptions pull projects/$(gcloud config get-value project)/subscriptions/Taxi-sub \
 --limit=10 --auto-ack
 echo ""
 
 # Run Dataflow Flex Template to stream Pub/Sub to GCS
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Running Dataflow Flex Template to write Pub/Sub messages to GCS${RESET}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Running Dataflow Flex Template to write Pub/Sub messages to GCS${RESET_FORMAT}"
 gcloud dataflow flex-template run pstogcs \
   --template-file-gcs-location=gs://dataflow-templates-$REGION/latest/flex/Cloud_PubSub_to_GCS_Text_Flex \
   --region=$REGION \
@@ -116,7 +116,7 @@ done
 echo
 
 remove_temp_files() {
-    echo "${YELLOW_TEXT}${BOLD_TEXT}Cleaning up temporary files...${RESET}"
+    echo "${YELLOW_TEXT}${BOLD_TEXT}Cleaning up temporary files...${RESET_FORMAT}"
     for file in *; do
         if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
             [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"

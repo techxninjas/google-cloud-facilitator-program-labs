@@ -64,7 +64,7 @@ echo "${YELLOW_TEXT}${BOLD_TEXT}---> Waiting for the VM instance to be ready...$
 echo "${YELLOW_TEXT}${BOLD_TEXT}This will take approximately 30 seconds...${RESET_FORMAT}"
 echo
 
-for i in {1..20}; do
+for i in {1..30}; do
     echo -ne "${CYAN_TEXT}⏳ ${i}/30 seconds for execution...\r${RESET_FORMAT}"
     sleep 1
 done
@@ -102,7 +102,7 @@ echo "${GREEN_TEXT}${BOLD_TEXT} If it will be not completed, try again for succe
 echo ""
 
 for i in {1..20}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/30 seconds to check your progress\r${RESET_FORMAT}"
+    echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds to check your progress\r${RESET_FORMAT}"
     sleep 1
 done
 echo

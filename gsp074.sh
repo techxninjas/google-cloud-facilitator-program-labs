@@ -79,8 +79,14 @@ echo "${GREEN_TEXT}${BOLD}🎉==================================================
 echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your progress."
 echo "${GREEN_TEXT}${BOLD_TEXT} If it will be not completed, try again for successfully completion of the Assessment."
-sleep 10
+sleep 20
 echo ""
+
+for i in {1..30}; do
+    echo -ne "${CYAN_TEXT}⏳ ${i}/30 seconds to check your progress\r${RESET_FORMAT}"
+    sleep 1
+done
+echo
 
 remove_temp_files() {
     echo "${YELLOW_TEXT}${BOLD}Cleaning up temporary files...${RESET}"

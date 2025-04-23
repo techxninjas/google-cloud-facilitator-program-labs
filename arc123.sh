@@ -62,6 +62,7 @@ echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the 'Big Query Connection API'${RESET_FORMAT}"
 gcloud services enable bigqueryconnection.googleapis.com
+echo ""
 
 echo "${YELLOW_TEXT}---> ---> Executing: ${BOLD_TEXT}bq mk Connections${RESET_FORMAT}"
 bq mk --connection --location=$REGION --project_id=$DEVSHELL_PROJECT_ID \

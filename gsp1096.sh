@@ -100,7 +100,7 @@ outputFilenamePrefix=output
 echo ""
 
 for i in {1..20}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds to running Pub/Sub messages...\r${RESET_FORMAT}"
+    echo -ne "${CYAN_TEXT}⏳ Waiting ${i}/20 seconds to running Pub/Sub messages...\r${RESET_FORMAT}"
     sleep 1
 done
 echo ""

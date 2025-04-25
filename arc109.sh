@@ -53,13 +53,16 @@ echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Enabling the API Gateway service...${RESET_FORMAT}"
 gcloud services enable apigateway.googleapis.com --project=$DEVSHELL_PROJECT_ID
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Waiting for the service to be enabled...${RESET_FORMAT}"
 sleep 15
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Creating a directory for the Cloud Function...${RESET_FORMAT}"
 mkdir lol
 cd lol
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Creating the initial Cloud Function files...${RESET_FORMAT}"
 cat > index.js <<EOF
@@ -107,9 +110,11 @@ fi
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Deploying the initial Cloud Function...${RESET_FORMAT}"
 gcloud functions deploy GCFunction --region=$REGION --runtime=nodejs22 --trigger-http --gen2 --allow-unauthenticated --entry-point=helloWorld --max-instances 5 --source=./
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Creating a Pub/Sub topic...${RESET_FORMAT}"
 gcloud pubsub topics create demo-topic
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Updating the Cloud Function to include Pub/Sub integration...${RESET_FORMAT}"
 cat > index.js <<EOF_CP
@@ -139,9 +144,11 @@ cat > package.json <<EOF_CP
     }
 }
 EOF_CP
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Redeploying the updated Cloud Function...${RESET_FORMAT}"
 gcloud functions deploy GCFunction --region=$REGION --runtime=nodejs22 --trigger-http --gen2 --allow-unauthenticated --entry-point=helloWorld --max-instances 5 --source=./
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Creating the OpenAPI specification file...${RESET_FORMAT}"
 cat > openapispec.yaml <<EOF_CP
@@ -167,18 +174,23 @@ paths:
                     schema:
                         type: string
 EOF_CP
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Fetching the project number again...${RESET_FORMAT}"
 export PROJECT_NUMBER=$(gcloud projects describe $DEVSHELL_PROJECT_ID --format="value(projectNumber)")
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Generating a unique API ID...${RESET_FORMAT}"
 export API_ID="gcfunction-api-$(cat /dev/urandom | tr -dc 'a-z' | fold -w ${1:-8} | head -n 1)"
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Creating the API Gateway...${RESET_FORMAT}"
 gcloud api-gateway apis create $API_ID --project=$DEVSHELL_PROJECT_ID
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Creating the API configuration...${RESET_FORMAT}"
 gcloud api-gateway api-configs create gcfunction-api --api=$API_ID --openapi-spec=openapispec.yaml --project=$DEVSHELL_PROJECT_ID --backend-auth-service-account=$PROJECT_NUMBER-compute@developer.gserviceaccount.com
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}--->Deploying the API Gateway...${RESET_FORMAT}"
 gcloud api-gateway gateways create gcfunction-api --api=$API_ID --api-config=gcfunction-api --location=$REGION --project=$DEVSHELL_PROJECT_ID

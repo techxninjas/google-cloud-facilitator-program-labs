@@ -24,7 +24,7 @@ echo ""
 
 # 🌍 Fetching Region
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
-export REGION=$(gcloud compute project-info describe \
+export LOCATION=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-region])")
 echo ""
 
@@ -60,20 +60,20 @@ echo ""
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Create Dataplex Lake...${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT}   Creating Dataplex Lake 'customer-engagements' in location ${REGION}  ${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}   Creating Dataplex Lake 'customer-engagements' in location ${LOCATION}  ${RESET_FORMAT}"
 echo ""
 
 gcloud dataplex lakes create customer-engagements \
-   --location=$REGION \
+   --location=$LOCATION \
    --display-name="Customer Engagements"
 echo ""
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Create Dataplex Zone...${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT}  Creating Dataplex Zone 'raw-event-data' in location ${REGION}  ${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}  Creating Dataplex Zone 'raw-event-data' in location ${LOCATION}  ${RESET_FORMAT}"
 echo
 gcloud dataplex zones create raw-event-data \
-    --location=$REGION \
+    --location=$LOCATION \
     --lake=customer-engagements \
     --display-name="Raw Event Data" \
     --type=RAW \
@@ -82,18 +82,18 @@ gcloud dataplex zones create raw-event-data \
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Create Storage Bucket...${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT} Creating storage bucket 'gs://$ID' in location ${REGION} for the project '${ID}'  ${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT} Creating storage bucket 'gs://$ID' in location ${LOCATION} for the project '${ID}'  ${RESET_FORMAT}"
 echo
-gsutil mb -p $ID -c REGIONAL -l $REGION gs://$ID
+gsutil mb -p $ID -c REGIONAL -l $LOCATION gs://$ID
 echo ""
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Create Dataplex Asset...${RESET_FORMAT}"
-echo "${YELLOW_TEXT}${BOLD_TEXT} Creating Dataplex Asset 'raw-event-files' in location ${REGION}   ${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT} Creating Dataplex Asset 'raw-event-files' in location ${LOCATION}   ${RESET_FORMAT}"
 echo ""
 
 gcloud dataplex assets create raw-event-files \
---location=$REGION \
+--location=$LOCATION \
 --lake=customer-engagements \
 --zone=raw-event-data \
 --display-name="Raw Event Files" \

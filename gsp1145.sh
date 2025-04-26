@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}------------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}                      Dataplex: Qwik Start - Console                  ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}                             Tagging Dataplex Assets                    ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}------------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

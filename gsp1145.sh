@@ -104,8 +104,15 @@ echo ""
 gcloud data-catalog tag-templates create protected_data_template --location=$REGION --field=id=protected_data_flag,display-name="Protected Data Flag",type='enum(YES|NO)' --display-name="Protected Data Template"
 echo ""
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Click here: ${RESET_FORMAT}""${WHITE_TEXT}${BOLD_TEXT}https://console.cloud.google.com/dataplex/search?project=$DEVSHELL_PROJECT_ID&qSystems=DATAPLEX${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}Click here for next steps: ${RESET_FORMAT}""${WHITE_TEXT}${BOLD_TEXT}https://console.cloud.google.com/dataplex/search?project=$DEVSHELL_PROJECT_ID&qSystems=DATAPLEX${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}See the video for next steps${RESET_FORMAT}"
 echo ""
+
+for i in {1..90}; do
+    echo -ne "${CYAN_TEXT}⏳ ${i}/90 seconds elapsed to do the next steps that is showing to VIDEO.\r${RESET_FORMAT}"
+    sleep 1
+done
+echo
 
 # ✅ Completion Message
 echo

@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}------------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}                             Tagging Dataplex Assets                    ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}                 Get Started with Dataplex: Challenge Lab                ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}------------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

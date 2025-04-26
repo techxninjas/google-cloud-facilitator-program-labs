@@ -52,42 +52,42 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
 
 # Enable Dataplex API
-echo "${BOLD_TEXT}${CYAN_TEXT}Enabling Dataplex API...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling Dataplex API...${RESET_FORMAT}"
 gcloud services enable dataplex.googleapis.com
 
 # Create Dataplex Lake
-echo "${BOLD_TEXT}${CYAN_TEXT}Creating Dataplex Lake 'sensors'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Dataplex Lake 'sensors'...${RESET_FORMAT}"
 gcloud alpha dataplex lakes create sensors \
  --location=$REGION \
  --labels=k1=v1,k2=v2,k3=v3 
 
 # Create Dataplex Zone
-echo "${BOLD_TEXT}${CYAN_TEXT}Creating Dataplex Zone 'temperature-raw-data'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Dataplex Zone 'temperature-raw-data'...${RESET_FORMAT}"
 gcloud alpha dataplex zones create temperature-raw-data \
             --location=$REGION --lake=sensors \
             --resource-location-type=SINGLE_REGION --type=RAW
 
 # Create Storage Bucket
-echo "${BOLD_TEXT}${CYAN_TEXT}Creating a Storage Bucket...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a Storage Bucket...${RESET_FORMAT}"
 gsutil mb -l $REGION gs://$DEVSHELL_PROJECT_ID
 
 # Create Dataplex Asset
-echo "${BOLD_TEXT}${CYAN_TEXT}Creating Dataplex Asset 'measurements'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Dataplex Asset 'measurements'...${RESET_FORMAT}"
 gcloud dataplex assets create measurements --location=$REGION \
             --lake=sensors --zone=temperature-raw-data \
             --resource-type=STORAGE_BUCKET \
             --resource-name=projects/$DEVSHELL_PROJECT_ID/buckets/$DEVSHELL_PROJECT_ID
 
 # Cleanup: Delete Dataplex Asset
-echo "${BOLD_TEXT}${RED_TEXT}Deleting Dataplex Asset 'measurements'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Deleting Dataplex Asset 'measurements'...${RESET_FORMAT}"
 gcloud dataplex assets delete measurements --zone=temperature-raw-data --lake=sensors --location=$REGION --quiet
 
 # Cleanup: Delete Dataplex Zone
-echo "${BOLD_TEXT}${RED_TEXT}Deleting Dataplex Zone 'temperature-raw-data'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Deleting Dataplex Zone 'temperature-raw-data'...${RESET_FORMAT}"
 gcloud dataplex zones delete temperature-raw-data --lake=sensors --location=$REGION --quiet
 
 # Cleanup: Delete Dataplex Lake
-echo "${BOLD_TEXT}${RED_TEXT}Deleting Dataplex Lake 'sensors'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Deleting Dataplex Lake 'sensors'...${RESET_FORMAT}"
 gcloud dataplex lakes delete sensors --location=$REGION --quiet
 
 

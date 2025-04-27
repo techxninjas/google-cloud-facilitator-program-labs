@@ -84,7 +84,7 @@ curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Co
 
 # Instructions before Step 5
 echo ""
-echo "${GREEN_TEXT}${BOLD_TEXT}---> Bucket2 has been created. Now Downloading the world.jpeg file.${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}---> Bucket2 has been created. Now Downloading the techxninjas.jpeg file.${RESET_FORMAT}"
 echo ""
 
 # Step 5: Download the image file
@@ -97,14 +97,14 @@ echo "${GREEN_TEXT}${BOLD_TEXT}---> Image file has been downloaded. Now Uploadin
 echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Uploading the image file to bucket1...${RESET_FORMAT}"
-curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: image/jpeg" --data-binary @world.jpeg "https://storage.googleapis.com/upload/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o?uploadType=media&name=world.jpeg"
+curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: image/jpeg" --data-binary @techxninjas.jpeg "https://storage.googleapis.com/upload/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o?uploadType=media&name=techxninjas.jpeg"
 
 echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT}---> Image has been uploaded to bucket1. Now copying it to bucket2.${RESET_FORMAT}"
 echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying the image from bucket1 to bucket2...${RESET_FORMAT}"
-curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" --data '{"destination": "$DEVSHELL_PROJECT_ID-bucket-2"}' "https://storage.googleapis.com/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o/world.jpeg/copyTo/b/$DEVSHELL_PROJECT_ID-bucket-2/o/world.jpeg"
+curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" --data '{"destination": "$DEVSHELL_PROJECT_ID-bucket-2"}' "https://storage.googleapis.com/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o/techxninjas.jpeg/copyTo/b/$DEVSHELL_PROJECT_ID-bucket-2/o/techxninjas.jpeg"
 
 echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT}---> Image copied to bucket2. Now Setting public access for image in bucket1.${RESET_FORMAT}"
@@ -118,14 +118,14 @@ cat > public_access.json <<EOF
 }
 EOF
 
-curl -X POST --data-binary @public_access.json -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" "https://storage.googleapis.com/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o/world.jpeg/acl"
+curl -X POST --data-binary @public_access.json -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" "https://storage.googleapis.com/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o/techxninjas.jpeg/acl"
 
 echo ""
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Public access set. Now Deleting the image from bucket1.${RESET_FORMAT}"
 echo ""
 
 echo "${BLUE_TEXT}${CYAN_TEXT}Deleting the image from bucket1...${RESET_FORMAT}"
-curl -X DELETE -H "Authorization: Bearer $(gcloud auth print-access-token)" "https://storage.googleapis.com/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o/world.jpeg"
+curl -X DELETE -H "Authorization: Bearer $(gcloud auth print-access-token)" "https://storage.googleapis.com/storage/v1/b/$DEVSHELL_PROJECT_ID-bucket-1/o/techxninjas.jpeg"
 
 echo ""
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Image deleted from bucket1. Now deleting bucket1.${RESET_FORMAT}"

@@ -39,8 +39,8 @@ export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(pro
 echo ""
 
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Pre-Requisuites...${RESET_FORMAT}"
-export TOPIC_ID=mypubsub
-export MESSAGE=Hello Google!
+export TOPIC_ID='mypubsub'
+export MESSAGE='Hello Google!'
 export BUCKET_NAME="${PROJECT_ID}-bucket"
 echo ""
 

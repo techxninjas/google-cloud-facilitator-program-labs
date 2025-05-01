@@ -23,15 +23,9 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
 
 # 🌍 Fetching Region
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
+echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Location...${RESET_FORMAT}"
 export LOCATION=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-region])")
-echo ""
-
-# 🗺️ Fetching Zone
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Zone...${RESET_FORMAT}"
-export ZONE=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-zone])")
 echo ""
 
 # 🆔 Fetching Project ID
@@ -51,21 +45,26 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-echo "${MAGENTA_TEXT}${BOLD_TEXT}Setting the compute region to the location you provided...${RESET_FORMAT}"
-gcloud config set compute/region $LOCATION
-
-echo "${MAGENTA_TEXT}${BOLD_TEXT}Creating a Cloud Storage bucket for your project...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Creating a Cloud Storage bucket for your project...${RESET_FORMAT}"
 gsutil mb gs://$DEVSHELL_PROJECT_ID-bucket/
 
-echo "${MAGENTA_TEXT}${BOLD_TEXT}Disabling the Dataflow API temporarily...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Disabling the Dataflow API temporarily...${RESET_FORMAT}"
 gcloud services disable dataflow.googleapis.com
-sleep 20
+for i in {1..20}; do
+    echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds waiting for the disabling...\r${RESET_FORMAT}"
+    sleep 1
+done
+echo ""
 
-echo "${MAGENTA_TEXT}${BOLD_TEXT}Re-enabling the Dataflow API. This may take a few moments...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Re-enabling the Dataflow API. This may take a few moments...${RESET_FORMAT}"
 gcloud services enable dataflow.googleapis.com
-sleep 20
+for i in {1..20}; do
+    echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds waiting for the re-enabling...\r${RESET_FORMAT}"
+    sleep 1
+done
+echo ""
 
-echo "${MAGENTA_TEXT}${BOLD_TEXT}Starting a Docker container to run the Apache Beam pipeline...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Starting a Docker container to run the Apache Beam pipeline...${RESET_FORMAT}"
 docker run -it -e DEVSHELL_PROJECT_ID=$DEVSHELL_PROJECT_ID -e LOCATION=$LOCATION python:3.9 /bin/bash -c '
 pip install "apache-beam[gcp]"==2.42.0 && \
 python -m apache_beam.examples.wordcount --output OUTPUT_FILE && \

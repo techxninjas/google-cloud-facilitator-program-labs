@@ -39,8 +39,6 @@ export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(pro
 echo ""
 
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Pre-Requisuites...${RESET_FORMAT}"
-export TOPIC_ID='mypubsub'
-export MESSAGE='Hello Google!'
 export BUCKET_NAME="${PROJECT_ID}-bucket"
 echo ""
 
@@ -50,25 +48,40 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter TOPIC Name of Task 1: ${RESET_FORMAT}" TOPIC_ID
+export TOPIC_ID=$TOPIC_ID
+echo "${GREEN_TEXT}${BOLD_TEXT}You entered TOPIC: ${RESET_FORMAT}${TOPIC_ID}"
+echo 
+
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter MESSAGE of Task 2: ${RESET_FORMAT}" MESSAGE
+export MESSAGE=$MESSAGE
+echo "${GREEN_TEXT}${BOLD_TEXT}You entered MESSAGE: ${RESET_FORMAT}${MESSAGE}"
+echo
+
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Disabling Dataflow API if already enabled...${RESET_FORMAT}"
 gcloud services disable dataflow.googleapis.com
+echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling required APIs: Dataflow and Cloud Scheduler...${RESET_FORMAT}"
 gcloud services enable dataflow.googleapis.com
 gcloud services enable cloudscheduler.googleapis.com
+echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a Cloud Storage bucket: ${RESET_FORMAT}gs://${BUCKET_NAME}"
 gsutil mb gs://$BUCKET_NAME
+echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Pub/Sub topic: ${RESET_FORMAT}${TOPIC_ID}"
 gcloud pubsub topics create $TOPIC_ID
+echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating App Engine application in region: ${RESET_FORMAT}${REGION}"
 gcloud app create --region=$REGION
+echo
 
-echo "${YELLOW_TEXT}${BOLD_TEXT}---> ---> Waiting 100 seconds for App Engine setup to complete...${RESET_FORMAT}"
-for i in {1..100}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/100 seconds elapsed\r${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}---> ---> Waiting 2 mins for App Engine setup to complete...${RESET_FORMAT}"
+for i in {1..120}; do
+    echo -ne "${CYAN_TEXT}⏳ ${i}/120 seconds elapsed\r${RESET_FORMAT}"
     sleep 1
 done
 echo ""
@@ -76,6 +89,7 @@ echo ""
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a Cloud Scheduler job to publish messages to the topic...${RESET_FORMAT}"
 gcloud scheduler jobs create pubsub pubsubcreationgsp --schedule="* * * * *" \
   --topic=$TOPIC_ID --message-body="$MESSAGE"
+echo
 
 echo "${YELLOW_TEXT}${BOLD_TEXT}---> ---> Waiting for the Scheduler job to be ready...${RESET_FORMAT}"
 for i in {1..20}; do

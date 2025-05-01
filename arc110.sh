@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}----------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}                 Dataflow Qwik Start - Python              ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}   Create a Streaming Data Lake on Cloud Storage: Challenge Lab  ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}----------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

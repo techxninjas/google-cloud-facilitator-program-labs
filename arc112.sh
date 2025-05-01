@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}           Getting Started with API Gateway: Challenge Lab             ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}                 App Engine: 3 Ways: Challenge Lab                     ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

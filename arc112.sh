@@ -57,27 +57,35 @@ echo ""
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the App Engine API${RESET_FORMAT}"
 gcloud services enable appengine.googleapis.com
 sleep 20
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> SSH into the lab-setup instance and enable the App Engine API${RESET_FORMAT}"
 gcloud compute ssh --zone "$ZONE" "lab-setup" --project "$DEVSHELL_PROJECT_ID" --quiet --command "gcloud services enable appengine.googleapis.com && git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git"
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Cloning the sample repository${RESET_FORMAT}"
 git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Navigating to the hello_world directory${RESET_FORMAT}"
 cd python-docs-samples/appengine/standard_python3/hello_world
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Updating the main.py file with the message${RESET_FORMAT}"
 sed -i "32c\    return \"$MESSAGE\"" main.py
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the App Engine app with specified service account and region${RESET_FORMAT}"
 gcloud app create --service-account=$DEVSHELL_PROJECT_ID@$DEVSHELL_PROJECT_ID.iam.gserviceaccount.com --region=$REGION
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Deploying the App Engine app${RESET_FORMAT}"
 gcloud app deploy --quiet
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> SSH into the lab-setup instance again${RESET_FORMAT}"
 gcloud compute ssh --zone "$ZONE" "lab-setup" --project "$DEVSHELL_PROJECT_ID" --quiet --command "gcloud services enable appengine.googleapis.com && git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git"
+echo ""
 
 # ✅ Completion Message
 echo

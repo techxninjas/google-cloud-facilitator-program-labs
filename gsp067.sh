@@ -52,21 +52,27 @@ echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the App Engine API${RESET_FORMAT}"
 gcloud services enable appengine.googleapis.com
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Cloning the repository${RESET_FORMAT}"
 git clone https://github.com/GoogleCloudPlatform/python-docs-samples.git
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Navigating to the hello_world directory${RESET_FORMAT}"
 cd python-docs-samples/appengine/standard_python3/hello_world
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Modifying the main.py file${RESET_FORMAT}"
 sed -i 's/Hello World!/Hello, Cruel World!/g' main.py
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the App Engine app${RESET_FORMAT}"
 gcloud app create --region=$REGION
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Deploying the app${RESET_FORMAT}"
 yes | gcloud app deploy
+echo ""
 
 # ✅ Completion Message
 echo

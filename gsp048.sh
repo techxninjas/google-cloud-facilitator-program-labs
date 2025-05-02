@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}       It Speaks! Create Synthetic Speech Using Text-to-Speech          ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}       Speech to Text Transcription with the Cloud Speech API        ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
@@ -80,6 +80,20 @@ export ZONE=$(gcloud compute instances list linux-instance --format 'csv[no-head
 gcloud compute scp prepare_disk.sh linux-instance:/tmp --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet
 
 gcloud compute ssh linux-instance --project=$DEVSHELL_PROJECT_ID --zone=$ZONE --quiet --command="bash /tmp/prepare_disk.sh"
+
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}=======================================================${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}              CHECK YOUR PROGRESS TILL TASK 3              ${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}=======================================================${RESET_FORMAT}"
+echo
+
+read -p "${RED_TEXT}${BOLD_TEXT}Have you checked the progress till TASK 3 (Y/N)?${RESET_FORMAT}" response
+
+if [[ "$response" =~ ^[Yy]$ ]]; then
+        echo "${GREEN_TEXT}Proceeding with next steps!${RESET_FORMAT}"
+else
+        echo "${RED_TEXT}Please check the progress before proceeding.${RESET_FORMAT}"
+fi
 
 cat > prepare_disk.sh <<'EOF_END'
 

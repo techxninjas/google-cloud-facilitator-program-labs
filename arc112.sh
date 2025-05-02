@@ -88,6 +88,7 @@ select_message
 # For debugging/confirmation
 echo ""
 echo "✅ Your lab's MESSAGE is: \"$MESSAGE\""
+echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the App Engine API${RESET_FORMAT}"
 gcloud services enable appengine.googleapis.com

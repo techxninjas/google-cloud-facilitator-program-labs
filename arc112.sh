@@ -76,6 +76,7 @@ select_message() {
       export MESSAGE="Goodbye World!"
       ;;
     *)
+      echo
       echo -e "${RED_TEXT}❗ Please provide the correct option (A, B, or C).${RESET_FORMAT}"
       select_message  # Recursively call until valid input
       ;;

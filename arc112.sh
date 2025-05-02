@@ -44,15 +44,49 @@ echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project Number..
 export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
 echo ""
 
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Pre-Requisuites...${RESET_FORMAT}"
-export MESSAGE='Welcome to this world!'
-echo ""
-
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...          ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
+
+# Function to prompt and export MESSAGE
+select_message() {
+  echo ""
+  echo -e "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Pre-Requisuites...${RESET_FORMAT}"
+  echo ""
+  echo "Choose which message was given in your Task 4. Kindly check your lab and enter the option and hit Enter:"
+  echo "A: \"Welcome to this world!\""
+  echo "B: \"Hello, Cruel World!\""
+  echo "C: \"Goodbye World!\""
+  read -p "Enter your option (A/B/C): " option
+
+  # Convert to lowercase
+  option=$(echo "$option" | tr '[:upper:]' '[:lower:]')
+
+  case "$option" in
+    a)
+      export MESSAGE="Welcome to this world!"
+      ;;
+    b)
+      export MESSAGE="Hello, Cruel World!"
+      ;;
+    c)
+      export MESSAGE="Goodbye World!"
+      ;;
+    *)
+      echo -e "${RED_TEXT}❗ Please provide the correct option (A, B, or C).${RESET_FORMAT}"
+      select_message  # Recursively call until valid input
+      ;;
+  esac
+}
+
+# Start selection
+select_message
+
+# For debugging/confirmation
+echo ""
+echo "✅ Your lab's MESSAGE is: \"$MESSAGE\""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the App Engine API${RESET_FORMAT}"
 gcloud services enable appengine.googleapis.com

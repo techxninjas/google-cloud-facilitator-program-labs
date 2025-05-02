@@ -55,11 +55,12 @@ select_message() {
   echo ""
   echo -e "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Pre-Requisuites...${RESET_FORMAT}"
   echo ""
-  echo "Choose which message was given in your Task 4. Kindly check your lab and enter the option and hit Enter:"
+  echo "${CYAN_TEXT}${BOLD_TEXT}Choose which message was given in your Task 4. Kindly check your lab and enter the option and hit Enter:${RESET_FORMAT}"
   echo "A: \"Welcome to this world!\""
   echo "B: \"Hello, Cruel World!\""
   echo "C: \"Goodbye World!\""
-  read -p "Enter your option (A/B/C): " option
+  echo
+  read -p "${GREEN_TEXT}${BOLD_TEXT}Enter your option (A/B/C): ${RESET_FORMAT}" option
 
   # Convert to lowercase
   option=$(echo "$option" | tr '[:upper:]' '[:lower:]')

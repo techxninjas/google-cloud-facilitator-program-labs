@@ -59,8 +59,9 @@ select_message() {
   echo "A: \"Welcome to this world!\""
   echo "B: \"Hello, Cruel World!\""
   echo "C: \"Goodbye World!\""
+  echo "D: If your lab MESSAGE is different from the above three options, type D and hit Enter to enter your MESSAGE."
   echo
-  read -p "${GREEN_TEXT}${BOLD_TEXT}Enter your option (A/B/C): ${RESET_FORMAT}" option
+  read -p "${GREEN_TEXT}${BOLD_TEXT}Enter your option (A/B/C/D): ${RESET_FORMAT}" option
 
   # Convert to lowercase
   option=$(echo "$option" | tr '[:upper:]' '[:lower:]')
@@ -74,6 +75,10 @@ select_message() {
       ;;
     c)
       export MESSAGE="Goodbye World!"
+      ;;
+    d)
+      read -p "Please enter your MESSAGE: " MESSAGE
+      export MESSAGE="$MESSAGE"
       ;;
     *)
       echo

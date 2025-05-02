@@ -50,8 +50,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-# Enable required Google Cloud services
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling required Google Cloud services${RESET_FORMAT}"
 gcloud services enable \
   artifactregistry.googleapis.com \
   cloudfunctions.googleapis.com \
@@ -61,42 +59,19 @@ gcloud services enable \
   logging.googleapis.com \
   osconfig.googleapis.com \
   pubsub.googleapis.com
-echo ""
 
-# Enable required Google Cloud services
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling required Google Cloud services${RESET_FORMAT}"
-gcloud services enable \
-  artifactregistry.googleapis.com \
-  cloudfunctions.googleapis.com \
-  cloudbuild.googleapis.com \
-  eventarc.googleapis.com \
-  run.googleapis.com \
-  logging.googleapis.com \
-  osconfig.googleapis.com \
-  pubsub.googleapis.com
-echo ""
+SERVICE_ACCOUNT=$(gsutil kms serviceaccount -p $PROJECT_NUMBER)
 
-# Grant Pub/Sub Publisher role to the KMS service account
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Granting Pub/Sub Publisher role to the KMS service account${RESET_FORMAT}"
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member serviceAccount:$SERVICE_ACCOUNT \
   --role roles/pubsub.publisher
-echo ""
 
-# Grant Eventarc Event Receiver role to the Compute Engine default service account
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Granting Eventarc Event Receiver role to the Compute Engine default service account${RESET_FORMAT}"
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member serviceAccount:$PROJECT_NUMBER-compute@developer.gserviceaccount.com \
   --role roles/eventarc.eventReceiver
-echo ""
 
-# Export the current IAM policy to a file
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Exporting current IAM policy to policy.yaml${RESET_FORMAT}"
 gcloud projects get-iam-policy $DEVSHELL_PROJECT_ID > policy.yaml
-echo ""
 
-# Append audit logging configuration to the IAM policy
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Appending audit logging configuration to policy.yaml${RESET_FORMAT}"
 cat <<EOF >> policy.yaml
 auditConfigs:
 - auditLogConfigs:
@@ -105,20 +80,11 @@ auditConfigs:
   - logType: DATA_WRITE
   service: compute.googleapis.com
 EOF
-echo ""
 
-# Set the updated IAM policy
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting the updated IAM policy from policy.yaml${RESET_FORMAT}"
 gcloud projects set-iam-policy $DEVSHELL_PROJECT_ID policy.yaml
-echo ""
 
-# Create and navigate to the hello-http directory
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating and navigating to the hello-http directory${RESET_FORMAT}"
 mkdir ~/hello-http && cd $_
-echo ""
 
-# Create the index.js file with the Cloud Function code
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating index.js with Cloud Function code${RESET_FORMAT}"
 cat > index.js <<EOF
 const functions = require('@google-cloud/functions-framework');
 
@@ -126,10 +92,7 @@ functions.http('helloWorld', (req, res) => {
   res.status(200).send('HTTP with Node.js in GCF 2nd gen!');
 });
 EOF
-echo ""
 
-# Create the package.json file with dependencies
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating package.json with dependencies${RESET_FORMAT}"
 cat > package.json <<EOF
 {
   "name": "nodejs-functions-gen2-codelab",
@@ -140,10 +103,7 @@ cat > package.json <<EOF
   }
 }
 EOF
-echo ""
 
-# Define a function to deploy the Cloud Function with retry logic
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Defining deploy_function with retry logic${RESET_FORMAT}"
 deploy_function() {
   while true; do
     echo "Attempting to deploy the Cloud Function..."
@@ -168,26 +128,15 @@ deploy_function() {
     fi
   done
 }
-echo ""
 
-# Call the deploy_function to deploy the Cloud Function
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Deploying the Cloud Function using deploy_function${RESET_FORMAT}"
+# Call the function
 deploy_function
-echo ""
 
-# Call the deployed Cloud Function
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Calling the deployed Cloud Function${RESET_FORMAT}"
 gcloud functions call nodejs-http-function \
   --gen2 --region $REGION
-echo ""
 
-# Create and navigate to the hello-storage directory
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating and navigating to the hello-storage directory${RESET_FORMAT}"
 mkdir ~/hello-storage && cd $_
-echo ""
 
-# Create the index.js file for the Cloud Storage-triggered function
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating index.js for Cloud Storage-triggered function${RESET_FORMAT}"
 cat > index.js <<EOF
 const functions = require('@google-cloud/functions-framework');
 
@@ -196,10 +145,7 @@ functions.cloudEvent('helloStorage', (cloudevent) => {
   console.log(cloudevent);
 });
 EOF
-echo ""
 
-# Create the package.json file with dependencies
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating package.json with dependencies${RESET_FORMAT}"
 cat > package.json <<EOF
 {
   "name": "nodejs-functions-gen2-codelab",
@@ -210,29 +156,23 @@ cat > package.json <<EOF
   }
 }
 EOF
-echo ""
 
-# Create a Cloud Storage bucket
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a Cloud Storage bucket${RESET_FORMAT}"
 BUCKET="gs://gcf-gen2-storage-$PROJECT_ID"
 gsutil mb -l $REGION $BUCKET
-echo ""
 
-# Define a function to deploy the Cloud Storage-triggered function with retry logic
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Defining deploy_function for Cloud Storage-triggered function${RESET_FORMAT}"
 deploy_function() {
   while true; do
     echo "Attempting to deploy the Cloud Function..."
     
-    gcloud functions deploy nodejs-storage-function \
-      --gen2 \
-      --runtime nodejs22 \
-      --entry-point helloStorage \
-      --source . \
-      --region $REGION \
-      --trigger-bucket $BUCKET \
-      --trigger-location $REGION \
-      --max-instances 1
+gcloud functions deploy nodejs-storage-function \
+  --gen2 \
+  --runtime nodejs22 \
+  --entry-point helloStorage \
+  --source . \
+  --region $REGION \
+  --trigger-bucket $BUCKET \
+  --trigger-location $REGION \
+  --max-instances 1
     
     if [ $? -eq 0 ]; then
       echo "Cloud Function deployed successfully!"
@@ -243,72 +183,255 @@ deploy_function() {
     fi
   done
 }
-echo ""
 
-# Call the deploy_function to deploy the Cloud Storage-triggered function
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Deploying the Cloud Storage-triggered function using deploy_function${RESET_FORMAT}"
+# Call the function
 deploy_function
-echo ""
 
-# Upload a file to trigger the Cloud Function
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Uploading a file to trigger the Cloud Function${RESET_FORMAT}"
 echo "Hello World" > random.txt
 gsutil cp random.txt $BUCKET/random.txt
-echo ""
 
-# Read logs from the Cloud Function
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Reading logs from the Cloud Function${RESET_FORMAT}"
 gcloud functions logs read nodejs-storage-function \
   --region $REGION --gen2 --limit=100 --format "value(log)"
-echo ""
 
-# Clone the eventarc-samples repository
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Cloning the eventarc-samples repository${RESET_FORMAT}"
 cd ~
 git clone https://github.com/GoogleCloudPlatform/eventarc-samples.git
-echo ""
 
-# Navigate to the gce-vm-labeler directory
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Navigating to the gce-vm-labeler directory${RESET_FORMAT}"
 cd ~/eventarc-samples/gce-vm-labeler/gcf/nodejs
-echo ""
 
-# Define a function to deploy the VM labeler function with retry logic
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Defining deploy_function for VM labeler function${RESET_FORMAT}"
 deploy_function() {
   while true; do
     echo "Attempting to deploy the Cloud Function..."
     
-    gcloud functions deploy gce-vm-labeler \
-      --gen2 \
-      --runtime nodejs22 \
-      --entry-point labelVmCreation \
-      --source . \
-      --region $REGION \
-     
+gcloud functions deploy gce-vm-labeler \
+  --gen2 \
+  --runtime nodejs22 \
+  --entry-point labelVmCreation \
+  --source . \
+  --region $REGION \
+  --trigger-event-filters="type=google.cloud.audit.log.v1.written,serviceName=compute.googleapis.com,methodName=beta.compute.instances.insert" \
+  --trigger-location $REGION \
+  --max-instances 1
+    
     if [ $? -eq 0 ]; then
-      echo "${GREEN_TEXT}${BOLD_TEXT}Cloud Function deployed successfully.${RESET_FORMAT}"
+      echo "Cloud Function deployed successfully!"
       break
     else
-      echo "${RED_TEXT}${BOLD_TEXT}Error deploying Cloud Function. Retrying...${RESET_FORMAT}"
-      sleep 10  # Retry after 10 seconds
+      echo "Deployment failed. Retrying in 30 seconds..."
+      sleep 30
     fi
   done
 }
 
-# Now, let's deploy the Cloud Function
+# Call the function
 deploy_function
 
-# Optionally, you can verify the deployment status
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Verifying the Cloud Function deployment${RESET_FORMAT}"
-gcloud functions describe gce-vm-labeler --region $REGION
+gcloud compute instances create instance-1 --project=$PROJECT_ID --zone=$ZONE --machine-type=e2-medium --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet=default --metadata=enable-osconfig=TRUE,enable-oslogin=true --maintenance-policy=MIGRATE --provisioning-model=STANDARD --service-account=$PROJECT_NUMBER-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/trace.append --create-disk=auto-delete=yes,boot=yes,device-name=instance-1,image=projects/debian-cloud/global/images/debian-12-bookworm-v20250311,mode=rw,size=10,type=pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=goog-ops-agent-policy=v2-x86-template-1-4-0,goog-ec-src=vm_add-gcloud --reservation-affinity=any && printf 'agentsRule:\n  packageState: installed\n  version: latest\ninstanceFilter:\n  inclusionLabels:\n  - labels:\n      goog-ops-agent-policy: v2-x86-template-1-4-0\n' > config.yaml && gcloud compute instances ops-agents policies create goog-ops-agent-v2-x86-template-1-4-0-$ZONE --project=$PROJECT_ID --zone=$ZONE --file=config.yaml && gcloud compute resource-policies create snapshot-schedule default-schedule-1 --project=$PROJECT_ID --region=$REGION --max-retention-days=14 --on-source-disk-delete=keep-auto-snapshots --daily-schedule --start-time=08:00 && gcloud compute disks add-resource-policies instance-1 --project=$PROJECT_ID --zone=$ZONE --resource-policies=projects/$PROJECT_ID/regions/$REGION/resourcePolicies/default-schedule-1
 
-# If necessary, you can test the function by invoking it manually
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Testing the deployed Cloud Function${RESET_FORMAT}"
-gcloud functions call gce-vm-labeler --region $REGION --data '{"vmName": "test-vm"}'
+gcloud compute instances describe instance-1 --zone $ZONE
 
-# Output success message
-echo "${GREEN_TEXT}${BOLD_TEXT}VM Labeler Function deployment and test complete.${RESET_FORMAT}"
+mkdir ~/hello-world-colored && cd $_
+
+touch requirements.txt
+cat > main.py <<EOF
+import os
+
+color = os.environ.get('COLOR')
+
+def hello_world(request):
+    return f'<body style="background-color:{color}"><h1>Hello World!</h1></body>'
+EOF
+
+deploy_function() {
+  while true; do
+    echo "Attempting to deploy the Cloud Function..."
+    
+COLOR=yellow
+gcloud functions deploy hello-world-colored \
+  --gen2 \
+  --runtime python39 \
+  --entry-point hello_world \
+  --source . \
+  --region $REGION \
+  --trigger-http \
+  --allow-unauthenticated \
+  --update-env-vars COLOR=$COLOR \
+  --max-instances 1 \
+  --quiet
+    
+    if [ $? -eq 0 ]; then
+      echo "Cloud Function deployed successfully!"
+      break
+    else
+      echo "Deployment failed. Retrying in 30 seconds..."
+      sleep 30
+    fi
+  done
+}
+
+# Call the function
+deploy_function
+
+mkdir ~/min-instances && cd $_
+touch main.go
+
+cat > main.go <<EOF_END
+package p
+
+import (
+        "fmt"
+        "net/http"
+        "time"
+)
+
+func init() {
+        time.Sleep(10 * time.Second)
+}
+
+func HelloWorld(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprint(w, "Slow HTTP Go in GCF 2nd gen!")
+}
+EOF_END
+
+echo "module example.com/mod" > go.mod
+
+deploy_function() {
+  while true; do
+    echo "Attempting to deploy the Cloud Function..."
+    
+gcloud functions deploy slow-function \
+  --gen2 \
+  --runtime go121 \
+  --entry-point HelloWorld \
+  --source . \
+  --region $REGION \
+  --trigger-http \
+  --allow-unauthenticated \
+  --max-instances 4
+    
+    if [ $? -eq 0 ]; then
+      echo "Cloud Function deployed successfully!"
+      break
+    else
+      echo "Deployment failed. Retrying in 30 seconds..."
+      sleep 30
+    fi
+  done
+}
+
+# Call the function
+deploy_function
+
+gcloud functions call slow-function \
+  --gen2 --region $REGION
+
+# Transform DEVSHELL_PROJECT_ID and REGION
+export spcl_project=$(echo "$DEVSHELL_PROJECT_ID" | sed 's/-/--/g; s/$/__/g')
+export my_region=$(echo "$REGION" | sed 's/-/--/g; s/$/__/g')
+
+# Build the final string
+export full_path="$REGION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/gcf-artifacts/$spcl_project$my_region"
+
+# Append the static part
+export full_path="${full_path}slow--function:version_1"
+
+gcloud run deploy slow-function \
+--image=$full_path \
+--min-instances=1 \
+--max-instances=4 \
+--region=$REGION \
+--project=$DEVSHELL_PROJECT_ID
+
+gcloud functions call slow-function \
+  --gen2 --region $REGION
+
+SLOW_URL=$(gcloud functions describe slow-function --region $REGION --gen2 --format="value(serviceConfig.uri)")
+
+hey -n 10 -c 10 $SLOW_URL
+
+# Function to prompt user to check their progress
+function check_progress {
+    while true; do
+        echo
+        echo "${YELLOW_TEXT}${BOLD_TEXT}PLEASE CHECK YOUR PROGRESS UPTO TASK 6. ${RESET_FORMAT}"
+        echo
+        echo -n "${BLUE_TEXT}${BOLD_TEXT}Have you checked your progress up to Task 6? (Y/N): ${RESET_FORMAT}"
+        read -r user_input
+        if [[ "$user_input" == "Y" || "$user_input" == "y" ]]; then
+            echo
+            echo "${GREEN_TEXT}${BOLD_TEXT}Great! Proceeding to the next steps...${RESET_FORMAT}"
+            echo
+            break
+        elif [[ "$user_input" == "N" || "$user_input" == "n" ]]; then
+            echo
+            echo "${RED_TEXT}${BOLD_TEXT}Please check your progress up to Task 6.${RESET_FORMAT}"
+        else
+            echo
+            echo "Invalid input. Please enter Y or N."
+        fi
+    done
+}
+
+# Call function to check progress before proceeding
+check_progress
+
+gcloud run services delete slow-function --region $REGION --quiet
+
+deploy_function() {
+  while true; do
+    echo "Attempting to deploy the Cloud Function..."
+    
+gcloud functions deploy slow-concurrent-function \
+  --gen2 \
+  --runtime go121 \
+  --entry-point HelloWorld \
+  --source . \
+  --region $REGION \
+  --trigger-http \
+  --allow-unauthenticated \
+  --min-instances 1 \
+  --max-instances 4 \
+  --quiet
+    
+    if [ $? -eq 0 ]; then
+      echo "Cloud Function deployed successfully!"
+      break
+    else
+      echo "Deployment failed. Retrying in 30 seconds..."
+      sleep 30
+    fi
+  done
+}
+
+# Call the function
+deploy_function
+
+# Transform DEVSHELL_PROJECT_ID and REGION
+export spcl_project=$(echo "$DEVSHELL_PROJECT_ID" | sed 's/-/--/g; s/$/__/g')
+export my_region=$(echo "$REGION" | sed 's/-/--/g; s/$/__/g')
+
+# Build the final string
+export full_path="$REGION-docker.pkg.dev/$DEVSHELL_PROJECT_ID/gcf-artifacts/$spcl_project$my_region"
+
+# Append the static part
+export full_path="${full_path}slow--concurrent--function:version_1"
+
+gcloud run deploy slow-concurrent-function \
+--image=$full_path \
+--concurrency=100 \
+--cpu=1 \
+--max-instances=4 \
+--set-env-vars=LOG_EXECUTION_ID=true \
+--region=$REGION \
+--project=$DEVSHELL_PROJECT_ID \
+ && gcloud run services update-traffic slow-concurrent-function --to-latest --region=$REGION
+
+SLOW_CONCURRENT_URL=$(gcloud functions describe slow-concurrent-function --region $REGION --gen2 --format="value(serviceConfig.uri)")
+
+hey -n 10 -c 10 $SLOW_CONCURRENT_URL
+echo
+
+echo "${YELLOW_TEXT}${BOLD_TEXT}CLICK HERE: ${RESET_FORMAT}""https://console.cloud.google.com/run/deploy/$REGION/slow-concurrent-function?project=$DEVSHELL_PROJECT_ID"
+echo
 
 # ✅ Completion Message
 echo

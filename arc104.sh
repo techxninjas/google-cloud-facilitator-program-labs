@@ -52,10 +52,11 @@ echo ""
 
 read -p "Enter Cloud Function Name: " FUNCTION_NAME
 export HTTP_FUNCTION=$HTTP_FUNCTION
-echo
+echo ""
 
 read -p "Enter HTTP Function Name: " HTTP_FUNCTION
 export FUNCTION_NAME=$FUNCTION_NAME
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the APIs...${RESET_FORMAT}"
 gcloud services enable \
@@ -68,17 +69,20 @@ gcloud services enable \
   pubsub.googleapis.com
 
 sleep 30
+echo ""
 
 SERVICE_ACCOUNT=$(gsutil kms serviceaccount -p $PROJECT_NUMBER)
 
 gcloud projects add-iam-policy-binding $DEVSHELL_PROJECT_ID \
   --member serviceAccount:$SERVICE_ACCOUNT \
   --role roles/pubsub.publisher
-echo
+echo ""
 
 gsutil mb -l $REGION gs://$DEVSHELL_PROJECT_ID
+echo ""
 
 export BUCKET="gs://$DEVSHELL_PROJECT_ID"
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating directory and files for cloud event trigger function...${RESET_FORMAT}"
 mkdir ~/$FUNCTION_NAME && cd $_
@@ -115,6 +119,7 @@ deploy_function() {
   --max-instances 2 \
   --quiet
 }
+echo ""
 
 # Loop until the Cloud Run service is created
 echo
@@ -148,7 +153,6 @@ functions.http('$HTTP_FUNCTION', (req, res) => {
 });
 EOF
 
-
 cat > package.json <<EOF
 {
   "name": "nodejs-functions-gen2-codelab",
@@ -173,6 +177,7 @@ deploy_function() {
   --min-instances 1 \
   --quiet
 }
+
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}Deploying HTTP function...${RESET_FORMAT}"
 echo

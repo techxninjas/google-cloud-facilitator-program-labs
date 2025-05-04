@@ -54,9 +54,6 @@ echo ""
 read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter Bucket Name: ${RESET_FORMAT}" BUCKET
 
 echo
-read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION: ${RESET_FORMAT}" REGION
-
-echo
 read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter Topic Name: ${RESET_FORMAT}" TOPIC
 
 echo

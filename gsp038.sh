@@ -65,6 +65,7 @@ for i in {1..20}; do
 done
 echo ""
 
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the API for further tasks...${RESET_FORMAT}"
 gcloud alpha services api-keys create --display-name="TechXNinjas" 
 KEY_NAME=$(gcloud alpha services api-keys list --format="value(name)" --filter "displayName=TechXNinjas")
 API_KEY=$(gcloud alpha services api-keys get-key-string $KEY_NAME --format="value(keyString)")

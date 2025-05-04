@@ -53,7 +53,6 @@ echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the prepare_disk.sh script...${RESET_FORMAT}"
 cat > prepare_disk.sh <<'EOF_END'
-echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the APIs...${RESET_FORMAT}"
 gcloud services enable apikeys.googleapis.com

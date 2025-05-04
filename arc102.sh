@@ -17,9 +17,9 @@ UNDERLINE_TEXT=$'\033[4m'
 clear
 
 # 💡 Start-Up Banner
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}    Store, Process, and Manage Data on Google Cloud - Command Line      ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}   Store, Process, and Manage Data on Google Cloud - Command Line: Challenge Lab   ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
 # 🌍 Fetching Region

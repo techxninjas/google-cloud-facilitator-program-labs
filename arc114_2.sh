@@ -51,16 +51,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE 2nd TASK EXECUTION...
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the APIs...${RESET_FORMAT}"
-gcloud services enable apikeys.googleapis.com
-echo ""
-
-for i in {1..20}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds waiting for enabling the APIs\r${RESET_FORMAT}"
-    sleep 1
-done
-echo ""
-
 read -p "${CYAN_TEXT}${BOLD_TEXT}Enter your API Key (See in the Video): ${RESET_FORMAT}" KEY_INPUT
 export API_KEY="$KEY_INPUT"
 

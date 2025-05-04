@@ -61,12 +61,11 @@ for i in {1..20}; do
 done
 echo ""
 
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the API for further tasks...${RESET_FORMAT}"
-gcloud alpha services api-keys create --display-name="TechXNinjas" 
-KEY_NAME=$(gcloud alpha services api-keys list --format="value(name)" --filter "displayName=TechXNinjas")
-API_KEY=$(gcloud alpha services api-keys get-key-string $KEY_NAME --format="value(keyString)")
-echo $API_KEY
-echo ""
+read -p "${CYAN_TEXT}${BOLD_TEXT}Enter your API Key (See in the Video): ${RESET_FORMAT}" KEY_INPUT
+export API_KEY="$KEY_INPUT"
+
+echo "${GREEN_TEXT}${BOLD_TEXT}API Key set successfully!${RESET_FORMAT}"
+echo
 
 cat > nl_request.json <<EOF_CP
 {

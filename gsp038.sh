@@ -53,10 +53,12 @@ echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the prepare_disk.sh script...${RESET_FORMAT}"
 cat > prepare_disk.sh <<'EOF_END'
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the APIs...${RESET_FORMAT}"
 gcloud services enable apikeys.googleapis.com
 gcloud alpha services api-keys create --display-name="awesome" 
+echo ""
 
 for i in {1..20}; do
     echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds waiting for enabling the APIs\r${RESET_FORMAT}"
@@ -67,6 +69,7 @@ echo ""
 KEY_NAME=$(gcloud alpha services api-keys list --format="value(name)" --filter "displayName=awesome")
 API_KEY=$(gcloud alpha services api-keys get-key-string $KEY_NAME --format="value(keyString)")
 echo $API_KEY
+echo ""
 
 touch request.json
 

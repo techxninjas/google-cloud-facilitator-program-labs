@@ -14,8 +14,6 @@ RESET_FORMAT=$'\033[0m'
 BOLD_TEXT=$'\033[1m'
 UNDERLINE_TEXT=$'\033[4m'
 
-clear
-
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}         Analyze Speech & Language with Google APIs: Challenge Lab         ${RESET_FORMAT}"

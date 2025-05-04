@@ -57,7 +57,6 @@ echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the APIs...${RESET_FORMAT}"
 gcloud services enable apikeys.googleapis.com
-gcloud alpha services api-keys create --display-name="awesome" 
 echo ""
 
 for i in {1..20}; do
@@ -66,7 +65,8 @@ for i in {1..20}; do
 done
 echo ""
 
-KEY_NAME=$(gcloud alpha services api-keys list --format="value(name)" --filter "displayName=awesome")
+gcloud alpha services api-keys create --display-name="TechXNinjas" 
+KEY_NAME=$(gcloud alpha services api-keys list --format="value(name)" --filter "displayName=TechXNinjas")
 API_KEY=$(gcloud alpha services api-keys get-key-string $KEY_NAME --format="value(keyString)")
 echo $API_KEY
 echo ""

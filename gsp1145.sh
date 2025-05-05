@@ -108,8 +108,8 @@ echo "${GREEN_TEXT}${BOLD_TEXT}Click here for next steps: ${RESET_FORMAT}""${WHI
 echo "${GREEN_TEXT}${BOLD_TEXT}See the video for next steps${RESET_FORMAT}"
 echo ""
 
-for i in {1..90}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/90 seconds elapsed to do the next steps that is showing to VIDEO.\r${RESET_FORMAT}"
+for i in {1..120}; do
+    echo -ne "${CYAN_TEXT}⏳ ${i} seconds of 2 minutes elapsed to do the next steps that is showing to VIDEO.\r${RESET_FORMAT}"
     sleep 1
 done
 echo

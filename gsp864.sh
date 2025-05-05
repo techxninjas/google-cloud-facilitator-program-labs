@@ -51,6 +51,8 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
+BUCKET_NAME="gs://${PROJECT_ID}-bucket"
+
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Cloning the synthtool repository...${RESET_FORMAT}"
 git clone https://github.com/googleapis/synthtool
 echo
@@ -84,8 +86,8 @@ cat inspected-file.txt
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Uploading inspected string and file to GCS bucket...${RESET_FORMAT}"
-gsutil cp inspected-string.txt gs://qwiklabs-gcp-02-799b0b4fe0b3-bucket
-gsutil cp inspected-file.txt gs://qwiklabs-gcp-02-799b0b4fe0b3-bucket
+gsutil cp inspected-string.txt $BUCKET_NAME
+gsutil cp inspected-file.txt $BUCKET_NAME
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> De-identifying sensitive info with masking...${RESET_FORMAT}"
@@ -97,7 +99,7 @@ cat de-identify-output.txt
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Uploading de-identified output to GCS...${RESET_FORMAT}"
-gsutil cp de-identify-output.txt gs://qwiklabs-gcp-02-799b0b4fe0b3-bucket
+gsutil cp de-identify-output.txt $BUCKET_NAME
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Redacting a credit card number from text...${RESET_FORMAT}"
@@ -117,9 +119,9 @@ node redactImage.js $PROJECT_ID resources/test.png "" EMAIL_ADDRESS ./redacted-e
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Uploading redacted outputs to GCS bucket...${RESET_FORMAT}"
-gsutil cp redacted-string.txt gs://qwiklabs-gcp-02-799b0b4fe0b3-bucket
-gsutil cp redacted-phone.png gs://qwiklabs-gcp-02-799b0b4fe0b3-bucket
-gsutil cp redacted-email.png gs://qwiklabs-gcp-02-799b0b4fe0b3-bucket
+gsutil cp redacted-string.txt $BUCKET_NAME
+gsutil cp redacted-phone.png $BUCKET_NAME
+gsutil cp redacted-email.png $BUCKET_NAME
 echo
 
 # ✅ Completion Message

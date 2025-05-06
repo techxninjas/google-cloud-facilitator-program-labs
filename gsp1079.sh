@@ -22,12 +22,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}                  Continuous Delivery with Google 
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-# 🌍 Fetching Region
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
-export REGION=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-region])")
-echo ""
-
 # 🗺️ Fetching Zone
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Zone...${RESET_FORMAT}"
 export ZONE=$(gcloud compute project-info describe \
@@ -51,6 +45,7 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
+export REGION="${ZONE%-*}"
 gcloud config set compute/region $REGION
 
 echo -e "${BLUE_TEXT}${BOLD_TEXT}---> Enabling required Google Cloud services for deployment...${RESET_FORMAT}"

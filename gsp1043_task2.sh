@@ -44,7 +44,7 @@ echo ""
 echo
 echo "${MAGENTA_TEXT}${BOLD_TEXT}---> Getting User ID...${RESET_FORMAT}"
 echo
-read -p "Please enter Customer users: " TWIN_USER
+read -p "Please enter Customer user: " TWIN_USER
 export TWIN_USER="$TWIN_USER"
 echo
 

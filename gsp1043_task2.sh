@@ -75,7 +75,7 @@ bq update --source=updated_dataset.json $DEVSHELL_PROJECT_ID:data_publisher_data
 
 # Step 6: Create IAM Policy File
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating IAM Policy File for authorized_view${RESET_FORMAT}"
-cat <<EOF > policy.json
+cat <EOF > policy.json
 {
   "bindings": [
     {

@@ -22,6 +22,18 @@ echo "${CYAN_TEXT}${BOLD_TEXT}                   BigQuery Soccer Data Analytical
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
+ # 🆔 Fetching Project ID
+ echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project ID...${RESET_FORMAT}"
+ PROJECT_ID=`gcloud config get-value project`
+ echo ""
+ 
+ # 🔢 Fetching Project Number
+ echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project Number...${RESET_FORMAT}"
+ export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
+ echo ""
+ echo ""
+
+
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...          ${RESET_FORMAT}"

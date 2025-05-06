@@ -48,54 +48,37 @@ read -p "Please enter Customer (Data Twin) Username: " TWIN_USERNAME
 export TWIN_USERNAME="$TWIN_USERNAME"
 echo
 
-# Step 2: Create Authorized View in Data Publisher Dataset
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Authorized View in Data Publisher Dataset${RESET_FORMAT}"
-bq mk \
---use_legacy_sql=false \
---view "SELECT * FROM \`${PROJECT_ID}.demo_dataset.authorized_table\` WHERE state_code = 'NY' LIMIT 1000" \
-${DEVSHELL_PROJECT_ID}:data_publisher_dataset.authorized_view
-echo ""
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating authorized view to access shared data...${RESET_FORMAT}"
+echo "${GREEN_TEXT}This will create a view that filters records to only show New York (NY) state data.${RESET_FORMAT}"
+echo
 
-# Step 3: Show Dataset Info
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Showing Dataset Info for data_publisher_dataset${RESET_FORMAT}"
-bq show --format=prettyjson $DEVSHELL_PROJECT_ID:data_publisher_dataset > temp_dataset.json
-echo ""
+cat > view.py <<EOF_CP
+from google.cloud import bigquery
+client = bigquery.Client()
+source_dataset_id = "data_publisher_dataset"
+source_dataset_id_full = "{}.{}".format(client.project, source_dataset_id)
+source_dataset = bigquery.Dataset(source_dataset_id_full)
+view_id_a = "$DEVSHELL_PROJECT_ID.data_publisher_dataset.authorized_view"
+view_a = bigquery.Table(view_id_a)
+view_a.view_query = f"SELECT * FROM \`$SHARED_ID.demo_dataset.authorized_table\` WHERE state_code='NY' LIMIT 1000"
+view_a = client.create_table(view_a)
+access_entries = source_dataset.access_entries
+access_entries.append(
+bigquery.AccessEntry(None, "view", view_a.reference.to_api_repr())
+)
+source_dataset.access_entries = access_entries
+source_dataset = client.update_dataset(
+source_dataset, ["access_entries"]
+)
 
-# Step 4: Add View Access to Dataset
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Adding View Access to Dataset${RESET_FORMAT}"
-jq ".access += [{
-  \"view\": {
-    \"datasetId\": \"data_publisher_dataset\",
-    \"projectId\": \"${DEVSHELL_PROJECT_ID}\",
-    \"tableId\": \"authorized_view\"
-  }
-}]" temp_dataset.json > updated_dataset.json
-echo ""
+print(f"Created {view_a.table_type}: {str(view_a.reference)}")
+EOF_CP
 
-# Step 5: Update Dataset Permissions
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Updating Dataset Permissions${RESET_FORMAT}"
-bq update --source=updated_dataset.json $DEVSHELL_PROJECT_ID:data_publisher_dataset
-echo ""
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Executing Python code to create the authorized view...${RESET_FORMAT}"
+echo
 
-# Step 6: Create IAM Policy File
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating IAM Policy File for authorized_view${RESET_FORMAT}"
-cat <EOF > policy.json
-{
-  "bindings": [
-    {
-      "members": [
-        "user:${TWIN_USERNAME}"
-      ],
-      "role": "roles/bigquery.dataViewer"
-    }
-  ]
-}
-EOF
-
-# Step 7: Set IAM Policy on the View
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting IAM Policy on authorized_view${RESET_FORMAT}"
-bq set-iam-policy ${DEVSHELL_PROJECT_ID}:data_publisher_dataset.authorized_view policy.json
-echo ""
+python3 view.py
+echo
 
 # ✅ Completion Message
 echo

@@ -51,6 +51,8 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
+gcloud config set compute/region $REGION
+
 echo -e "${BLUE_TEXT}${BOLD_TEXT}---> Enabling required Google Cloud services for deployment...${RESET_FORMAT}"
 gcloud services enable \
 container.googleapis.com \
@@ -111,6 +113,8 @@ gcloud artifacts docker images list \
   --include-tags \
   --format yaml
 echo ""
+
+gcloud config set deploy/region $REGION
 
 # Create the Cloud Deploy delivery pipeline
 echo -e "${BLUE_TEXT}${BOLD_TEXT}---> Creating the Cloud Deploy delivery pipeline configuration...${RESET_FORMAT}"

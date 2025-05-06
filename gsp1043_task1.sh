@@ -44,7 +44,7 @@ echo ""
 echo
 echo "${MAGENTA_TEXT}${BOLD_TEXT}---> Getting User IDs...${RESET_FORMAT}"
 echo
-read -p "Please enter Data Data Publisher Username: " PUBLISHER_USERNAME
+read -p "Please enter Data Publisher Username: " PUBLISHER_USERNAME
 echo
 read -p "Please enter Customer (Data Twin) Username: " TWIN_USERNAME
 export PUBLISHER_USERNAME="$PUBLISHER_USERNAME"

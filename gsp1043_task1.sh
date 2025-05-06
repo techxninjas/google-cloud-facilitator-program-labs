@@ -115,7 +115,7 @@ bq set-iam-policy ${PROJECT_ID}:${DATASET}.${TABLE} policy.json
 # ✅ Completion Message
 echo
 echo "${GREEN_TEXT}${BOLD_TEXT}🎉===========================================================${RESET_FORMAT}"
-echo "${GREEN_TEXT}${BOLD_TEXT}               ✅ ALL TASKS COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}               ✅ 1st TASK COMPLETED SUCCESSFULLY!            ${RESET_FORMAT}"
 echo "${GREEN_TEXT}${BOLD_TEXT}🎉===========================================================${RESET_FORMAT}"
 echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your progress."
@@ -142,7 +142,7 @@ echo ""
 # ✅ Completion Message
 echo
 echo "${GREEN_TEXT}${BOLD_TEXT}🎉===========================================================${RESET_FORMAT}"
-echo "${GREEN_TEXT}${BOLD_TEXT}             Now, Login with Data Publisher Username         ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}      Now, See the Video Carefully to do remaining Tasks      ${RESET_FORMAT}"
 echo "${GREEN_TEXT}${BOLD_TEXT}🎉===========================================================${RESET_FORMAT}"
 echo ""
 

@@ -44,11 +44,11 @@ echo ""
 echo
 echo "${MAGENTA_TEXT}${BOLD_TEXT}---> Getting User IDs...${RESET_FORMAT}"
 echo
-read -p "Please enter Data Publisher: " PUB_USER
+read -p "Please enter Data Data Publisher Username: " PUBLISHER_USERNAME
 echo
-read -p "Please enter Customer users: " TWIN_USER
-export PUB_USER="$PUB_USER"
-export TWIN_USER="$TWIN_USER"
+read -p "Please enter Customer (Data Twin) Username: " TWIN_USERNAME
+export PUBLISHER_USERNAME="$PUBLISHER_USERNAME"
+export TWIN_USERNAME="$TWIN_USERNAME"
 echo
 
 # Step 2: Create BigQuery Table
@@ -80,11 +80,11 @@ echo "${BOLD_TEXT}${YELLOW}Modifying Dataset Access Policy...${RESET_FORMAT}"
 jq ".access += [
   {
     \"role\": \"READER\",
-    \"userByEmail\": \"${PUB_USER}\"
+    \"userByEmail\": \"${PUBLISHER_USERNAME}\"
   },
   {
     \"role\": \"READER\",
-    \"userByEmail\": \"${TWIN_USER}\"
+    \"userByEmail\": \"${TWIN_USERNAME}\"
   }
 ]" temp_dataset.json > updated_dataset.json
 
@@ -99,8 +99,8 @@ cat <<EOF > policy.json
   "bindings": [
     {
       "members": [
-        "user:${PUB_USER}",
-        "user:${TWIN_USER}"
+        "user:${PUBLISHER_USERNAME}",
+        "user:${TWIN_USERNAME}"
       ],
       "role": "roles/bigquery.dataViewer"
     }
@@ -111,13 +111,6 @@ EOF
 # Step 7: Set IAM Policy on Table
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting IAM Policy on Table...${RESET_FORMAT}"
 bq set-iam-policy ${PROJECT_ID}:${DATASET}.${TABLE} policy.json
-
-
-# Step 8: Prompt to Login with Publisher Account
-echo
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Now, Login with Data Publisher Username...${RESET_FORMAT}"
-
-cd
 
 # ✅ Completion Message
 echo
@@ -149,7 +142,7 @@ echo ""
 # ✅ Completion Message
 echo
 echo "${GREEN_TEXT}${BOLD_TEXT}🎉===========================================================${RESET_FORMAT}"
-echo "${GREEN_TEXT}${BOLD_TEXT}          ✅ YOU'VE SUCCESSFULLY COMPLETED THE LAB!          ${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}             Now, Login with Data Publisher Username         ${RESET_FORMAT}"
 echo "${GREEN_TEXT}${BOLD_TEXT}🎉===========================================================${RESET_FORMAT}"
 echo ""
 

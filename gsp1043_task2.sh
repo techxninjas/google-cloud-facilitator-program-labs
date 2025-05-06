@@ -23,16 +23,16 @@ echo "${CYAN_TEXT}${BOLD_TEXT}  Task 2. Create an authorized view in the Data Pu
 echo "${CYAN_TEXT}${BOLD_TEXT}---------------------------------------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
- # 🆔 Fetching Project ID
- echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project ID...${RESET_FORMAT}"
- PROJECT_ID=`gcloud config get-value project`
- echo ""
- 
- # 🔢 Fetching Project Number
- echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project Number...${RESET_FORMAT}"
- export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
- echo ""
- echo ""
+# 🆔 Fetching Project ID
+echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project ID...${RESET_FORMAT}"
+PROJECT_ID=`gcloud config get-value project`
+echo ""
+
+# 🔢 Fetching Project Number
+echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project Number...${RESET_FORMAT}"
+export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
+echo ""
+echo ""
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
@@ -54,10 +54,12 @@ bq mk \
 --use_legacy_sql=false \
 --view "SELECT * FROM \`${PROJECT_ID}.demo_dataset.authorized_table\` WHERE state_code = 'NY' LIMIT 1000" \
 ${DEVSHELL_PROJECT_ID}:data_publisher_dataset.authorized_view
+echo ""
 
 # Step 3: Show Dataset Info
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Showing Dataset Info for data_publisher_dataset${RESET_FORMAT}"
 bq show --format=prettyjson $DEVSHELL_PROJECT_ID:data_publisher_dataset > temp_dataset.json
+echo ""
 
 # Step 4: Add View Access to Dataset
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Adding View Access to Dataset${RESET_FORMAT}"
@@ -68,10 +70,12 @@ jq ".access += [{
     \"tableId\": \"authorized_view\"
   }
 }]" temp_dataset.json > updated_dataset.json
+echo ""
 
 # Step 5: Update Dataset Permissions
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Updating Dataset Permissions${RESET_FORMAT}"
 bq update --source=updated_dataset.json $DEVSHELL_PROJECT_ID:data_publisher_dataset
+echo ""
 
 # Step 6: Create IAM Policy File
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating IAM Policy File for authorized_view${RESET_FORMAT}"
@@ -91,6 +95,7 @@ EOF
 # Step 7: Set IAM Policy on the View
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting IAM Policy on authorized_view${RESET_FORMAT}"
 bq set-iam-policy ${DEVSHELL_PROJECT_ID}:data_publisher_dataset.authorized_view policy.json
+echo ""
 
 # ✅ Completion Message
 echo

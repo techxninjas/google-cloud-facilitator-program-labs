@@ -44,8 +44,8 @@ echo ""
 echo
 echo "${MAGENTA_TEXT}${BOLD_TEXT}---> Getting User ID...${RESET_FORMAT}"
 echo
-read -p "Please enter Customer user: " TWIN_USER
-export TWIN_USER="$TWIN_USER"
+read -p "Please enter Customer Username: " TWIN_USERNAME
+export TWIN_USERNAME="$TWIN_USERNAME"
 echo
 
 # Step 2: Create Authorized View in Data Publisher Dataset
@@ -80,7 +80,7 @@ cat <<EOF > policy.json
   "bindings": [
     {
       "members": [
-        "user:${TWIN_USER}"
+        "user:${TWIN_USERNAME}"
       ],
       "role": "roles/bigquery.dataViewer"
     }

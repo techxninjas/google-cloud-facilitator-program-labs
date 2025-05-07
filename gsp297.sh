@@ -56,47 +56,50 @@ echo
 export BUCKET=$PROJECT_ID
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a bucket named 'gs://$BUCKET'...${RESET_FORMAT}"
 echo
-gsutil mb -l $region "gs://$BUCKET"
+gsutil mb -l $REGION "gs://$BUCKET"
 sleep 10
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting retention policy...${RESET_FORMAT}"
 gsutil retention set 10s "gs://$BUCKET"
 gsutil retention get "gs://$BUCKET"
-
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying dummy_transactions...${RESET_FORMAT}"
 gsutil cp gs://spls/gsp297/dummy_transactions "gs://$BUCKET/"
 gsutil ls -L "gs://$BUCKET/dummy_transactions"
 sleep 10
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Locking retention policy...${RESET_FORMAT}"
 gsutil retention lock "gs://$BUCKET/"
-
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting temporary hold...${RESET_FORMAT}"
 gsutil retention temp set "gs://$BUCKET/dummy_transactions"
-
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Removing dummy_transactions...${RESET_FORMAT}"
 gsutil rm "gs://$BUCKET/dummy_transactions"
-
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Releasing temporary hold...${RESET_FORMAT}"
 gsutil retention temp release "gs://$BUCKET/dummy_transactions"
-
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting event-based hold as default...${RESET_FORMAT}"
 gsutil retention event-default set "gs://$BUCKET/"
-
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying dummy_loan...${RESET_FORMAT}"
 gsutil cp gs://spls/gsp297/dummy_loan "gs://$BUCKET/"
 gsutil ls -L "gs://$BUCKET/dummy_loan"
-
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Releasing event-based hold...${RESET_FORMAT}"
 gsutil retention event release "gs://$BUCKET/dummy_loan"
 gsutil ls -L "gs://$BUCKET/dummy_loan"
+echo ""
 
 # ✅ Completion Message
 echo

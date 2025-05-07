@@ -53,6 +53,7 @@ echo ""
 
 # Instructions before creating bucket
 echo
+export BUCKET=$(gcloud config get-value project)
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a bucket named 'gs://$BUCKET'...${RESET_FORMAT}"
 echo
 gsutil mb -l $region "gs://$BUCKET"

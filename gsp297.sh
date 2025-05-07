@@ -24,7 +24,7 @@ echo ""
 
 # 🌍 Fetching Region
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
-export LOCATION=$(gcloud compute project-info describe \
+export REGION=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-region])")
 echo ""
 
@@ -53,7 +53,7 @@ echo ""
 
 # Instructions before creating bucket
 echo
-export BUCKET=$(gcloud config get-value project)
+export BUCKET=$PROJECT_ID
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a bucket named 'gs://$BUCKET'...${RESET_FORMAT}"
 echo
 gsutil mb -l $region "gs://$BUCKET"

@@ -66,7 +66,7 @@ gcloud services enable dlp.googleapis.com cloudkms.googleapis.com \
 --project $PROJECT_ID
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Inspecting a string using DLP API...${RESET_FORMAT}"
-node inspectString.js $PROJECT_ID "My email address is jenny@somedomain.com and you can call me at 555-867-5309" > inspected-string.txt
+node inspectString.js ${PROJECT_ID} "My email address is jenny@somedomain.com and you can call me at 555-867-5309" > inspected-string.txt
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Viewing inspected string output...${RESET_FORMAT}"

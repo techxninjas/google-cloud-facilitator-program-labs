@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}        Store, Process, and Manage Data on Google Cloud: Challenge Lab      ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}            Explore an Ecommerce Dataset with SQL in BigQuery          ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
@@ -48,8 +48,10 @@ GROUP BY
 fullVisitorId, channelGrouping, time, country, city, totalTransactionRevenue, transactions, timeOnSite, pageviews, sessionQualityDim, date, visitId, type, productRefundAmount, productQuantity, productPrice, productRevenue, productSKU, v2ProductName, v2ProductCategory, productVariant, currencyCode, itemQuantity, itemRevenue, transactionRevenue, transactionId, pageTitle, searchKeyword, pagePathLevel1, eCommerceAction_type, eCommerceAction_step, eCommerceAction_option
 HAVING num_duplicate_rows > 1;
 "
+echo ""
 
 echo "${YELLOW_TEXT}${BOLD_TEXT}Task 2. ${RESET_FORMAT}""${GREEN_TEXT}${BOLD_TEXT}Explore ecommerce data and identify duplicate records Completed${RESET_FORMAT}"
+echo ""
 
 bq query --use_legacy_sql=false \
 "
@@ -168,8 +170,10 @@ GROUP BY v2ProductName
 ORDER BY product_views DESC
 LIMIT 5;
 "
+echo ""
 
 echo "${YELLOW_TEXT}${BOLD_TEXT}Task 3. ${RESET_FORMAT}""${GREEN_TEXT}${BOLD_TEXT}Write basic SQL on ecommerce data Completed${RESET_FORMAT}"
+echo ""
 
 # ✅ Completion Message
 echo

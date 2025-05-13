@@ -32,6 +32,7 @@ echo ""
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Zone...${RESET_FORMAT}"
 export ZONE=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
+gcloud config set compute/zone $ZONE
 echo ""
 
 # 🆔 Fetching Project ID

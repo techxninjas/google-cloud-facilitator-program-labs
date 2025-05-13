@@ -54,7 +54,7 @@ echo ""
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a GKE cluster named 'io'...${RESET_FORMAT}"
-gcloud container clusters create io
+gcloud container clusters create io --zone=$ZONE
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying files from Google Cloud Storage...${RESET_FORMAT}"

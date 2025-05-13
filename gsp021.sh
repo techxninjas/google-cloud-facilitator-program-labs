@@ -116,8 +116,11 @@ gcloud compute firewall-rules create allow-monolith-nodeport \
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Labeling the secure-monolith pod...${RESET_FORMAT}"
+kubectl get pods -l "app=monolith"
+kubectl get pods -l "app=monolith,secure=enabled"
 kubectl label pods secure-monolith 'secure=enabled'
 kubectl get pods secure-monolith --show-labels
+kubectl describe services monolith | grep Endpoints
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the auth deployment and service...${RESET_FORMAT}"

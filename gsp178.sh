@@ -61,6 +61,9 @@ gcloud beta container clusters create private-cluster \
     --enable-private-nodes \
     --master-ipv4-cidr 172.16.0.16/28 \
     --enable-ip-alias \
+    --num-nodes=1 \
+    --machine-type=e2-medium \
+    --num-nodes=1 \
     --create-subnetwork ""
 
 echo
@@ -87,14 +90,16 @@ echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Updating the private cluster to allow master-authorized networks...${RESET_FORMAT}"
 echo
 
-# Update the private cluster to allow master-authorized networks
 gcloud container clusters update private-cluster \
     --enable-master-authorized-networks \
-    --master-authorized-networks $NAT_IAP/32
+    --master-authorized-networks $NAT_IAP/32 \
+    --zone=$ZONE
 
-echo
-echo "${GREEN_TEXT}Master-authorized networks updated successfully!${RESET_FORMAT}"
-echo
+if [ $? -eq 0 ]; then
+  echo "${GREEN_TEXT}Master-authorized networks updated successfully!${RESET_FORMAT}"
+else
+  echo "${RED_TEXT}Failed to update master-authorized networks. Please check your zone or region input.${RESET_FORMAT}"
+fi
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Deleting the private cluster...${RESET_FORMAT}"
 echo

@@ -54,6 +54,7 @@ echo ""
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a GKE cluster named 'io'...${RESET_FORMAT}"
+gcloud container clusters create io --zone=$ZONE
 gcloud container clusters get-credentials io --zone=$ZONE
 
 echo

@@ -61,7 +61,7 @@ gcloud beta container clusters create private-cluster \
     --enable-private-nodes \
     --master-ipv4-cidr 172.16.0.16/28 \
     --enable-ip-alias \
-    --create-subnetwork "techxninjas"
+    --create-subnetwork ""
 
 echo
 echo "${GREEN_TEXT}Private cluster created successfully!${RESET_FORMAT}"

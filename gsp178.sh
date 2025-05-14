@@ -57,10 +57,11 @@ echo
 
 # Create a private GKE cluster
 gcloud beta container clusters create private-cluster \
+    --zone=$ZONE \
     --enable-private-nodes \
     --master-ipv4-cidr 172.16.0.16/28 \
     --enable-ip-alias \
-    --create-subnetwork ""
+    --create-subnetwork "techxninjas"
 
 echo
 echo "${GREEN_TEXT}Private cluster created successfully!${RESET_FORMAT}"

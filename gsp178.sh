@@ -18,8 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}----------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}    10th Game: Skills Boost Arcade Certification Zone April 2025   ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}        2nd Lab: Google Cloud SDK: Qwik Start - Redhat/Centos      ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}             Setting up a Private Kubernetes Cluster           ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}----------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

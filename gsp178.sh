@@ -122,13 +122,13 @@ echo
 
 # Create a second private GKE cluster
 gcloud beta container clusters create private-cluster2 \
+    --zone=$ZONE \
     --enable-private-nodes \
     --enable-ip-alias \
     --master-ipv4-cidr 172.16.0.32/28 \
     --subnetwork my-subnet \
     --services-secondary-range-name my-svc-range \
-    --cluster-secondary-range-name my-pod-range \
-    --zone=$ZONE
+    --cluster-secondary-range-name my-pod-range
 
 echo
 echo "${GREEN_TEXT}Second private cluster created successfully!${RESET_FORMAT}"

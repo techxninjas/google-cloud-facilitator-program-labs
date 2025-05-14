@@ -64,7 +64,11 @@ gcloud beta container clusters create private-cluster \
     --create-subnetwork ""
 
 echo
-echo "${GREEN_TEXT}Private cluster created successfully!${RESET_FORMAT}"
+if [ $? -eq 0 ]; then
+  echo "${GREEN_TEXT}Private cluster created successfully!${RESET_FORMAT}"
+else
+  echo "${RED_TEXT}Private cluster creation failed.${RESET_FORMAT}"
+fi
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a source instance...${RESET_FORMAT}"
@@ -131,7 +135,15 @@ gcloud beta container clusters create private-cluster2 \
     --cluster-secondary-range-name my-pod-range
 
 echo
-echo "${GREEN_TEXT}Second private cluster created successfully!${RESET_FORMAT}"
+echo "${GREEN_TEXT}${RESET_FORMAT}"
+echo
+
+echo
+if [ $? -eq 0 ]; then
+  echo "${GREEN_TEXT}Second private cluster created successfully!${RESET_FORMAT}"
+else
+  echo "${RED_TEXT}Second Private cluster creation failed.${RESET_FORMAT}"
+fi
 echo
 
 # Get the NAT IP of the source instance again

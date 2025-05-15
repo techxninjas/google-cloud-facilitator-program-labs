@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}            User Authentication: Identity-Aware Proxy                ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}                Creating PDFs with Go and Cloud Run                  ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

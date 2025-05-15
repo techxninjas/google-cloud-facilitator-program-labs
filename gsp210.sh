@@ -44,6 +44,31 @@ export ZONE_1=$(gcloud compute project-info describe \
   --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
 echo "${GREEN_TEXT}✅ 1st Zone is: ${BOLD_TEXT}$ZONE_1${RESET_FORMAT}"
 
+# Delete firewall rules in default network
+echo "Deleting firewall rules..."
+gcloud compute firewall-rules list --filter="network:default" --format="value(name)" | \
+while read rule; do
+  gcloud compute firewall-rules delete "$rule" --quiet
+done
+
+# Delete subnets in default network (if in custom mode)
+echo "Deleting subnets..."
+gcloud compute networks subnets list --filter="network:default" --format="value(name,region)" | \
+while read subnet region; do
+  gcloud compute networks subnets delete "$subnet" --region="$region" --quiet
+done
+
+# Delete static external IPs if any are using default network
+echo "Releasing static IPs..."
+gcloud compute addresses list --filter="networkTier=PREMIUM AND purpose=GCE_ENDPOINT AND status=RESERVED" --format="value(name,region)" | \
+while read name region; do
+  gcloud compute addresses delete "$name" --region="$region" --quiet
+done
+
+# Delete the default VPC network
+echo "Deleting default VPC network..."
+gcloud compute networks delete default --quiet
+
 # 🌐 Create VPC Network
 echo "${BLUE_TEXT}${BOLD_TEXT}🔧 Creating VPC network: mynetwork...${RESET_FORMAT}"
 gcloud compute networks create mynetwork \

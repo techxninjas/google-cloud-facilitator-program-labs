@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}                Creating PDFs with Go and Cloud Run                  ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}      Optimize Costs for Google Kubernetes Engine: Challenge Lab    ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
@@ -51,8 +51,15 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-gcloud container clusters create onlineboutique-cluster \
-   --project=${DEVSHELL_PROJECT_ID} --zone=${ZONE} \
+echo
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter Cluster Name: ${RESET_FORMAT}" CLUSTER
+echo
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter Pool Name: ${RESET_FORMAT}" POOL
+echo
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter Max Replicas Count: ${RESET_FORMAT}" MAX_REPLICAS
+
+gcloud container clusters create ${CLUSTER} \
+   --project=${PROJECT_ID} --zone=${ZONE} \
    --machine-type=n1-standard-2 --num-nodes=2
 
 kubectl create namespace dev
@@ -66,7 +73,7 @@ kubectl apply -f ./release/kubernetes-manifests.yaml --namespace dev
 
 kubectl get svc -w --namespace dev
 
-gcloud container node-pools create optimized-pool \
+gcloud container node-pools create ${POOL} \
    --cluster=onlineboutique-cluster \
    --machine-type=custom-2-3584 \
    --num-nodes=2 \
@@ -113,7 +120,7 @@ spec:
 EOF
 
 kubectl autoscale deployment frontend --cpu-percent=50 \
-   --min=1 --max=13 --namespace dev
+   --min=1 --max=${MAX_REPLICAS} --namespace dev
 
 kubectl get hpa --namespace dev
 

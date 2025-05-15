@@ -204,17 +204,33 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         NOW FOLLOW VIDEO STEPS FOR FURTHER TASKS!
 echo "${CYAN_TEXT}${BOLD_TEXT}===========================================================${RESET_FORMAT}"
 echo
 
-echo "${YELLOW_TEXT}${BOLD_TEXT}Go to OAuth consent screen from here: ${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}https://console.cloud.google.com/apis/credentials/consent?project=${PROJECT_ID}${RESET_FORMAT}"
-echo
-echo "${YELLOW_TEXT}${BOLD_TEXT}Go to Identity-Aware Proxy from here: ${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}https://console.cloud.google.com/security/iap?project=${PROJECT_ID}${RESET_FORMAT}"
-
-for i in {1..120}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/120 seconds waiting...\r${RESET_FORMAT}"
-    sleep 1
+# Prompt for OAuth Consent Screen
+while true; do
+    echo "${YELLOW_TEXT}${BOLD_TEXT}Go to OAuth consent screen from here: ${RESET_FORMAT}"
+    echo "${BLUE_TEXT}${BOLD_TEXT}https://console.cloud.google.com/apis/credentials/consent?project=${PROJECT_ID}${RESET_FORMAT}"
+    echo
+    read -p "Have you done the same as shown in the video? (Y to continue): " input
+    if [[ "$input" == "Y" || "$input" == "y" ]]; then
+        break
+    else
+        echo "❗ Please complete the same process to go next."
+        echo
+    fi
 done
-echo ""
+
+# Prompt for Identity-Aware Proxy
+while true; do
+    echo "${YELLOW_TEXT}${BOLD_TEXT}Go to Identity-Aware Proxy from here: ${RESET_FORMAT}"
+    echo "${BLUE_TEXT}${BOLD_TEXT}https://console.cloud.google.com/security/iap?project=${PROJECT_ID}${RESET_FORMAT}"
+    echo
+    read -p "Have you done the same as shown in the video? (Y to continue): " input
+    if [[ "$input" == "Y" || "$input" == "y" ]]; then
+        break
+    else
+        echo "❗ Please complete the same process to go next."
+        echo
+    fi
+done
 
 # ✅ Completion Message
 echo
@@ -224,12 +240,6 @@ echo "${GREEN_TEXT}${BOLD_TEXT}🎉=============================================
 echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT} ✔ Please check your progress."
 echo "${GREEN_TEXT}${BOLD_TEXT} If it will be not completed, try again for successfully completion of the Assessment."
-echo ""
-
-for i in {1..20}; do
-    echo -ne "${CYAN_TEXT}⏳ ${i}/20 seconds to check your progress\r${RESET_FORMAT}"
-    sleep 1
-done
 echo ""
 
 remove_temp_files() {

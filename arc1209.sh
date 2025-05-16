@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}           Arcade Hero: Building Blocks Artifact Registry II          ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}           Arcade Hero: Building Blocks Artifact Registry III          ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

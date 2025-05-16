@@ -52,19 +52,22 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
  
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the Artifact Registry API...${RESET_FORMAT}"
- gcloud services enable artifactregistry.googleapis.com
- 
+gcloud services enable artifactregistry.googleapis.com
+echo ""
+
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a new Docker repository named 'container-registry'...${RESET_FORMAT}"
- gcloud artifacts repositories create container-registry \
-  --repository-format=docker \
-  --location=$REGION \
-  --description="Docker repository in $REGION"
- 
+gcloud artifacts repositories create container-registry \
+ --repository-format=docker \
+ --location=$REGION \
+ --description="Docker repository in $REGION"
+echo ""
+
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting up a Go module repository...${RESET_FORMAT}"
- gcloud artifacts repositories create go-registry \
-  --repository-format=go \
-  --location=$REGION \
-  --description="Go module repository"
+gcloud artifacts repositories create go-registry \
+ --repository-format=go \
+ --location=$REGION \
+ --description="Go module repository"
+echo ""
 
 # ✅ Completion Message
 echo

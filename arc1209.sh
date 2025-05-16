@@ -50,20 +50,30 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...          ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
+
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter Artifact Registry Name of Task 1: ${RESET_FORMAT}" ART_REG_NAME1
+export ART_REG_NAME1=$ART_REG_NAME1
+echo "${GREEN_TEXT}${BOLD_TEXT}You entered 1st Artifact Registry Name: ${RESET_FORMAT}${ART_REG_NAME1}"
+echo 
+
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter Artifact Registry Name of Task 2: ${RESET_FORMAT}" ART_REG_NAME2
+export ART_REG_NAME2=$ART_REG_NAME2
+echo "${GREEN_TEXT}${BOLD_TEXT}You entered 2nd Artifact Registry Name: ${RESET_FORMAT}${ART_REG_NAME2}"
+echo 
  
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling the Artifact Registry API...${RESET_FORMAT}"
 gcloud services enable artifactregistry.googleapis.com
 echo ""
 
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a new Docker repository named 'container-registry'...${RESET_FORMAT}"
-gcloud artifacts repositories create container-registry \
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a new Docker repository named '${ART_REG_NAME1}'...${RESET_FORMAT}"
+gcloud artifacts repositories create ${ART_REG_NAME1} \
  --repository-format=docker \
  --location=$REGION \
  --description="Docker repository in $REGION"
 echo ""
 
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting up a Go module repository...${RESET_FORMAT}"
-gcloud artifacts repositories create go-registry \
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating an another new Docker repository named '${ART_REG_NAME2}'...${RESET_FORMAT}"
+gcloud artifacts repositories create ${ART_REG_NAME2} \
  --repository-format=go \
  --location=$REGION \
  --description="Go module repository"

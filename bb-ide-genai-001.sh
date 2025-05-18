@@ -36,7 +36,7 @@ echo ""
 
 # 🆔 Fetching Project ID
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project ID...${RESET_FORMAT}"
-PROJECT_ID=`gcloud config get-value project`
+ID=`gcloud config get-value project`
 echo ""
 
 # 🔢 Fetching Project Number

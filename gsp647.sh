@@ -51,7 +51,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Authenticating your Google Cloud account... Please follow the prompts.${RESET_FORMAT}"
 gcloud auth login --quiet
 
@@ -120,21 +119,21 @@ sudo yum -y install epel-release
 sudo yum -y install jq
 echo
 
-echo "${CYAN_TEXT}${BOLD_TEXT}Please provide the following details:${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}---> Please provide the following details:${RESET_FORMAT}"
 echo
 get_and_export_values() {
   # Prompt user for PROJECTID2
-echo -n "${BLUE_TEXT}${BOLD_TEXT}---> Enter the PROJECTID2: ${RESET_FORMAT}"
+echo -n "${BLUE_TEXT}${BOLD_TEXT}---> ---> Enter the PROJECTID2: ${RESET_FORMAT}"
 read PROJECTID2
 echo
 
 # Prompt user for USERID2
-echo -n "${BLUE_TEXT}${BOLD_TEXT}---> Enter the USERID2 (Username 2): ${RESET_FORMAT}"
+echo -n "${BLUE_TEXT}${BOLD_TEXT}---> ---> Enter the USERID2 (Username 2): ${RESET_FORMAT}"
 read USERID2
 echo
 
 # Prompt user for ZONE2
-echo -n "${BLUE_TEXT}${BOLD_TEXT}---> 📍 Enter the ZONE2: ${RESET_FORMAT}"
+echo -n "${BLUE_TEXT}${BOLD_TEXT}---> ---> Enter the ZONE2: ${RESET_FORMAT}"
 read ZONE2
 echo
 
@@ -158,19 +157,19 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> Granting the 'Viewer' role to ${USERID2} on p
 gcloud projects add-iam-policy-binding $PROJECTID2 --member user:$USERID2 --role=roles/viewer
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Switching gcloud configuration to 'user2'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Switching gcloud configuration to 'user2'...${RESET_FORMAT}"
 gcloud config configurations activate user2
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Setting the active project for 'user2' configuration to ${PROJECTID2}...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting the active project for 'user2' configuration to ${PROJECTID2}...${RESET_FORMAT}"
 gcloud config set project $PROJECTID2
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Switching back to the 'default' gcloud configuration again...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Switching back to the 'default' gcloud configuration again...${RESET_FORMAT}"
 gcloud config configurations activate default
 echo
 
-echo "${CYAN_TEXT}${BOLD_TEXT}🛠Creating a custom IAM role named 'devops' in project ${PROJECTID2} with specific compute permissions...${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}---> Creating a custom IAM role named 'devops' in project ${PROJECTID2} with specific compute permissions...${RESET_FORMAT}"
 gcloud iam roles create devops --project $PROJECTID2 --permissions "compute.instances.create,compute.instances.delete,compute.instances.start,compute.instances.stop,compute.instances.update,compute.disks.create,compute.subnetworks.use,compute.subnetworks.useExternalIp,compute.instances.setMetadata,compute.instances.setServiceAccount"
 echo
 
@@ -185,19 +184,19 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> ---> Switching gcloud configuration back to '
 gcloud config configurations activate user2
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Creating the second VM instance named 'lab-2' in zone ${ZONE2} as 'user2'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the second VM instance named 'lab-2' in zone ${ZONE2} as 'user2'...${RESET_FORMAT}"
 gcloud compute instances create lab-2 --zone $ZONE2 --machine-type=e2-standard-2
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Switching back to the 'default' gcloud configuration one last time...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Switching back to the 'default' gcloud configuration one last time...${RESET_FORMAT}"
 gcloud config configurations activate default
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Setting the active project for the 'default' configuration to ${PROJECTID2}...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting the active project for the 'default' configuration to ${PROJECTID2}...${RESET_FORMAT}"
 gcloud config set project $PROJECTID2
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}Creating a new service account named 'devops'...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a new service account named 'devops'...${RESET_FORMAT}"
 gcloud iam service-accounts create devops --display-name devops
 echo
 
@@ -205,12 +204,10 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> Retrieving the email address of the newly cre
 SA=$(gcloud iam service-accounts list --filter="displayName='devops'" --format="value(email)")
 if [ -z "$SA" ]; then
   echo -e "${RED_TEXT}${BOLD_TEXT}❌ Failed to retrieve service account email.${RESET_FORMAT}"
-  echo -e "${RED_TEXT}${BOLD_TEXT}👉 You can manually find it using:${RESET_FORMAT}"
-  echo -e "${BOLD_TEXT}gcloud iam service-accounts list --format='value(email)'${RESET_FORMAT}"
-  exit 1
+  echo -e "${RED_TEXT}${BOLD_TEXT}🔎 Please check your lab and enter the service account email manually (e.g., devops@<project-id>.iam.gserviceaccount.com):${RESET_FORMAT}"
+  read -p "👉 Enter service account email: " SA
 else
   echo -e "${GREEN_TEXT}${BOLD_TEXT}✅ Service Account Email: $SA${RESET_FORMAT}"
-  # Continue your next commands here...
 fi
 echo
 
@@ -219,7 +216,7 @@ gcloud projects add-iam-policy-binding $PROJECTID2 --member serviceAccount:$SA -
 
 gcloud projects add-iam-policy-binding $PROJECTID2 --member serviceAccount:$SA --role=roles/compute.instanceAdmin
 
-echo "${MAGENTA_TEXT}${BOLD_TEXT}Creating the third VM instance named 'lab-3' using the 'devops' service account in zone ${ZONE2}...${RESET_FORMAT}"
+echo "${MAGENTA_TEXT}${BOLD_TEXT}---> Creating the third VM instance named 'lab-3' using the 'devops' service account in zone ${ZONE2}...${RESET_FORMAT}"
 gcloud compute instances create lab-3 --zone $ZONE2 --machine-type=e2-standard-2 --service-account $SA --scopes "https://www.googleapis.com/auth/compute"
 
 # ✅ Completion Message

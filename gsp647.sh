@@ -122,17 +122,14 @@ echo
 echo "${CYAN_TEXT}${BOLD_TEXT}---> Please provide the following details:${RESET_FORMAT}"
 echo
 get_and_export_values() {
-  # Prompt user for PROJECTID2
-echo -n "${BLUE_TEXT}${BOLD_TEXT}---> ---> Enter the PROJECTID2: ${RESET_FORMAT}"
-read PROJECTID2
-echo
-
-# Prompt user for USERID2
 echo -n "${BLUE_TEXT}${BOLD_TEXT}---> ---> Enter the USERID2 (Username 2): ${RESET_FORMAT}"
 read USERID2
 echo
 
-# Prompt user for ZONE2
+echo -n "${BLUE_TEXT}${BOLD_TEXT}---> ---> Enter the PROJECTID2: ${RESET_FORMAT}"
+read PROJECTID2
+echo
+
 echo -n "${BLUE_TEXT}${BOLD_TEXT}---> ---> Enter the ZONE2: ${RESET_FORMAT}"
 read ZONE2
 echo

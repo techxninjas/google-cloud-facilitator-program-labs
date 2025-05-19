@@ -212,6 +212,7 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> Granting IAM roles (Service Account User and 
 gcloud projects add-iam-policy-binding $PROJECTID2 --member serviceAccount:$SA --role=roles/iam.serviceAccountUser
 
 gcloud projects add-iam-policy-binding $PROJECTID2 --member serviceAccount:$SA --role=roles/compute.instanceAdmin
+gcloud config set project $PROJECTID2
 
 echo "${MAGENTA_TEXT}${BOLD_TEXT}---> Creating the third VM instance named 'lab-3' using the 'devops' service account in zone ${ZONE2}...${RESET_FORMAT}"
 gcloud compute instances create lab-3 --zone $ZONE2 --machine-type=e2-standard-2 --service-account $SA --scopes "https://www.googleapis.com/auth/compute"

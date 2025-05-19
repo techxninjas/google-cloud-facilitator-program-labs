@@ -113,7 +113,6 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> Switching back to the 'default' gcloud config
 gcloud config configurations activate default
 echo
 
-
 echo "${CYAN_TEXT}${BOLD_TEXT}---> Please provide the following details:${RESET_FORMAT}"
 echo
 get_and_export_values() {
@@ -185,8 +184,7 @@ gcloud config configurations activate default
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting the active project for the 'default' configuration to ${PROJECTID2}...${RESET_FORMAT}"
-gcloud config set project $PROJECTID2
-gcloud config set account "$USERID2"
+gcloud config set project $PROJECT_ID
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a new service account named 'devops'...${RESET_FORMAT}"

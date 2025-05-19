@@ -58,7 +58,6 @@ echo "${GREEN_TEXT}${BOLD_TEXT}✅ Default Zone set to: ${ZONE}${RESET_FORMAT}"
 echo "${GREEN_TEXT}${BOLD_TEXT}✅ Default Region set to: ${REGION}${RESET_FORMAT}"
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the first VM instance named 'lab-1'...${RESET_FORMAT}"
-gcloud compute instances create lab-1 --zone $ZONE --machine-type=e2-standard-2
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Selecting an alternative zone within the same region (${REGION})...${RESET_FORMAT}"
 export NEWZONE=$(gcloud compute zones list --filter="name~'^$REGION'" \
@@ -114,10 +113,6 @@ echo "${BLUE_TEXT}${BOLD_TEXT}---> Switching back to the 'default' gcloud config
 gcloud config configurations activate default
 echo
 
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Installing necessary packages: epel-release and jq...${RESET_FORMAT}"
-sudo yum -y install epel-release
-sudo yum -y install jq
-echo
 
 echo "${CYAN_TEXT}${BOLD_TEXT}---> Please provide the following details:${RESET_FORMAT}"
 echo
@@ -191,6 +186,7 @@ echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting the active project for the 'default' configuration to ${PROJECTID2}...${RESET_FORMAT}"
 gcloud config set project $PROJECTID2
+gcloud config set account "$USERID2"
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a new service account named 'devops'...${RESET_FORMAT}"

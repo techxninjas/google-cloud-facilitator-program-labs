@@ -18,21 +18,21 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}        Store, Process, and Manage Data on Google Cloud: Challenge Lab      ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}       Rate Limiting with Cloud Armor     ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
 # 🌍 Fetching Region
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
-export REGION=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-region])")
-echo ""
+# echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
+# export REGION=$(gcloud compute project-info describe \
+# --format="value(commonInstanceMetadata.items[google-compute-default-region])")
+# echo ""
 
-# 🗺️ Fetching Zone
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Zone...${RESET_FORMAT}"
-export ZONE=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-zone])")
-echo ""
+# # 🗺️ Fetching Zone
+# echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Zone...${RESET_FORMAT}"
+# export ZONE=$(gcloud compute project-info describe \
+# --format="value(commonInstanceMetadata.items[google-compute-default-zone])")
+# echo ""
 
 # 🆔 Fetching Project ID
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project ID...${RESET_FORMAT}"
@@ -51,7 +51,8 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 3: ${RESET_FORMAT}" REGION_3
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 1: ${RESET_FORMAT}" REGION
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 2: ${RESET_FORMAT}" REGION_3
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating firewall rule to allow HTTP traffic (tcp:80) from all sources...${RESET_FORMAT}"
 gcloud compute firewall-rules create default-allow-http \

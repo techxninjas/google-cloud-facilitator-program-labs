@@ -84,8 +84,6 @@ gcloud compute instance-templates create ${REGION}-template \
   --subnet=default \
   --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh \
   --tags=http-server \
-  --region=${REGION} \
-  --instance-template-region=${REGION} \
   --no-address
 
 # =============================
@@ -98,8 +96,6 @@ gcloud compute instance-templates create ${REGION_3}-template \
   --subnet=default \
   --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh \
   --tags=http-server \
-  --region=${REGION_3} \
-  --instance-template-region=${REGION_3} \
   --no-address
 
 # =============================

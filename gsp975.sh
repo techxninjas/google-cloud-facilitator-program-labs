@@ -88,7 +88,7 @@ gcloud compute instance-templates create ${REGION}-template \
   --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh \
   --tags=http-server \
   --no-address
-sleep 60
+sleep 20
 
 # =============================
 # Create Instance Template for REGION_3
@@ -101,7 +101,7 @@ gcloud compute instance-templates create ${REGION_3}-template \
   --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh \
   --tags=http-server \
   --no-address
-sleep 60
+sleep 20
 
 # =============================
 # Create Managed Instance Group in REGION
@@ -112,7 +112,7 @@ gcloud compute instance-groups managed create ${REGION}-mig \
   --template=${REGION}-template \
   --size=1 \
   --target-distribution-shape EVEN
-sleep 60
+sleep 20
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Configuring autoscaling for ${REGION}-mig...${RESET_FORMAT}"
 gcloud compute instance-groups managed set-autoscaling ${REGION}-mig \
@@ -121,7 +121,7 @@ gcloud compute instance-groups managed set-autoscaling ${REGION}-mig \
   --max-num-replicas=5 \
   --min-num-replicas=1 \
   --target-cpu-utilization=0.80
-sleep 60
+sleep 20
 
 # =============================
 # Create Managed Instance Group in REGION_3
@@ -132,7 +132,7 @@ gcloud compute instance-groups managed create ${REGION_3}-mig \
   --template=${REGION_3}-template \
   --size=1 \
   --target-distribution-shape EVEN
-sleep 60
+sleep 20
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Configuring autoscaling for ${REGION_3}-mig...${RESET_FORMAT}"
 gcloud compute instance-groups managed set-autoscaling ${REGION_3}-mig \
@@ -141,101 +141,6 @@ gcloud compute instance-groups managed set-autoscaling ${REGION_3}-mig \
   --max-num-replicas=5 \
   --min-num-replicas=1 \
   --target-cpu-utilization=0.80
-sleep 60
-
-gcloud compute backend-services delete http-backend --global --quiet
-gcloud compute health-checks delete http-health-check --quiet
-
-gcloud compute health-checks create http http-health-check \
-  --port 80
-
-# =============================
-# Create Backend Service
-# =============================
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating backend service http-backend...${RESET_FORMAT}"
-gcloud compute backend-services create http-backend \
-  --protocol=HTTP \
-  --port-name=http \
-  --health-checks=http-health-check \
-  --global \
-  --enable-logging \
-  --logging-sample-rate=1
-
-# =============================
-# Add REGION MIG as Backend with RATE balancing mode
-# =============================
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Adding ${REGION}-mig to backend service...${RESET_FORMAT}"
-gcloud compute backend-services add-backend http-backend \
-  --instance-group=${REGION}-mig \
-  --instance-group-region=${REGION} \
-  --balancing-mode=RATE \
-  --max-rate-per-instance=50 \
-  --capacity-scaler=1.0 \
-  --global
-
-# =============================
-# Add REGION_3 MIG as Backend with UTILIZATION balancing mode
-# =============================
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Adding ${REGION_3}-mig to backend service...${RESET_FORMAT}"
-gcloud compute backend-services add-backend http-backend \
-  --instance-group=${REGION_3}-mig \
-  --instance-group-region=${REGION_3} \
-  --balancing-mode=UTILIZATION \
-  --max-utilization=0.8 \
-  --capacity-scaler=1.0 \
-  --global
-
-# =============================
-# Create Health Check
-# =============================
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating health check http-health-check...${RESET_FORMAT}"
-gcloud compute health-checks create tcp http-health-check \
-  --port=80
-
-gcloud compute url-maps create web-map \
-  --default-service=http-backend
-gcloud compute target-http-proxies create http-lb-proxy \
-  --url-map=web-map
-gcloud compute forwarding-rules create http-content-rule \
-  --global \
-  --target-http-proxy=http-lb-proxy \
-  --ports=80
-
-# Variables
-LB_NAME="http-lb"
-
-# =============================
-# Create HTTP Load Balancer Frontend for IPv4 (Ephemeral IP)
-# =============================
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating frontend configuration with IPv4 ephemeral IP...${RESET_FORMAT}"
-gcloud compute forwarding-rules create ${LB_NAME}-ipv4 \
-  --load-balancing-scheme=EXTERNAL \
-  --address= \
-  --ports=80 \
-  --target-http-proxy=${LB_NAME}-http-proxy \
-  --global
-
-# =============================
-# Create HTTP Load Balancer Frontend for IPv6 (Auto-allocate IP)
-# =============================
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating frontend configuration with IPv6 auto-allocated IP...${RESET_FORMAT}"
-gcloud compute forwarding-rules create ${LB_NAME}-ipv6 \
-  --load-balancing-scheme=EXTERNAL \
-  --ip-version=IPV6 \
-  --address= \
-  --ports=80 \
-  --target-http-proxy=${LB_NAME}-http-proxy \
-  --global
-
-# =============================
-# NOTE:
-# You need to create the target HTTP proxy and URL map before creating forwarding rules.
-# The steps for that are usually:
-# 1. Create a URL map pointing to your backend service.
-# 2. Create a target HTTP proxy referencing that URL map.
-# These are prerequisite steps.
-# =============================
-echo "${BLUE_TEXT}${BOLD_TEXT}---> ---> Ensure the target HTTP proxy and URL map are created before forwarding rules.${RESET_FORMAT}"
 
 # ✅ Completion Message
 echo

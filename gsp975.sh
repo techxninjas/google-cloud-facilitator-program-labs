@@ -64,6 +64,8 @@ gcloud compute firewall-rules create default-allow-http \
   --source-ranges=0.0.0.0/0 \
   --target-tags=http-server
 
+sleep 20
+
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating firewall rule to allow health check traffic from GCP IP ranges...${RESET_FORMAT}"
 gcloud compute firewall-rules create default-allow-health-check \
   --network=default \
@@ -73,6 +75,7 @@ gcloud compute firewall-rules create default-allow-health-check \
   --rules=tcp \
   --source-ranges=130.211.0.0/22,35.191.0.0/16 \
   --target-tags=http-server
+sleep 20
 
 # =============================
 # Create Instance Template for REGION
@@ -85,6 +88,7 @@ gcloud compute instance-templates create ${REGION}-template \
   --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh \
   --tags=http-server \
   --no-address
+sleep 60
 
 # =============================
 # Create Instance Template for REGION_3
@@ -97,6 +101,7 @@ gcloud compute instance-templates create ${REGION_3}-template \
   --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh \
   --tags=http-server \
   --no-address
+sleep 60
 
 # =============================
 # Create Managed Instance Group in REGION
@@ -107,6 +112,7 @@ gcloud compute instance-groups managed create ${REGION}-mig \
   --template=${REGION}-template \
   --size=1 \
   --target-distribution-shape EVEN
+sleep 60
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Configuring autoscaling for ${REGION}-mig...${RESET_FORMAT}"
 gcloud compute instance-groups managed set-autoscaling ${REGION}-mig \
@@ -115,6 +121,7 @@ gcloud compute instance-groups managed set-autoscaling ${REGION}-mig \
   --max-num-replicas=5 \
   --min-num-replicas=1 \
   --target-cpu-utilization=0.80
+sleep 60
 
 # =============================
 # Create Managed Instance Group in REGION_3
@@ -125,6 +132,7 @@ gcloud compute instance-groups managed create ${REGION_3}-mig \
   --template=${REGION_3}-template \
   --size=1 \
   --target-distribution-shape EVEN
+sleep 60
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Configuring autoscaling for ${REGION_3}-mig...${RESET_FORMAT}"
 gcloud compute instance-groups managed set-autoscaling ${REGION_3}-mig \
@@ -133,6 +141,13 @@ gcloud compute instance-groups managed set-autoscaling ${REGION_3}-mig \
   --max-num-replicas=5 \
   --min-num-replicas=1 \
   --target-cpu-utilization=0.80
+sleep 60
+
+gcloud compute backend-services delete http-backend --global --quiet
+gcloud compute health-checks delete http-health-check --quiet
+
+gcloud compute health-checks create http http-health-check \
+  --port 80
 
 # =============================
 # Create Backend Service
@@ -144,7 +159,7 @@ gcloud compute backend-services create http-backend \
   --health-checks=http-health-check \
   --global \
   --enable-logging \
-  --log-sample-rate=1
+  --logging-sample-rate=1
 
 # =============================
 # Add REGION MIG as Backend with RATE balancing mode
@@ -176,6 +191,15 @@ gcloud compute backend-services add-backend http-backend \
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating health check http-health-check...${RESET_FORMAT}"
 gcloud compute health-checks create tcp http-health-check \
   --port=80
+
+gcloud compute url-maps create web-map \
+  --default-service=http-backend
+gcloud compute target-http-proxies create http-lb-proxy \
+  --url-map=web-map
+gcloud compute forwarding-rules create http-content-rule \
+  --global \
+  --target-http-proxy=http-lb-proxy \
+  --ports=80
 
 # Variables
 LB_NAME="http-lb"

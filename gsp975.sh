@@ -17,9 +17,9 @@ UNDERLINE_TEXT=$'\033[4m'
 clear
 
 # 💡 Start-Up Banner
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}       Rate Limiting with Cloud Armor     ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}----------------------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}         Rate Limiting with Cloud Armor     ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}----------------------------------------------${RESET_FORMAT}"
 echo ""
 
 # 🌍 Fetching Region

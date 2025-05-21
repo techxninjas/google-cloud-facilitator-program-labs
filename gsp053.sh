@@ -22,18 +22,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}             Managing Deployments Using Kubernetes
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-# 🌍 Fetching Region
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
-export REGION=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-region])")
-echo ""
-
-# 🗺️ Fetching Zone
-echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Zone...${RESET_FORMAT}"
-export ZONE=$(gcloud compute project-info describe \
---format="value(commonInstanceMetadata.items[google-compute-default-zone])")
-echo ""
-
 # 🆔 Fetching Project ID
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project ID...${RESET_FORMAT}"
 PROJECT_ID=`gcloud config get-value project`
@@ -50,6 +38,9 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...          ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
+
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter the Zone of your Lab in "Set the zone": ${RESET_FORMAT}" REGION
+gcloud config set compute/zone $ZONE
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying required files from the GCS bucket...${RESET_FORMAT}"
 gsutil -m cp -r gs://spls/gsp053/orchestrate-with-kubernetes .

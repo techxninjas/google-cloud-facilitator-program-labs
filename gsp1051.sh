@@ -14,8 +14,6 @@ RESET_FORMAT=$'\033[0m'
 BOLD_TEXT=$'\033[1m'
 UNDERLINE_TEXT=$'\033[4m'
 
-nvm install 22.6
-
 clear
 
 # 💡 Start-Up Banner
@@ -101,6 +99,7 @@ echo
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Updating npm (Node Package Manager) to the latest version globally...${RESET_FORMAT}"
+nvm install 22.6
 npm install npm -g
 echo
 

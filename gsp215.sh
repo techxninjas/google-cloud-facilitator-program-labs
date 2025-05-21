@@ -39,7 +39,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-
 read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 1 (TASK 2 REGION): ${RESET_FORMAT}" REGION1
 echo
 read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 2 (TASK 2 REGION): ${RESET_FORMAT}" REGION2
@@ -52,21 +51,27 @@ export INSTANCE_NAME_2=$REGION2-mig
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating firewall rule to allow HTTP traffic (tcp:80) from all sources...${RESET_FORMAT}"
 gcloud compute --project=$PROJECT_ID firewall-rules create default-allow-http --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp:80 --source-ranges=0.0.0.0/0 --target-tags=http-server
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating firewall rule to allow health check traffic from GCP IP ranges...${RESET_FORMAT}"
 gcloud compute --project=$PROJECT_ID firewall-rules create default-allow-health-check --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=tcp --source-ranges=130.211.0.0/22,35.191.0.0/16 --target-tags=http-server
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating instance template for ${REGION1}...${RESET_FORMAT}"
 gcloud compute instance-templates create $REGION1-template --project=$PROJECT_ID --machine-type=e2-micro --network-interface=network-tier=PREMIUM,subnet=default --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh,enable-oslogin=true --maintenance-policy=MIGRATE --provisioning-model=STANDARD --region=$REGION1 --tags=http-server,https-server --create-disk=auto-delete=yes,boot=yes,device-name=$REGION1-template,image=projects/debian-cloud/global/images/debian-11-bullseye-v20230629,mode=rw,size=10,type=pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating instance template for ${REGION2}...${RESET_FORMAT}"
 gcloud compute instance-templates create $REGION2-template --project=$PROJECT_ID --machine-type=e2-micro --network-interface=network-tier=PREMIUM,subnet=default --metadata=startup-script-url=gs://cloud-training/gcpnet/httplb/startup.sh,enable-oslogin=true --maintenance-policy=MIGRATE --provisioning-model=STANDARD --region=$REGION2 --tags=http-server,https-server --create-disk=auto-delete=yes,boot=yes,device-name=$REGION2-template,image=projects/debian-cloud/global/images/debian-11-bullseye-v20230629,mode=rw,size=10,type=pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating managed instance group in ${REGION1}...${RESET_FORMAT}"
 gcloud beta compute instance-groups managed create $REGION1-mig --project=$PROJECT_ID --base-instance-name=$REGION1-mig --size=1 --template=$REGION1-template --region=$REGION1 --target-distribution-shape=EVEN --instance-redistribution-type=PROACTIVE --list-managed-instances-results=PAGELESS --no-force-update-on-repair && gcloud beta compute instance-groups managed set-autoscaling $REGION1-mig --project=$PROJECT_ID --region=$REGION1 --cool-down-period=45 --max-num-replicas=2 --min-num-replicas=1 --mode=on --target-cpu-utilization=0.8
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating managed instance group in ${REGION2}...${RESET_FORMAT}"
 gcloud beta compute instance-groups managed create $REGION2-mig --project=$PROJECT_ID --base-instance-name=$REGION2-mig --size=1 --template=$REGION2-template --region=$REGION2 --target-distribution-shape=EVEN --instance-redistribution-type=PROACTIVE --list-managed-instances-results=PAGELESS --no-force-update-on-repair && gcloud beta compute instance-groups managed set-autoscaling $REGION2-mig --project=$PROJECT_ID --region=$REGION2 --cool-down-period=45 --max-num-replicas=2 --min-num-replicas=1 --mode=on --target-cpu-utilization=0.8
+echo ""
 
 PROJECT_ID=$(gcloud config get-value project)
 TOKEN=$(gcloud auth application-default print-access-token)

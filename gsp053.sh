@@ -39,7 +39,7 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter the Zone of your Lab in "Set the zone": ${RESET_FORMAT}" REGION
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter the Zone of your Lab in Set the zone: ${RESET_FORMAT}" REGION
 gcloud config set compute/zone $ZONE
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying required files from the GCS bucket...${RESET_FORMAT}"

@@ -33,15 +33,9 @@ BRIGHT_BLUE=`tput setaf 4; tput bold`
 BRIGHT_WHITE=`tput setaf 7; tput bold`
 UNDERLINE=`tput smul`
 
-# 💡 Start-Up Banner
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
-echo -e "${BRIGHT_CYAN}${BOLD}    4th Game: Level 2: Cloud Infrastructure & API Essentials    ${RESET}"
-echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
-echo ""
-
 # 💡 Lab Info
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
-echo -e "${BRIGHT_CYAN}${BOLD}         2nd Lab: Compute Engine Qwik Start - Windows          ${RESET}" 
+echo -e "${BRIGHT_CYAN}${BOLD}          Compute Engine Qwik Start - Windows          ${RESET}" 
 echo -e "${BRIGHT_PURPLE}${BOLD}-------------------------------------------------------${RESET}"
 echo ""
 

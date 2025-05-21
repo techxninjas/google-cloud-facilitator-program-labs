@@ -40,11 +40,11 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
 
 
-read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 1: ${RESET_FORMAT}" REGION1
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 1 (TASK 2 REGION): ${RESET_FORMAT}" REGION1
 echo
-read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 2: ${RESET_FORMAT}" REGION2
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION 2 (TASK 2 REGION): ${RESET_FORMAT}" REGION2
 echo
-read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter your VM Instance Zone: ${RESET_FORMAT}" VM_ZONE
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter your VM Instance Zone (Task 4 ZONE): ${RESET_FORMAT}" VM_ZONE
 echo
 
 export INSTANCE_NAME=$REGION1-mig

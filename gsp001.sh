@@ -51,14 +51,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-
-# Displaying start message
-echo
-echo "${CYAN_TEXT}${BOLD_TEXT}╔════════════════════════════════════════════════════════╗${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}                  Starting the process...                   ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}╚════════════════════════════════════════════════════════╝${RESET_FORMAT}"
-echo
-
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating 'gcelab' Instance...${RESET_FORMAT}"
 gcloud compute instances create gcelab --zone=$ZONE --machine-type=e2-medium --boot-disk-size=10GB --image-family=debian-11 --image-project=debian-cloud --create-disk=size=10GB,type=pd-balanced --tags=http-server

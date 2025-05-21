@@ -76,469 +76,300 @@ echo ""
 PROJECT_ID=$(gcloud config get-value project)
 TOKEN=$(gcloud auth application-default print-access-token)
 
+echo "${GREEN_TEXT}${BOLD_TEXT}Defining a global TCP health check for the load balancer...${RESET_FORMAT}"
+echo
 # Create TCP Health Check
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "checkIntervalSec": 5,
-    "description": "",
-    "healthyThreshold": 2,
-    "logConfig": {
-      "enable": false
-    },
-    "name": "http-health-check",
-    "tcpHealthCheck": {
-      "port": 80,
-      "proxyHeader": "NONE"
-    },
-    "timeoutSec": 5,
-    "type": "TCP",
-    "unhealthyThreshold": 2
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/healthChecks"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "checkIntervalSec": 5,
+        "description": "",
+        "healthyThreshold": 2,
+        "logConfig": {
+            "enable": false
+        },
+        "name": "http-health-check",
+        "tcpHealthCheck": {
+            "port": 80,
+            "proxyHeader": "NONE"
+        },
+        "timeoutSec": 5,
+        "type": "TCP",
+        "unhealthyThreshold": 2
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/healthChecks"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for health check creation to complete...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 30
-
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Configuring backend services and associating instance groups...${RESET_FORMAT}"
+echo
 # Create Backend Services
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "backends": [
-      {
-        "balancingMode": "RATE",
-        "capacityScaler": 1,
-        "group": "projects/'"$PROJECT_ID"'/regions/'"$REGION1"'/instanceGroups/'"$REGION1-mig"'",
-        "maxRatePerInstance": 50
-      },
-      {
-        "balancingMode": "UTILIZATION",
-        "capacityScaler": 1,
-        "group": "projects/'"$PROJECT_ID"'/regions/'"$REGION2"'/instanceGroups/'"$REGION2-mig"'",
-        "maxRatePerInstance": 80,
-        "maxUtilization": 0.8
-      }
-    ],
-    "cdnPolicy": {
-      "cacheKeyPolicy": {
-        "includeHost": true,
-        "includeProtocol": true,
-        "includeQueryString": true
-      },
-      "cacheMode": "CACHE_ALL_STATIC",
-      "clientTtl": 3600,
-      "defaultTtl": 3600,
-      "maxTtl": 86400,
-      "negativeCaching": false,
-      "serveWhileStale": 0
-    },
-    "compressionMode": "DISABLED",
-    "connectionDraining": {
-      "drainingTimeoutSec": 300
-    },
-    "description": "",
-    "enableCDN": true,
-    "healthChecks": [
-      "projects/'"$PROJECT_ID"'/global/healthChecks/http-health-check"
-    ],
-    "loadBalancingScheme": "EXTERNAL",
-    "logConfig": {
-      "enable": true,
-      "sampleRate": 1
-    },
-    "name": "http-backend"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/backendServices"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "backends": [
+            {
+                "balancingMode": "RATE",
+                "capacityScaler": 1,
+                "group": "projects/'"$PROJECT_ID"'/regions/'"$REGION1"'/instanceGroups/'"$REGION1-mig"'",
+                "maxRatePerInstance": 50
+            },
+            {
+                "balancingMode": "UTILIZATION",
+                "capacityScaler": 1,
+                "group": "projects/'"$PROJECT_ID"'/regions/'"$REGION2"'/instanceGroups/'"$REGION2-mig"'",
+                "maxRatePerInstance": 80,
+                "maxUtilization": 0.8
+            }
+        ],
+        "cdnPolicy": {
+            "cacheKeyPolicy": {
+                "includeHost": true,
+                "includeProtocol": true,
+                "includeQueryString": true
+            },
+            "cacheMode": "CACHE_ALL_STATIC",
+            "clientTtl": 3600,
+            "defaultTtl": 3600,
+            "maxTtl": 86400,
+            "negativeCaching": false,
+            "serveWhileStale": 0
+        },
+        "compressionMode": "DISABLED",
+        "connectionDraining": {
+            "drainingTimeoutSec": 300
+        },
+        "description": "",
+        "enableCDN": true,
+        "healthChecks": [
+            "projects/'"$PROJECT_ID"'/global/healthChecks/http-health-check"
+        ],
+        "loadBalancingScheme": "EXTERNAL",
+        "logConfig": {
+            "enable": true,
+            "sampleRate": 1
+        },
+        "name": "http-backend"
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/backendServices"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for backend service creation to complete...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 30
-
-
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting up the URL map to direct traffic to the backend service...${RESET_FORMAT}"
+echo
 # Create URL Map
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "defaultService": "projects/'"$PROJECT_ID"'/global/backendServices/http-backend",
-    "name": "http-lb"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/urlMaps"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "defaultService": "projects/'"$PROJECT_ID"'/global/backendServices/http-backend",
+        "name": "http-lb"
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/urlMaps"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for URL map creation to complete...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 40
-
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the primary target HTTP proxy for the load balancer...${RESET_FORMAT}"
+echo
 # Create Target HTTP Proxy
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "name": "http-lb-target-proxy",
-    "urlMap": "projects/'"$PROJECT_ID"'/global/urlMaps/http-lb"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/targetHttpProxies"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "name": "http-lb-target-proxy",
+        "urlMap": "projects/'"$PROJECT_ID"'/global/urlMaps/http-lb"
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/targetHttpProxies"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for target proxy creation to complete...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 40
-
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Establishing the primary global forwarding rule (IPv4)...${RESET_FORMAT}"
+echo
 # Create Forwarding Rule
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "IPProtocol": "TCP",
-    "ipVersion": "IPV4",
-    "loadBalancingScheme": "EXTERNAL",
-    "name": "http-lb-forwarding-rule",
-    "networkTier": "PREMIUM",
-    "portRange": "80",
-    "target": "projects/'"$PROJECT_ID"'/global/targetHttpProxies/http-lb-target-proxy"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/forwardingRules"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "IPProtocol": "TCP",
+        "ipVersion": "IPV4",
+        "loadBalancingScheme": "EXTERNAL",
+        "name": "http-lb-forwarding-rule",
+        "networkTier": "PREMIUM",
+        "portRange": "80",
+        "target": "projects/'"$PROJECT_ID"'/global/targetHttpProxies/http-lb-target-proxy"
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/forwardingRules"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for forwarding rule creation to complete...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 40
-
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the secondary target HTTP proxy...${RESET_FORMAT}"
+echo
 # Create another Target HTTP Proxy
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "name": "http-lb-target-proxy-2",
-    "urlMap": "projects/'"$PROJECT_ID"'/global/urlMaps/http-lb"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/targetHttpProxies"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "name": "http-lb-target-proxy-2",
+        "urlMap": "projects/'"$PROJECT_ID"'/global/urlMaps/http-lb"
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/targetHttpProxies"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for second target proxy creation...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 40
-
-
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Establishing the secondary global forwarding rule (IPv6)...${RESET_FORMAT}"
+echo
 # Create another Forwarding Rule
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "IPProtocol": "TCP",
-    "ipVersion": "IPV6",
-    "loadBalancingScheme": "EXTERNAL",
-    "name": "http-lb-forwarding-rule-2",
-    "networkTier": "PREMIUM",
-    "portRange": "80",
-    "target": "projects/'"$PROJECT_ID"'/global/targetHttpProxies/http-lb-target-proxy-2"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/forwardingRules"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "IPProtocol": "TCP",
+        "ipVersion": "IPV6",
+        "loadBalancingScheme": "EXTERNAL",
+        "name": "http-lb-forwarding-rule-2",
+        "networkTier": "PREMIUM",
+        "portRange": "80",
+        "target": "projects/'"$PROJECT_ID"'/global/targetHttpProxies/http-lb-target-proxy-2"
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/forwardingRules"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for second forwarding rule creation...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 40
-
-# Set Named Ports for Europe-West1 Instance Group
+echo "${YELLOW_TEXT}${BOLD_TEXT}Assigning named port 'http:80' to the instance group in region: ${BLUE_TEXT}${BOLD_TEXT}$REGION2${RESET_FORMAT}${YELLOW_TEXT}${BOLD_TEXT}...${RESET_FORMAT}"
+echo
+# Set Named Ports for $REGION2 Instance Group
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "namedPorts": [
-      {
-        "name": "http",
-        "port": 80
-      }
-    ]
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/regions/$REGION2/instanceGroups/$INSTANCE_NAME_2/setNamedPorts"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "namedPorts": [
+            {
+                "name": "http",
+                "port": 80
+            }
+        ]
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/regions/$REGION2/instanceGroups/$INSTANCE_NAME_2/setNamedPorts"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for named port configuration...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 40
-
+echo "${YELLOW_TEXT}${BOLD_TEXT}Assigning named port 'http:80' to the instance group in region: ${BLUE_TEXT}${BOLD_TEXT}$REGION1${RESET_FORMAT}${YELLOW_TEXT}${BOLD_TEXT}...${RESET_FORMAT}"
+echo
 # Set Named Ports for $REGION1 Instance Group
 curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "namedPorts": [
-      {
-        "name": "http",
-        "port": 80
-      }
-    ]
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/regions/$REGION1/instanceGroups/$INSTANCE_NAME/setNamedPorts"
+    -H "Authorization: Bearer $TOKEN" \
+    -d '{
+        "namedPorts": [
+            {
+                "name": "http",
+                "port": 80
+            }
+        ]
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/regions/$REGION1/instanceGroups/$INSTANCE_NAME/setNamedPorts"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for named port configuration...${RESET_FORMAT}"
+sleep 60
+echo
 
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Provisioning the 'siege-vm' instance for load testing in zone: ${BLUE_TEXT}${BOLD_TEXT}$VM_ZONE${RESET_FORMAT}${BLUE_TEXT}${BOLD_TEXT}...${RESET_FORMAT}"
+echo
 gcloud compute instances create siege-vm --project=$PROJECT_ID --zone=$VM_ZONE --machine-type=e2-medium --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet=default --metadata=enable-oslogin=true --maintenance-policy=MIGRATE --provisioning-model=STANDARD --create-disk=auto-delete=yes,boot=yes,device-name=siege-vm,image=projects/debian-cloud/global/images/debian-11-bullseye-v20230629,mode=rw,size=10,type=projects/$PROJECT_ID/zones/us-central1-c/diskTypes/pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=goog-ec-src=vm_add-gcloud --reservation-affinity=any
-sleep 40
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for siege VM creation and startup...${RESET_FORMAT}"
+sleep 60
+echo
 
-export EXTERNAL_IP=$(gcloud compute instances  describe siege-vm --zone=$VM_ZONE --format="get(networkInterfaces[0].accessConfigs[0].natIP)")
-sleep 40
+echo "${BLUE_TEXT}${BOLD_TEXT}Retrieving the external IP address of the siege VM...${RESET_FORMAT}"
+echo
+export EXTERNAL_IP=$(gcloud compute instances describe siege-vm --zone=$VM_ZONE --format="get(networkInterfaces[0].accessConfigs[0].natIP)")
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Siege VM External IP:${RESET_FORMAT} ${CYAN_TEXT}${BOLD_TEXT}$EXTERNAL_IP${RESET_FORMAT}"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Allowing time for IP propagation...${RESET_FORMAT}"
+sleep 20
+echo
 
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating a Cloud Armor security policy named 'denylist-siege' to block the siege VM's IP...${RESET_FORMAT}"
+echo
 curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" \
-  -d '{
-    "adaptiveProtectionConfig": {
-      "layer7DdosDefenseConfig": {
-        "enable": false
-      }
-    },
-    "description": "",
-    "name": "denylist-siege",
-    "rules": [
-      {
-        "action": "deny(403)",
+    -d '{
+        "adaptiveProtectionConfig": {
+            "layer7DdosDefenseConfig": {
+                "enable": false
+            }
+        },
         "description": "",
-        "match": {
-          "config": {
-            "srcIpRanges": [
-               "'"${EXTERNAL_IP}"'"
-            ]
-          },
-          "versionedExpr": "SRC_IPS_V1"
-        },
-        "preview": false,
-        "priority": 1000
-      },
-      {
-        "action": "allow",
-        "description": "Default rule, higher priority overrides it",
-        "match": {
-          "config": {
-            "srcIpRanges": [
-              "*"
-            ]
-          },
-          "versionedExpr": "SRC_IPS_V1"
-        },
-        "preview": false,
-        "priority": 2147483647
-      }
-    ],
-    "type": "CLOUD_ARMOR"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/securityPolicies"
+        "name": "denylist-siege",
+        "rules": [
+            {
+                "action": "deny(403)",
+                "description": "",
+                "match": {
+                    "config": {
+                        "srcIpRanges": [
+                             "'"${EXTERNAL_IP}"'"
+                        ]
+                    },
+                    "versionedExpr": "SRC_IPS_V1"
+                },
+                "preview": false,
+                "priority": 1000
+            },
+            {
+                "action": "allow",
+                "description": "Default rule, higher priority overrides it",
+                "match": {
+                    "config": {
+                        "srcIpRanges": [
+                            "*"
+                        ]
+                    },
+                    "versionedExpr": "SRC_IPS_V1"
+                },
+                "preview": false,
+                "priority": 2147483647
+            }
+        ],
+        "type": "CLOUD_ARMOR"
+    }' \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/securityPolicies"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for security policy creation...${RESET_FORMAT}"
+sleep 60
+echo
 
-sleep 40
-
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Attaching the 'denylist-siege' security policy to the 'http-backend' service...${RESET_FORMAT}"
+echo
 curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" \
-  -d "{
-    \"securityPolicy\": \"projects/$PROJECT_ID/global/securityPolicies/denylist-siege\"
-  }" \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/backendServices/http-backend/setSecurityPolicy"
+    -d "{
+        \"securityPolicy\": \"projects/$PROJECT_ID/global/securityPolicies/denylist-siege\"
+    }" \
+    "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/backendServices/http-backend/setSecurityPolicy"
+echo
+echo "${YELLOW_TEXT}${BOLD_TEXT}Waiting for security policy attachment...${RESET_FORMAT}"
+sleep 60
+echo
 
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Retrieving the IP address of the load balancer...${RESET_FORMAT}"
+echo
 LB_IP_ADDRESS=$(gcloud compute forwarding-rules describe http-lb-forwarding-rule --global --format="value(IPAddress)")
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Load Balancer IP Address:${RESET_FORMAT} ${CYAN_TEXT}${BOLD_TEXT}$LB_IP_ADDRESS${RESET_FORMAT}"
+echo
 
-gcloud compute ssh --zone "$VM_ZONE" "siege-vm" --project "$PROJECT_ID" --quiet --command "sudo apt-get -y install siege && export LB_IP=$LB_IP_ADDRESS && siege -c 150 -t 120s http://\$LB_IP"
-
-PROJECT_ID=$(gcloud config get-value project)
-TOKEN=$(gcloud auth application-default print-access-token)
-
-# Create TCP Health Check
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "checkIntervalSec": 5,
-    "description": "",
-    "healthyThreshold": 2,
-    "logConfig": {
-      "enable": false
-    },
-    "name": "http-health-check",
-    "tcpHealthCheck": {
-      "port": 80,
-      "proxyHeader": "NONE"
-    },
-    "timeoutSec": 5,
-    "type": "TCP",
-    "unhealthyThreshold": 2
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/healthChecks"
-
-sleep 30
-
-# Create Backend Services
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "backends": [
-      {
-        "balancingMode": "RATE",
-        "capacityScaler": 1,
-        "group": "projects/'"$PROJECT_ID"'/regions/'"$REGION1"'/instanceGroups/'"$REGION1-mig"'",
-        "maxRatePerInstance": 50
-      },
-      {
-        "balancingMode": "UTILIZATION",
-        "capacityScaler": 1,
-        "group": "projects/'"$PROJECT_ID"'/regions/'"$REGION2"'/instanceGroups/'"$REGION2-mig"'",
-        "maxRatePerInstance": 80,
-        "maxUtilization": 0.8
-      }
-    ],
-    "cdnPolicy": {
-      "cacheKeyPolicy": {
-        "includeHost": true,
-        "includeProtocol": true,
-        "includeQueryString": true
-      },
-      "cacheMode": "CACHE_ALL_STATIC",
-      "clientTtl": 3600,
-      "defaultTtl": 3600,
-      "maxTtl": 86400,
-      "negativeCaching": false,
-      "serveWhileStale": 0
-    },
-    "compressionMode": "DISABLED",
-    "connectionDraining": {
-      "drainingTimeoutSec": 300
-    },
-    "description": "",
-    "enableCDN": true,
-    "healthChecks": [
-      "projects/'"$PROJECT_ID"'/global/healthChecks/http-health-check"
-    ],
-    "loadBalancingScheme": "EXTERNAL",
-    "logConfig": {
-      "enable": true,
-      "sampleRate": 1
-    },
-    "name": "http-backend"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/backendServices"
-
-sleep 30
-
-
-# Create URL Map
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "defaultService": "projects/'"$PROJECT_ID"'/global/backendServices/http-backend",
-    "name": "http-lb"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/urlMaps"
-
-sleep 40
-
-# Create Target HTTP Proxy
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "name": "http-lb-target-proxy",
-    "urlMap": "projects/'"$PROJECT_ID"'/global/urlMaps/http-lb"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/targetHttpProxies"
-
-sleep 40
-
-# Create Forwarding Rule
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "IPProtocol": "TCP",
-    "ipVersion": "IPV4",
-    "loadBalancingScheme": "EXTERNAL",
-    "name": "http-lb-forwarding-rule",
-    "networkTier": "PREMIUM",
-    "portRange": "80",
-    "target": "projects/'"$PROJECT_ID"'/global/targetHttpProxies/http-lb-target-proxy"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/forwardingRules"
-
-sleep 40
-
-# Create another Target HTTP Proxy
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "name": "http-lb-target-proxy-2",
-    "urlMap": "projects/'"$PROJECT_ID"'/global/urlMaps/http-lb"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/targetHttpProxies"
-
-sleep 40
-
-# Create another Forwarding Rule
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "IPProtocol": "TCP",
-    "ipVersion": "IPV6",
-    "loadBalancingScheme": "EXTERNAL",
-    "name": "http-lb-forwarding-rule-2",
-    "networkTier": "PREMIUM",
-    "portRange": "80",
-    "target": "projects/'"$PROJECT_ID"'/global/targetHttpProxies/http-lb-target-proxy-2"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/forwardingRules"
-
-sleep 40
-
-# Set Named Ports for Europe-West1 Instance Group
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "namedPorts": [
-      {
-        "name": "http",
-        "port": 80
-      }
-    ]
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/regions/$REGION2/instanceGroups/$INSTANCE_NAME_2/setNamedPorts"
-
-sleep 40
-
-# Set Named Ports for $REGION1 Instance Group
-curl -X POST -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "namedPorts": [
-      {
-        "name": "http",
-        "port": 80
-      }
-    ]
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/regions/$REGION1/instanceGroups/$INSTANCE_NAME/setNamedPorts"
-
-gcloud compute instances create siege-vm --project=$PROJECT_ID --zone=$VM_ZONE --machine-type=e2-medium --network-interface=network-tier=PREMIUM,stack-type=IPV4_ONLY,subnet=default --metadata=enable-oslogin=true --maintenance-policy=MIGRATE --provisioning-model=STANDARD --create-disk=auto-delete=yes,boot=yes,device-name=siege-vm,image=projects/debian-cloud/global/images/debian-11-bullseye-v20230629,mode=rw,size=10,type=projects/$PROJECT_ID/zones/us-central1-c/diskTypes/pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=goog-ec-src=vm_add-gcloud --reservation-affinity=any
-sleep 40
-
-export EXTERNAL_IP=$(gcloud compute instances  describe siege-vm --zone=$VM_ZONE --format="get(networkInterfaces[0].accessConfigs[0].natIP)")
-sleep 40
-
-curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" \
-  -d '{
-    "adaptiveProtectionConfig": {
-      "layer7DdosDefenseConfig": {
-        "enable": false
-      }
-    },
-    "description": "",
-    "name": "denylist-siege",
-    "rules": [
-      {
-        "action": "deny(403)",
-        "description": "",
-        "match": {
-          "config": {
-            "srcIpRanges": [
-               "'"${EXTERNAL_IP}"'"
-            ]
-          },
-          "versionedExpr": "SRC_IPS_V1"
-        },
-        "preview": false,
-        "priority": 1000
-      },
-      {
-        "action": "allow",
-        "description": "Default rule, higher priority overrides it",
-        "match": {
-          "config": {
-            "srcIpRanges": [
-              "*"
-            ]
-          },
-          "versionedExpr": "SRC_IPS_V1"
-        },
-        "preview": false,
-        "priority": 2147483647
-      }
-    ],
-    "type": "CLOUD_ARMOR"
-  }' \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/securityPolicies"
-
-sleep 40
-
-curl -X POST -H "Authorization: Bearer $(gcloud auth print-access-token)" -H "Content-Type: application/json" \
-  -d "{
-    \"securityPolicy\": \"projects/$PROJECT_ID/global/securityPolicies/denylist-siege\"
-  }" \
-  "https://compute.googleapis.com/compute/v1/projects/$PROJECT_ID/global/backendServices/http-backend/setSecurityPolicy"
-
-LB_IP_ADDRESS=$(gcloud compute forwarding-rules describe http-lb-forwarding-rule --global --format="value(IPAddress)")
-
-gcloud compute ssh --zone "$VM_ZONE" "siege-vm" --project "$PROJECT_ID" --quiet --command "sudo apt-get -y install siege && export LB_IP=$LB_IP_ADDRESS && siege -c 150 -t 120s http://\$LB_IP"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Connecting to the siege VM via SSH, installing siege, and initiating the load test against the LB IP...${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}Siege command: siege -c 150 -t 120s http://$LB_IP_ADDRESS${RESET_FORMAT}"
+echo
+gcloud compute ssh --zone "$VM_ZONE" "siege-vm" --project "$PROJECT_ID" --quiet --command "sudo apt-get -y update && sudo apt-get -y install siege && export LB_IP=$LB_IP_ADDRESS && echo 'Starting siege test...' && siege -c 150 -t 120s http://\$LB_IP && echo 'Siege test finished.'"
 
 # ✅ Completion Message
 echo

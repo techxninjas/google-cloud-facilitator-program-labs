@@ -133,8 +133,8 @@ gcloud pubsub topics create $TOPIC_NAME || {
 section "FUNCTION SETUP"
 echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Preparing function source directory..."
 # Create directory and change into it, handle potential errors
-mkdir -p drabhishek && cd drabhishek || {
-        echo "${BOLD_TEXT}${RED_TEXT}✗ Error creating or entering directory 'drabhishek'${RESET_FORMAT}"
+mkdir -p techxninjas && cd techxninjas || {
+        echo "${BOLD_TEXT}${RED_TEXT}✗ Error creating or entering directory 'techxninjas'${RESET_FORMAT}"
         exit 1 # Exit if directory setup fails
 }
 

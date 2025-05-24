@@ -338,30 +338,30 @@ echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Defining alerting policy for 
 # Create JSON file for the alerting policy definition
 cat > active-instances-policy.json <<EOF_END
 {
-  "displayName": "Active Cloud Function Instances Alert",
+  "displayName": "Active Cloud Run Function Instances",
   "combiner": "OR",
   "conditions": [
-        {
-          "displayName": "Cloud Function - Active Instances > 0",
-          "conditionThreshold": {
-                "filter": "resource.type=\"cloud_function\" AND metric.type=\"cloudfunctions.googleapis.com/function/active_instances\"",
-                "aggregations": [
-                  {
-                        "alignmentPeriod": "60s",
-                        "perSeriesAligner": "ALIGN_MAX"
-                  }
-                ],
-                "comparison": "COMPARISON_GT",
-                "thresholdValue": 0,
-                "duration": "60s",
-                "trigger": {
-                   "count": 1
-                }
+    {
+      "displayName": "Cloud Run - Active Instances > 0",
+      "conditionThreshold": {
+        "filter": "resource.type=\"cloud_run_revision\" AND metric.type=\"run.googleapis.com/container/active_instances\"",
+        "aggregations": [
+          {
+            "alignmentPeriod": "60s",
+            "perSeriesAligner": "ALIGN_MAX"
           }
+        ],
+        "comparison": "COMPARISON_GT",
+        "thresholdValue": 0,
+        "duration": "60s",
+        "trigger": {
+          "count": 1
         }
+      }
+    }
   ],
   "alertStrategy": {
-        "autoClose": "604800s"
+    "autoClose": "604800s"
   },
   "notificationChannels": ["$CHANNEL_NAME"]
 }

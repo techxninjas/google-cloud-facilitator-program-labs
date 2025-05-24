@@ -48,32 +48,43 @@ export REGION=$(gcloud compute project-info describe \
 --format="value(commonInstanceMetadata.items[google-compute-default-region])")
 echo ""
 
-# Step 35: Create a new Dataproc cluster
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Dataproc cluster...${RESET_FORMAT}"
-gcloud dataproc clusters create awesome --enable-component-gateway --region $REGION --master-machine-type e2-standard-2 --master-boot-disk-type pd-balanced --master-boot-disk-size 100 --num-workers 2 --worker-machine-type e2-standard-2 --worker-boot-disk-type pd-balanced --worker-boot-disk-size 100 --image-version 2.2-debian12 --project $DEVSHELL_PROJECT_ID
-echo ""
+export REGION=us-central1
+export DEVSHELL_PROJECT_ID=$(gcloud config get-value project)
 
-# Step 36: Get the VM instance name from the project
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Fetching VM instance name...${RESET_FORMAT}"
-VM_NAME=$(gcloud compute instances list --project="$DEVSHELL_PROJECT_ID" --format=json | jq -r '.[0].name')
-echo ""
+echo "Creating Dataproc cluster..."
+gcloud dataproc clusters create awesome \
+  --enable-component-gateway \
+  --region=$REGION \
+  --master-machine-type=e2-standard-2 \
+  --master-boot-disk-type=pd-balanced \
+  --master-boot-disk-size=100 \
+  --num-workers=2 \
+  --worker-machine-type=e2-standard-2 \
+  --worker-boot-disk-type=pd-balanced \
+  --worker-boot-disk-size=100 \
+  --image-version=2.2-debian12 \
+  --project=$DEVSHELL_PROJECT_ID
 
-# Step 37: Get the compute zone of the VM
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Fetching VM zone...${RESET_FORMAT}"
-export ZONE=$(gcloud compute instances list $VM_NAME --format 'csv[no-heading](zone)')
-echo ""
+echo "Waiting for cluster to be ready..."
+until gcloud dataproc clusters describe awesome --region=$REGION --project=$DEVSHELL_PROJECT_ID &>/dev/null; do
+  sleep 5
+done
 
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying data to HDFS on VM...${RESET_FORMAT}"
-gcloud compute ssh --zone "$ZONE" "$VM_NAME" --project "$DEVSHELL_PROJECT_ID" --quiet --command="hdfs dfs -cp gs://cloud-training/gsp323/data.txt /data.txt"
-echo ""
+echo "Fetching VM instance name..."
+VM_NAME=$(gcloud compute instances list --project="$DEVSHELL_PROJECT_ID" --format="value(name)" | head -n 1)
 
-# Step 39: Copy data from Cloud Storage to local storage in the VM
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying data to local storage on VM...${RESET_FORMAT}"
-gcloud compute ssh --zone "$ZONE" "$VM_NAME" --project "$DEVSHELL_PROJECT_ID" --quiet --command="gsutil cp gs://cloud-training/gsp323/data.txt /data.txt"
-echo ""
+echo "Fetching VM zone..."
+ZONE=$(gcloud compute instances list --filter="name=($VM_NAME)" --format="value(zone)")
 
-# Step 40: Submit a Spark job to the Dataproc cluster
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Submitting Spark job to Dataproc...${RESET_FORMAT}"
+echo "Copying data to HDFS on VM..."
+gcloud compute ssh "$VM_NAME" --zone="$ZONE" --project="$DEVSHELL_PROJECT_ID" --quiet \
+  --command="hdfs dfs -cp gs://cloud-training/gsp323/data.txt /data.txt"
+
+echo "Copying data to local storage on VM..."
+gcloud compute ssh "$VM_NAME" --zone="$ZONE" --project="$DEVSHELL_PROJECT_ID" --quiet \
+  --command="gsutil cp gs://cloud-training/gsp323/data.txt /data.txt"
+
+echo "Submitting Spark job to Dataproc..."
 gcloud dataproc jobs submit spark \
   --cluster=awesome \
   --region=$REGION \
@@ -81,7 +92,8 @@ gcloud dataproc jobs submit spark \
   --jars=file:///usr/lib/spark/examples/jars/spark-examples.jar \
   --project=$DEVSHELL_PROJECT_ID \
   -- /data.txt
-echo ""
+  
+echo
 
 cd
 

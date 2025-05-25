@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}         LAB_NAME       ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}        Create a Secure Data Lake on Cloud Storage: Challenge Lab       ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
@@ -58,27 +58,36 @@ echo ""
 echo ""
 echo "${YELLOW_TEXT}${BOLD_TEXT}Please check your lab task allotment and select the corresponding option:${RESET_FORMAT}"
 echo ""
-echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 1:${RESET_FORMAT}"
+echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 1: CLICK A to select this${RESET_FORMAT}"
 echo "---> Task 1: Create a Cloud Storage bucket."
 echo "---> Task 2: Create a lake in Dataplex and add a zone to your lake."
+echo "---> Task 3: Environment Creation for Dataplex Lake."
+echo "---> Task 4: Create a tag template (Storage bucket)."
 echo ""
-echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 2:${RESET_FORMAT}"
+echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 2: CLICK B to select this${RESET_FORMAT}"
 echo "---> Task 1: Create a BigQuery dataset."
 echo "---> Task 2: Add a zone to your lake."
+echo "---> Task 3: Attach an existing BigQuery Dataset to the Lake"
+echo "---> Task 4: Create a tag template (BigQuery Dataset)"
 echo ""
-echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 3:${RESET_FORMAT}"
+echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 3: CLICK C to select this${RESET_FORMAT}"
 echo "---> Task 1: Create a lake in Dataplex and add a zone to your lake."
 echo "---> Task 2: Attach an existing Cloud Storage bucket to the zone."
+echo "---> Task 3: Attach an existing BigQuery Dataset to the Lake."
+echo "---> Task 4: Create Entities."
 echo ""
-echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 4:${RESET_FORMAT}"
+echo "${WHITE_TEXT}${BOLD_TEXT}Dynamic Allocation 4: CLICK D to select this${RESET_FORMAT}"
 echo "---> Task 1: Create a lake in Dataplex and add a zone to your lake."
 echo "---> Task 2: Environment Creation for Dataplex."
+echo "---> Task 3: Attach an existing Cloud Storage bucket to the zone."
+echo "---> Task 4: Create a tag template (Storage bucket)."
 echo ""
 
 read -p "$(echo -e "${CYAN_TEXT}${BOLD_TEXT}Enter your allocation choice (A/a, B/b, C/c, D/d): ${RESET_FORMAT}")" choice
 
 case "${choice,,}" in
     a)
+        echo
         echo "${GREEN_TEXT}Executing Dynamic Allocation 1 tasks...${RESET_FORMAT}"
         export KEY_1=domain_type
         export VALUE_1=source_data
@@ -114,6 +123,7 @@ case "${choice,,}" in
         echo
         ;;
     b)
+        echo
         echo "${GREEN_TEXT}Executing Dynamic Allocation 2 tasks...${RESET_FORMAT}"
         bq mk --location=US Raw_data
         echo
@@ -145,10 +155,11 @@ case "${choice,,}" in
             --field=id=protected_data_flag,display-name="Protected Data Flag",type='enum(Yes|No)',required=TRUE
         echo
 
-        echo "${CYAN}${BOLD}Click here: "${RESET}""${BLUE}${BOLD}"https://console.cloud.google.com/dataplex/search?project=$DEVSHELL_PROJECT_ID&q=us-states&qSystems=BIGQUERY""${RESET}"
+        echo "${CYAN_TEXT}${BOLD_TEXT}Click here for next task: "${RESET_FORMAT}""${BLUE_TEXT}${BOLD_TEXT}"https://console.cloud.google.com/dataplex/search?project=$DEVSHELL_PROJECT_ID&q=us-states&qSystems=BIGQUERY""${RESET_FORMAT}"
         sleep 20
         ;;
     c)
+        echo
         echo "${GREEN_TEXT}Executing Dynamic Allocation 3 tasks...${RESET_FORMAT}"
         gcloud alpha dataplex lakes create customer-lake \
         --display-name="Customer-Lake" \
@@ -179,10 +190,11 @@ case "${choice,,}" in
                     --display-name="Customer Reference Data"
         echo
 
-        echo "${CYAN}${BOLD}Click here: "${RESET}""${BLUE}${BOLD}"https://console.cloud.google.com/dataplex/lakes/customer-lake/zones/public-zone/create-entity;location=$REGION?project=$DEVSHELL_PROJECT_ID""${RESET}"
+        echo "${CYAN_TEXT}${BOLD_TEXT}Click here: "${RESET_FORMAT}""${BLUE_TEXT}${BOLD_TEXT}"https://console.cloud.google.com/dataplex/lakes/customer-lake/zones/public-zone/create-entity;location=$REGION?project=$DEVSHELL_PROJECT_ID""${RESET_FORMAT}"
         sleep 20
         ;;
     d)
+        echo
         echo "${GREEN_TEXT}Executing Dynamic Allocation 4 tasks...${RESET_FORMAT}"
         export KEY_1=domain_type
         export VALUE_1=source_data

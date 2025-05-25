@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}         LAB_NAME       ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}             Cloud Storage: Qwik Start - Cloud Console           ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
@@ -50,6 +50,8 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...          ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
+
+gcloud storage buckets create gs://${PROJECT_ID} --project=${PROJECT_ID}
 
 curl https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ada_Lovelace_portrait.jpg/800px-Ada_Lovelace_portrait.jpg --output ada.jpg
 

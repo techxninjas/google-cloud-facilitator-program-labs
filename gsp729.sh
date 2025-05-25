@@ -57,12 +57,15 @@ echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling Data Catalog API...${RESET_FORMAT}"
 gcloud services enable datacatalog.googleapis.com
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating BigQuery dataset 'demo_dataset'...${RESET_FORMAT}"
 bq mk demo_dataset
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying data from public dataset to your dataset...${RESET_FORMAT}"
 bq cp bigquery-public-data:new_york_taxi_trips.tlc_yellow_trips_2018 $DEVSHELL_PROJECT_ID:demo_dataset.trips
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Data Catalog tag template 'demo_tag_template'...${RESET_FORMAT}"
 gcloud data-catalog tag-templates create demo_tag_template \
@@ -72,9 +75,11 @@ gcloud data-catalog tag-templates create demo_tag_template \
     --field=id=number_of_rows_in_data_asset,display-name="Number of rows in data asset",type=double \
     --field=id=has_pii,display-name="Has PII",type=bool \
     --field=id=pii_type,display-name="PII type",type='enum(Email|Social Security Number|None)'
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Looking up the Data Catalog entry for the 'trips' table...${RESET_FORMAT}"
 ENTRY_NAME=$(gcloud data-catalog entries lookup '//bigquery.googleapis.com/projects/'$DEVSHELL_PROJECT_ID'/datasets/demo_dataset/tables/trips' --format="value(name)")
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating tag.json file...${RESET_FORMAT}"
 cat > tag.json << EOF
@@ -83,10 +88,12 @@ cat > tag.json << EOF
     "pii_type": "None"
   }
 EOF
+echo ""
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Data Catalog tag for the 'trips' table...${RESET_FORMAT}"
 gcloud data-catalog tags create --entry=${ENTRY_NAME} \
     --tag-template=demo_tag_template --tag-template-location=$REGION --tag-file=tag.json
+echo ""
 
 # ✅ Completion Message
 echo

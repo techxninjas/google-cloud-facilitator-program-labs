@@ -19,15 +19,15 @@ clear
 
 # ====================[ Banner Message ]==================== #
 print_banner() {
-    echo "${CYAN}${BOLD}🚀===========================================================${RESET}"
-    echo "${CYAN}${BOLD}          Optimizing Cost with Google Cloud Storage   ${RESET}"
-    echo "${CYAN}${BOLD}===========================================================🚀${RESET}"
+    echo "${CYAN_TEXT}${BOLD_TEXT}🚀===========================================================${RESET_FORMAT}"
+    echo "${CYAN_TEXT}${BOLD_TEXT}          Optimizing Cost with Google Cloud Storage   ${RESET_FORMAT}"
+    echo "${CYAN_TEXT}${BOLD_TEXT}===========================================================🚀${RESET_FORMAT}"
     echo ""
 }
 print_banner
 
 remove_temp_files() {
-    echo "${YELLOW}${BOLD}Cleaning up temporary files...${RESET}"
+    echo "${MAGENTA_TEXT}${BOLD_TEXT}Cleaning up temporary files...${RESET_FORMAT}"
     for file in *; do
         if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
             [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"

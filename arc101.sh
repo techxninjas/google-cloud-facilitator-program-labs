@@ -41,11 +41,11 @@ echo ""
 
 # --- User Input ---
 # Prompt user for necessary configuration values, displaying variable names in Cyan
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}BUCKET_NAME${WHITE_TEXT}: ${RESET_FORMAT}" BUCKET_NAME
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}TOPIC_NAME${WHITE_TEXT}: ${RESET_FORMAT}" TOPIC_NAME
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}FUNCTION_NAME${WHITE_TEXT}: ${RESET_FORMAT}" FUNCTION_NAME
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}REGION${WHITE_TEXT}: ${RESET_FORMAT}" REGION
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}SECOND_USER${WHITE_TEXT}: ${RESET_FORMAT}" SECOND_USER
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Bucket Name${WHITE_TEXT}: ${RESET_FORMAT}" BUCKET_NAME
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Topic Name${WHITE_TEXT}: ${RESET_FORMAT}" TOPIC_NAME
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Cloud Function Name${WHITE_TEXT}: ${RESET_FORMAT}" FUNCTION_NAME
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Region${WHITE_TEXT}: ${RESET_FORMAT}" REGION
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}the Username of Storage Object Viewer${WHITE_TEXT}: ${RESET_FORMAT}" SECOND_USER
 read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter your email for alert notifications (${CYAN_TEXT}ALERT_EMAIL${WHITE_TEXT}): ${RESET_FORMAT}" ALERT_EMAIL
 
 # --- Helper Function ---

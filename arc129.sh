@@ -56,8 +56,8 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
 
 # Instruction before getting user input
-echo "${CYAN_TEXT}${BOLD_TEXT}Enter USERNAME 2: ${RESET_FORMAT}"
-read -r USER_2
+read -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter User 2 (Check Task 3 of your Lab): ${RESET_FORMAT}" USER_2
+echo ""
 
 # Step 1: Fetch taxonomy & plocy details
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Fetching taxonomy name, ID & policy...${RESET_FORMAT}"
@@ -72,14 +72,12 @@ export TAXONOMY_ID=$(gcloud data-catalog taxonomies list \
   --location=us \
   --format="value(name)" \
   --filter="displayName=$TAXONOMY_NAME" | awk -F'/' '{print $6}')
-echo
 
 export POLICY_TAG=$(gcloud data-catalog taxonomies policy-tags list \
   --location=us \
   --taxonomy=$TAXONOMY_ID \
   --format="value(name)" \
   --limit=1)
-echo
 
 # Step 2: Create BigQuery dataset
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the BigQuery dataset...${RESET_FORMAT}"

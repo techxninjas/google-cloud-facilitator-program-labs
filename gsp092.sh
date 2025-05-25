@@ -55,24 +55,6 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Enabling Cloud Run API...${RESET_FORMAT}"
-gcloud services enable run.googleapis.com
-echo "${GREEN_TEXT}${BOLD_TEXT}===> ✅ Cloud Run API enabled.${RESET_FORMAT}"
-echo
-sleep 20
-
-echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Cloud Run function: helloworld${RESET_FORMAT}"
-gcloud run deploy helloworld \
-  --region="$REGION" \
-  --source=. \
-  --allow-unauthenticated \
-  --execution-environment=gen2 \
-  --max-instances=5 \
-  --quiet
-echo
-echo "${GREEN_TEXT}${BOLD_TEXT}===> ✅ Cloud Run service 'helloworld' deployed successfully.${RESET_FORMAT}"
-echo
-
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Downloading the Vegeta load testing tool.${RESET_FORMAT}"
 curl -LO 'https://github.com/tsenart/vegeta/releases/download/v12.12.0/vegeta_12.12.0_linux_386.tar.gz'
 echo

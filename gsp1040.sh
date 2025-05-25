@@ -17,9 +17,9 @@ UNDERLINE_TEXT=$'\033[4m'
 clear
 
 # 💡 Start-Up Banner
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}         LAB_NAME       ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}---------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}         BigLake: Qwik Start       ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}---------------------------------${RESET_FORMAT}"
 echo ""
 
 # Author: Aadil Latif

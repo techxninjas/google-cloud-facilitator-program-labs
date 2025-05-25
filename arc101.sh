@@ -40,15 +40,14 @@ echo "${CYAN_TEXT}${BOLD_TEXT}--------------------------------------------------
 echo ""
 
 # Prompt user for necessary configuration values, displaying variable names in Cyan
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Bucket Name${WHITE_TEXT}: ${RESET_FORMAT}" BUCKET_NAME
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Topic Name${WHITE_TEXT}: ${RESET_FORMAT}" TOPIC_NAME
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Cloud Function Name${WHITE_TEXT}: ${RESET_FORMAT}" FUNCTION_NAME
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}Region${WHITE_TEXT}: ${RESET_FORMAT}" REGION
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter ${CYAN_TEXT}the Username of Storage Object Viewer${WHITE_TEXT}: ${RESET_FORMAT}" BUCKET_USER
-read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter your email for alert notifications (${CYAN_TEXT}ALERT_EMAIL${WHITE_TEXT}): ${RESET_FORMAT}" ALERT_EMAIL
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter Bucket Name: ${RESET_FORMAT}" BUCKET_NAME
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter Topic Name: ${RESET_FORMAT}" TOPIC_NAME
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter Cloud Function Name: ${RESET_FORMAT}" FUNCTION_NAME
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter Region: ${RESET_FORMAT}" REGION
+read -p "${CYAN_TEXT}${BOLD_TEXT}===> Enter the Username of Storage Object Viewer: ${RESET_FORMAT}" BUCKET_USER
 echo
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Activating necessary Google Cloud services...${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Activating necessary Google Cloud services...${RESET_FORMAT}"
 gcloud services enable \
   artifactregistry.googleapis.com \
   cloudfunctions.googleapis.com \
@@ -59,7 +58,7 @@ gcloud services enable \
   pubsub.googleapis.com
 echo
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Configuring compute region: ${BOLD_TEXT}${WHITE_TEXT}$REGION${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Configuring compute region: ${BOLD_TEXT}${WHITE_TEXT}$REGION${RESET_FORMAT}"
 gcloud config set compute/region $REGION
 echo
 
@@ -76,15 +75,15 @@ for i in {1..3}; do
 done
 echo
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Assigning storage permissions for user: ${BOLD_TEXT}${WHITE_TEXT}$BUCKET_USER${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Assigning storage permissions for user: ${BUCKET_USER}${RESET_FORMAT}"
 gcloud projects add-iam-policy-binding $DEVSHELL_PROJECT_ID --member=user:$BUCKET_USER --role=roles/storage.objectViewer
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Setting up Pub/Sub topic: ${BOLD_TEXT}${WHITE_TEXT}$TOPIC_NAME${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Setting up Pub/Sub topic: ${RESET_FORMAT}"
 gcloud pubsub topics create $TOPIC_NAME
 
 mkdir techxninjas && cd techxninjas
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Generating function source files (index.js, package.json)..."
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Generating function source files (index.js, package.json)...${RESET_FORMAT}"
 cat > index.js <<'EOF_END'
 /* globals exports, require */
 //jshint strict: false
@@ -228,7 +227,7 @@ done
 
 wget https://storage.googleapis.com/cloud-training/arc101/travel.jpg
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Copying sample image to the bucket..."
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Copying sample image to the bucket...${RESET_FORMAT}"
 # Retry loop for uploading test image
 for i in {1..3}; do
         if gsutil cp travel.jpg gs://$BUCKET_NAME; then
@@ -242,7 +241,7 @@ for i in {1..3}; do
         fi
 done
 
-echo "${CYAN_TEXT}${BOLD_TEXT}---> ${RESET_FORMAT} Defining alerting policy for active function instances..."
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Defining alerting policy for active function instances...${RESET_FORMAT}"
 cat > app-engine-error-percent-policy.json <<EOF_END
 {
     "displayName": "Active Cloud Run Function Instances",

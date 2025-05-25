@@ -22,6 +22,10 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         LAB_NAME       ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
+# Author: Aadil Latif
+# Script: TechX Ninjas Lab Setup
+# Version: 1.0
+
 # 🌍 Fetching Region
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔄 Fetching Region...${RESET_FORMAT}"
 export REGION=$(gcloud compute project-info describe \
@@ -69,16 +73,12 @@ for i in {1..20}; do
 done
 echo ""
 
-remove_temp_files() {
-    echo "${YELLOW_TEXT}${BOLD_TEXT}Cleaning up temporary files...${RESET_FORMAT}"
-    for file in *; do
-        if [[ "$file" == gsp* || "$file" == arc* || "$file" == shell* ]]; then
-            [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"
-        fi
-    done
-}
-remove_temp_files
-echo ""
+shopt -s nullglob
+for file in gsp* arc* shell*; do
+    [[ -f "$file" ]] && rm "$file" && echo "Removed: $file"
+done
+shopt -u nullglob
+echo
 
 # ✅ Completion Message
 echo

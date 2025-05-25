@@ -17,10 +17,9 @@ UNDERLINE_TEXT=$'\033[4m'
 clear
 
 # 💡 Start-Up Banner
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}     10th Game: Skills Boost Arcade Certification Zone April 2025      ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}        7th Lab: Tag and Discover BigLake Data: Challenge Lab          ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}      Tag and Discover BigLake Data: Challenge Lab      ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
 # 🌍 Fetching Region

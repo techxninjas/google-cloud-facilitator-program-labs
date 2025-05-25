@@ -19,8 +19,7 @@ clear
 
 # 🚨 Welcome Message
 echo "${CYAN_TEXT}${BOLD}🚀===========================================================${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD}     5th Lab: Monitor an Apache Web Server using Ops Agent     ${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD}        Level 2: Cloud Infrastructure & API Essentials           ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD}         Monitor an Apache Web Server using Ops Agent       ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD}===========================================================🚀${RESET_FORMAT}"
 echo ""
 

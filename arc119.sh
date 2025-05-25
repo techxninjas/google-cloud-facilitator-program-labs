@@ -156,7 +156,8 @@ case "${choice,,}" in
         echo
 
         echo "${CYAN_TEXT}${BOLD_TEXT}Click here for next task: "${RESET_FORMAT}""${BLUE_TEXT}${BOLD_TEXT}"https://console.cloud.google.com/dataplex/search?project=$DEVSHELL_PROJECT_ID&q=us-states&qSystems=BIGQUERY""${RESET_FORMAT}"
-        sleep 20
+        echo "${GREEN_TEXT}See the Video Carefully for next task...${RESET_FORMAT}"
+        sleep 60
         ;;
     c)
         echo
@@ -190,7 +191,8 @@ case "${choice,,}" in
                     --display-name="Customer Reference Data"
         echo
 
-        echo "${CYAN_TEXT}${BOLD_TEXT}Click here: "${RESET_FORMAT}""${BLUE_TEXT}${BOLD_TEXT}"https://console.cloud.google.com/dataplex/lakes/customer-lake/zones/public-zone/create-entity;location=$REGION?project=$DEVSHELL_PROJECT_ID""${RESET_FORMAT}"
+        echo "${CYAN_TEXT}${BOLD_TEXT}Click here for next task: "${RESET_FORMAT}""${BLUE_TEXT}${BOLD_TEXT}"https://console.cloud.google.com/dataplex/lakes/customer-lake/zones/public-zone/create-entity;location=$REGION?project=$DEVSHELL_PROJECT_ID""${RESET_FORMAT}"
+        echo "${GREEN_TEXT}See the Video Carefully for next task...${RESET_FORMAT}"
         sleep 20
         ;;
     d)

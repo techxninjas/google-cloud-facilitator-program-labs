@@ -20,8 +20,7 @@ clear
 # ====================[ Banner Message ]==================== #
 print_banner() {
     echo "${CYAN}${BOLD}🚀===========================================================${RESET}"
-    echo "${CYAN}${BOLD}     5th Lab: Optimizing Cost with Google Cloud Storage   ${RESET}"
-    echo "${CYAN}${BOLD}               6th Game: Arcade TechCare                  ${RESET}"
+    echo "${CYAN}${BOLD}          Optimizing Cost with Google Cloud Storage   ${RESET}"
     echo "${CYAN}${BOLD}===========================================================🚀${RESET}"
     echo ""
 }

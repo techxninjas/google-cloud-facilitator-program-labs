@@ -55,6 +55,20 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
+echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Cloud Run function: helloworld${RESET_FORMAT}"
+
+gcloud run deploy helloworld \
+  --region="$REGION" \
+  --runtime="nodejs22" \
+  --source=. \
+  --allow-unauthenticated \
+  --execution-environment=gen2 \
+  --max-instances=5
+
+echo
+echo "${GREEN_TEXT}${BOLD_TEXT}===> ✅ Cloud Run function 'helloworld' deployed successfully.${RESET_FORMAT}"
+echo
+
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Downloading the Vegeta load testing tool.${RESET_FORMAT}"
 curl -LO 'https://github.com/tsenart/vegeta/releases/download/v12.12.0/vegeta_12.12.0_linux_386.tar.gz'
 echo

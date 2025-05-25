@@ -40,12 +40,12 @@ echo ""
 
 # 🆔 Fetching Project ID
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project ID...${RESET_FORMAT}"
-PROJECT_ID=`gcloud config get-value project`
+DEVSHELL_PROJECT_ID=`gcloud config get-value project`
 echo ""
 
 # 🔢 Fetching Project Number
 echo "${MAGENTA_TEXT}${BOLD_TEXT}${UNDERLINE_TEXT}🔍 Fetching Project Number...${RESET_FORMAT}"
-export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
+export PROJECT_NUMBER=$(gcloud projects describe $DEVSHELL_PROJECT_ID --format="value(projectNumber)")
 echo ""
 echo ""
 

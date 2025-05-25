@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}                  Streaming Analytics into BigQuery                ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}                 Dataflow: Qwik Start - Templates               ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 

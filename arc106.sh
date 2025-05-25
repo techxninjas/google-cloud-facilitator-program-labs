@@ -32,19 +32,19 @@ read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter REGION: ${RESET_FORMAT}" REGION
 export REGION=$REGION
 
 echo
-read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter DATASET name: ${RESET_FORMAT}" DATASET
+read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter BigQuery dataset name: ${RESET_FORMAT}" DATASET
 export DATASET=$DATASET
 
 echo
-read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter TABLE name: ${RESET_FORMAT}" TABLE
+read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter BigQuery table name: ${RESET_FORMAT}" TABLE
 export TABLE=$TABLE
 
 echo
-read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter TOPIC name: ${RESET_FORMAT}" TOPIC
+read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter Pub/Sub topic name: ${RESET_FORMAT}" TOPIC
 export TOPIC=$TOPIC
 
 echo
-read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter the JOB name: ${RESET_FORMAT}" JOB
+read -r -p "${MAGENTA_TEXT}${BOLD_TEXT}Enter Dataflow job name: ${RESET_FORMAT}" JOB
 export JOB=$JOB
 
 export PROJECT_ID=$(gcloud config get-value project)

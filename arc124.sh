@@ -104,7 +104,6 @@ echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Setting up firewall rules...${RESET_FORMAT}"
 gcloud compute firewall-rules create www-firewall-network-lb --allow tcp:80 --target-tags network-lb-tag
-echo
 echo "${GREEN_TEXT}${BOLD_TEXT}Firewall rule www-firewall-network-lb created successfully.${RESET_FORMAT}"
 echo
 
@@ -130,14 +129,10 @@ echo "${GREEN_TEXT}${BOLD_TEXT}Load balancer setup completed.${RESET_FORMAT}"
 echo
 
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Fetching Load Balancer IP Address...${RESET_FORMAT}"
-echo
 IPADDRESS=$(gcloud compute forwarding-rules describe www-rule --region=$REGION  --format="json" | jq -r .IPAddress)
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating instance templates and backend services...${RESET_FORMAT}"
-echo
-#TASK 3
-
 gcloud compute instance-templates create lb-backend-template \
    --region=$REGION \
    --network=default \
@@ -156,25 +151,16 @@ gcloud compute instance-templates create lb-backend-template \
      echo "Page served from: $vm_hostname" | \
      tee /var/www/html/index.html
      systemctl restart apache2'
-
-echo
 echo "${GREEN_TEXT}${BOLD_TEXT}Instance template created.${RESET_FORMAT}"
 echo
 
-echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Managed Instance Group...${RESET_FORMAT}"
-echo
 gcloud compute instance-groups managed create lb-backend-group \
    --template=lb-backend-template --size=2 --zone=$ZONE 
-
-echo
 echo "${GREEN_TEXT}${BOLD_TEXT}Managed instance group created.${RESET_FORMAT}"
 echo
 
-echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating Firewall Rules...${RESET_FORMAT}"
-echo
-
 gcloud compute firewall-rules create fw-allow-health-check \
   --network=default \
   --action=allow \
@@ -216,8 +202,7 @@ gcloud compute forwarding-rules create http-content-rule \
     --global \
     --target-http-proxy=http-lb-proxy \
     --ports=80
-
-echo
+    
 echo "${GREEN_TEXT}${BOLD_TEXT}Firewall rules created.${RESET_FORMAT}"
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Load Balancer IP Address: ${IPADDRESS}${RESET_FORMAT}"

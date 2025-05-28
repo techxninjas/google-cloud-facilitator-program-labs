@@ -55,10 +55,10 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-echo "${MAGENTA_TEXT}${BOLD_TEXT}===> Please enter the desired metric name:${RESET_FORMAT}"
+echo "${MAGENTA_TEXT}${BOLD_TEXT}===> Please enter the Custome Metric name:${RESET_FORMAT}"
 read METRIC
 echo
-echo "${MAGENTA_TEXT}${BOLD_TEXT}===> Please enter the threshold value for the alert:${RESET_FORMAT}"
+echo "${MAGENTA_TEXT}${BOLD_TEXT}===> Please enter the Threshold Value:${RESET_FORMAT}"
 read VALUE
 
 echo

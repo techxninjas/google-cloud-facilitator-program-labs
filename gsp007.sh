@@ -24,8 +24,7 @@ RANDOM_BG=${BG_COLORS[$RANDOM % ${#BG_COLORS[@]}]}
 # ====================[ Banner Message ]==================== #
 print_banner() {
     echo "${CYAN}${BOLD}🚀===========================================================${RESET}"
-    echo "${CYAN}${BOLD}     7th Lab: Set Up Network and Application Load Balancers   ${RESET}"
-    echo "${CYAN}${BOLD}        4th Game: Cloud Infrastructure & API Essentials        ${RESET}"
+    echo "${CYAN}${BOLD}     Set Up Network and Application Load Balancers   ${RESET}"
     echo "${CYAN}${BOLD}===========================================================🚀${RESET}"
     echo ""
 }

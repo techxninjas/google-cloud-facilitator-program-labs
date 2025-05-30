@@ -46,19 +46,19 @@ echo ""
 # Enter the Main Region
 echo "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the Main Region (e.g., us-central1):${RESET_FORMAT}"
 read -r REGION
-echo "${GREEN_TEXT}${BOLD_TEXT}---> You entered: ${MAIN_REGION}${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}---> You entered: ${REGION}${RESET_FORMAT}"
 echo ""
 
 # Enter the second Region
 echo "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the Second Region (e.g., us-east1):${RESET_FORMAT}"
 read -r REGION2
-echo "${GREEN_TEXT}${BOLD_TEXT}---> You entered: ${SECOND_REGION}${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}---> You entered: ${REGION2}${RESET_FORMAT}"
 echo ""
 
 # Enter the third Region
 echo "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the Third Region (e.g., europe-west1):${RESET_FORMAT}"
 read -r REGION3
-echo "${GREEN_TEXT}${BOLD_TEXT}---> You entered: ${THIRD_REGION}${RESET_FORMAT}"
+echo "${GREEN_TEXT}${BOLD_TEXT}---> You entered: ${REGION3}${RESET_FORMAT}"
 echo ""
 
 # Set the main region and corresponding default zone

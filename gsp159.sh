@@ -43,11 +43,11 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter REGION1: ${RESET_FORMAT}" REGION1
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the 1st Region (Check Task 1: Step 1): ${RESET_FORMAT}" REGION1
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter REGION2: ${RESET_FORMAT}" REGION2
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the 2nd Region (Check Task 1: Step 2): ${RESET_FORMAT}" REGION2
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter REGION3: ${RESET_FORMAT}" REGION3
+read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the 3rd Region (Check Task 1: Step 3): ${RESET_FORMAT}" REGION3
 echo
 
 # Export variables after collecting input

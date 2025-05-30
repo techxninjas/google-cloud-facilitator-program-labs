@@ -67,24 +67,34 @@ gcloud config set compute/region "$REGION"
 export REGION=$(gcloud config get-value compute/region)
 gcloud config set compute/zone "${REGION}-c"
 export ZONE=$(gcloud config get-value compute/zone)
+echo ""
 
 # Create the main network
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating the main network...${RESET_FORMAT}"
 gcloud compute networks create taw-custom-network --subnet-mode=custom
+echo ""
 
 # Create subnets in the specified regions
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Creating subnets in the specified regions...${RESET_FORMAT}"
 gcloud compute networks subnets create subnet-$REGION --network=taw-custom-network --region=$REGION --range=10.0.0.0/16
+echo ""
 gcloud compute networks subnets create subnet-$REGION2 --network=taw-custom-network --region=$REGION2 --range=10.1.0.0/16
+echo ""
 gcloud compute networks subnets create subnet-$REGION3 --network=taw-custom-network --region=$REGION3 --range=10.2.0.0/16
+echo ""
 
 # Add firewall rules
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Adding firewall rules...${RESET_FORMAT}"
 gcloud compute firewall-rules create nw101-allow-http --network=taw-custom-network --allow tcp:80 --target-tags=http --source-ranges=0.0.0.0/0
+echo ""
 gcloud compute firewall-rules create nw101-allow-icmp --network=taw-custom-network --allow icmp --target-tags=rules --source-ranges=0.0.0.0/0
+echo ""
 gcloud compute firewall-rules create nw101-allow-internal --network=taw-custom-network --allow tcp:0-65535,udp:0-65535,icmp --source-ranges=10.0.0.0/16,10.1.0.0/16,10.2.0.0/16
+echo ""
 gcloud compute firewall-rules create nw101-allow-ssh --network=taw-custom-network --allow tcp:22 --target-tags=ssh --source-ranges=0.0.0.0/0
+echo ""
 gcloud compute firewall-rules create nw101-allow-rdp --network=taw-custom-network --allow tcp:3389 --source-ranges=0.0.0.0/0
+echo ""
 
 # ✅ Completion Message
 echo

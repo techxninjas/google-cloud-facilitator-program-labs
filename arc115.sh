@@ -169,12 +169,16 @@ done
 echo ""
 echo "${GREEN_TEXT}${BOLD_TEXT}Click this link to Create Metric for Task 5: ${YELLOW_TEXT}${BOLD_TEXT}https://console.cloud.google.com/logs/metrics/edit?project=$DEVSHELL_PROJECT_ID${RESET_FORMAT}"
 echo
-echo "${CYAN_TEXT}${BOLD_TEXT}Configuration for creating a Log-Based Metric:${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}resource.type="gce_instance"${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}logName="projects/${DEVSHELL_PROJECT_ID}/logs/apache-access"${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}textPayload:"200"${RESET_FORMAT}"
-echo
-echo "${CYAN_TEXT}${BOLD_TEXT}Configuration for labels:${RESET_FORMAT}"
+print_log_metric_config() {    
+    echo -e "${CYAN_TEXT}${BOLD_TEXT}===> Copy these 3 lines and paste in Build filter:${RESET_FORMAT}"
+    echo -e "${BLUE_TEXT}${BOLD_TEXT}resource.type=\"gce_instance\"${RESET_FORMAT}"
+    echo -e "${BLUE_TEXT}${BOLD_TEXT}logName=\"projects/${DEVSHELL_PROJECT_ID}/logs/apache-access\"${RESET_FORMAT}"
+    echo -e "${BLUE_TEXT}${BOLD_TEXT}textPayload:\"200\"${RESET_FORMAT}"
+    echo
+}
+print_log_metric_config
+
+echo "${CYAN_TEXT}${BOLD_TEXT}===> Configuration for labels:${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}Label Name: 'techxninjas'${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}Field Name: 'textPayload'${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}Regular Expression: 'execution took (\\d+)'${RESET_FORMAT}"

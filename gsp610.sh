@@ -127,6 +127,7 @@ echo
 echo
 echo "${YELLOW_TEXT}${BOLD_TEXT}========================================================${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}            NOW FOLLOW THE VIDEO STEPS FOR NEXT TASKS...      ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}              VIDEO LINK: https://youtu.be/wFTgqoikllg      ${RESET_FORMAT}"
 echo "${YELLOW_TEXT}${BOLD_TEXT}========================================================${RESET_FORMAT}"
 echo
 

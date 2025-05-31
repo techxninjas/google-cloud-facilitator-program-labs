@@ -171,13 +171,13 @@ echo "${GREEN_TEXT}${BOLD_TEXT}Click this link to Create Metric for Task 5: ${YE
 echo
 echo "${CYAN_TEXT}${BOLD_TEXT}Configuration for creating a Log-Based Metric:${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}resource.type = "gce_instance"${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}logName = "projects/${PROJECT_ID}/logs/apache-access"${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}logName = "projects/${DEVSHELL_PROJECT_ID}/logs/apache-access"${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}textPayload:"200"${RESET_FORMAT}"
 echo
 echo "${CYAN_TEXT}${BOLD_TEXT}Configuration for labels:${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}Label Name: techxninjas"${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}Field Name: textPayload"${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}Regular Expression: execution took (\\d+)"${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Label Name: "techxninjas"${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Field Name: "textPayload"${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Regular Expression: "execution took (\\d+)"${RESET_FORMAT}"
 
 for i in {1..60}; do
     echo -ne "${CYAN_TEXT}⏳ ${i}/60 seconds for doing this Task\r${RESET_FORMAT}"

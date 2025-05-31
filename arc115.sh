@@ -175,8 +175,8 @@ echo "${BLUE_TEXT}${BOLD_TEXT}logName = "projects/${DEVSHELL_PROJECT_ID}/logs/ap
 echo "${BLUE_TEXT}${BOLD_TEXT}textPayload:"200"${RESET_FORMAT}"
 echo
 echo "${CYAN_TEXT}${BOLD_TEXT}Configuration for labels:${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}Label Name: "techxninjas"${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}Field Name: "textPayload"${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Label Name: 'techxninjas'${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Field Name: 'textPayload'${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}Regular Expression: 'execution took (\\d+)'${RESET_FORMAT}"
 echo
 

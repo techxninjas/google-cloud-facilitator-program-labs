@@ -177,13 +177,14 @@ echo
 echo "${CYAN_TEXT}${BOLD_TEXT}Configuration for labels:${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}Label Name: "techxninjas"${RESET_FORMAT}"
 echo "${BLUE_TEXT}${BOLD_TEXT}Field Name: "textPayload"${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT}Regular Expression: "execution took (\\d+)"${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}Regular Expression: 'execution took (\\d+)'${RESET_FORMAT}"
+echo
 
 for i in {1..60}; do
     echo -ne "${CYAN_TEXT}⏳ ${i}/60 seconds for doing this Task\r${RESET_FORMAT}"
     sleep 1
 done
-echo ""
+echo
 
 # ✅ Completion Message
 echo

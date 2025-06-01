@@ -270,8 +270,7 @@ echo "${CYAN_TEXT}${BOLD_TEXT}      NOW SEE THE VIDEO CAREFULLY FOR NEXT TASKS  
 echo "${CYAN_TEXT}${BOLD_TEXT}====================================================${RESET_FORMAT}"
 echo
 
-echo "${YELLOW_TEXT}${BOLD_TEXT}===> Open BigQuery Console: ${RESET_FORMAT}"
-echo "${BLUE_TEXT}${BOLD_TEXT} https://console.cloud.google.com/bigquery ${RESET_FORMAT}" 
+echo "${YELLOW_TEXT}${BOLD_TEXT}===> Open BigQuery Console: ${BLUE_TEXT}${BOLD_TEXT} https://console.cloud.google.com/bigquery${RESET_FORMAT}"
 
 for i in {1..60}; do
     echo -ne "${CYAN_TEXT}⏳ Waiting for ${i}/60 seconds to do this above mentioned task! \r${RESET_FORMAT}"

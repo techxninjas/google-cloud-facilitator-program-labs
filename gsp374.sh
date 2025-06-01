@@ -55,23 +55,23 @@ echo "${CYAN_TEXT}${BOLD_TEXT}         🚀 INITIATING THE TASK EXECUTION...    
 echo "${CYAN_TEXT}${BOLD_TEXT}-------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the Events Table Name (Check in the Left Panel of Lab): ${RESET_FORMAT}" EVENT
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the Events Table Name (Check in the Left Panel of Lab): ${RESET_FORMAT}" EVENT
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the Tags Table Name (Check in the Left Panel of Lab): ${RESET_FORMAT}" TABLE
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the Tags Table Name (Check in the Left Panel of Lab): ${RESET_FORMAT}" TABLE
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter value for Model Name (Check in the Left Panel of Lab): ${RESET_FORMAT}" MODEL
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter value for Model Name (Check in the Left Panel of Lab): ${RESET_FORMAT}" MODEL
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the value of 1st X-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_X1
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the value of 1st X-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_X1
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the value of 1st Y-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_Y1
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the value of 1st Y-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_Y1
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the value of 2nd X-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_X2
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the value of 2nd X-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_X2
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the value of 2nd Y-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_Y2
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the value of 2nd Y-coordinate (Check Task 3 of your Lab): ${RESET_FORMAT}" VALUE_Y2
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the 1st Function name (Check Task 4 of your Lab): ${RESET_FORMAT}" FUNC_1
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the 1st Function name (Check Task 4 of your Lab): ${RESET_FORMAT}" FUNC_1
 echo
-read -p "${YELLOW_TEXT}${BOLD_TEXT}Enter the 2nd Function name (Check Task 4 of your Lab): ${RESET_FORMAT}" FUNC_2
+read -p "${YELLOW_TEXT}${BOLD_TEXT}===> Enter the 2nd Function name (Check Task 4 of your Lab): ${RESET_FORMAT}" FUNC_2
 echo
 
 export EVENT
@@ -270,7 +270,8 @@ echo "${CYAN_TEXT}${BOLD_TEXT}      NOW SEE THE VIDEO CAREFULLY FOR NEXT TASKS  
 echo "${CYAN_TEXT}${BOLD_TEXT}====================================================${RESET_FORMAT}"
 echo
 
-echo "${YELLOW_TEXT}${BOLD_TEXT}===> Open BigQuery Console: ${BLUE_TEXT}${BOLD_TEXT} https://console.cloud.google.com/bigquery${RESET_FORMAT}"
+echo "${YELLOW_TEXT}${BOLD_TEXT}===> Open BigQuery Console: ${RESET_FORMAT}"
+echo "${BLUE_TEXT}${BOLD_TEXT}===> ===> https://console.cloud.google.com/bigquery${RESET_FORMAT}"
 
 for i in {1..60}; do
     echo -ne "${CYAN_TEXT}⏳ Waiting for ${i}/60 seconds to do this above mentioned task! \r${RESET_FORMAT}"

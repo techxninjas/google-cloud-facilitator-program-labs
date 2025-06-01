@@ -73,7 +73,7 @@ kubectl expose deployment hello-server --type=LoadBalancer --port 8080
 
 echo
 echo "${BLUE_TEXT}${BOLD_TEXT}---> Initiating deletion of the 'lab-cluster'...${RESET_FORMAT}"
-echo "Y" | gcloud container clusters delete lab-cluster
+echo "Y" | gcloud container clusters delete lab-cluster --zone=$ZONE
 
 # ✅ Completion Message
 echo

@@ -18,7 +18,7 @@ clear
 
 # 💡 Start-Up Banner
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
-echo "${CYAN_TEXT}${BOLD_TEXT}         LAB_NAME       ${RESET_FORMAT}"
+echo "${CYAN_TEXT}${BOLD_TEXT}         Build Infrastructure with Terraform on Google Cloud       ${RESET_FORMAT}"
 echo "${CYAN_TEXT}${BOLD_TEXT}-----------------------------------------------------------------------${RESET_FORMAT}"
 echo ""
 
